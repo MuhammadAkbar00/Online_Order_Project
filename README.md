@@ -13,6 +13,16 @@ To add this project to your intellij do this:
 * The database is there but it doesn't show up, open the database tab and click the add button, choose HSQLDB as usual but then select the path, when you get the file selection menu, select the file called db.lck found in the db folder in your project files, then click ok. You should then find the database files and tables.
 * Git might ask you to Always add to local changes, pick yes.
 
+## The front end
+
+Inside your app folder, open a terminal window and write npm install
+after it's done, go to your package.json folder and change this line:
+    "react-scripts": "3.3.0"
+    to
+    "react-scripts": "3.4.0"
+Then do npm install again, or let intelliJ do it if it asks.
+After all that, just do npm run start
+
 ## How to commit changes
 
 When you commit changes, intelliJ adds them locally, to upload them you need to push those changes.
