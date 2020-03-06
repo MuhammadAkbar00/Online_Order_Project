@@ -16,7 +16,7 @@ To add this project to your intellij do this:
 ## How to commit changes
 
 When you commit changes, intelliJ adds them locally, to upload them you need to push those changes.
-When you click the green check mark you'll see a commit page, on this page make sure you uncheck the libraries box inside the .idea folder and the target folder, then click the menu arrow next to commit to commit and push at the same time, then make sure that you're committing it to your branch not the master branch. You'll see on the top-middle that it says commit to master branch, you can edit the word master and change it to your name before you push the changes.
+When you click the green check mark you'll see a commit page, on this page make sure you uncheck the libraries box inside the .idea folder and the target folder as well as the node modules folder of course, then click the menu arrow next to commit to commit and push at the same time, then make sure that you're committing it to your branch not the master branch. You'll see on the top-middle that it says commit to master branch, you can edit the word master and change it to your name before you push the changes.
 
 Also, please write a small description with your commit message that tells us what you did differently.
 
