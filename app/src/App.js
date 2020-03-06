@@ -21,7 +21,7 @@ import {
 } from "react-router-dom";
 
 export default () => {
-
+// Hello omar
   const location = useLocation()
 
   const [searchCourse, setSearchCourse] = useState("")
