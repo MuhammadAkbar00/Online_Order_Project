@@ -13,9 +13,21 @@ To add this project to your intellij do this:
 * The database is there but it doesn't show up, open the database tab and click the add button, choose HSQLDB as usual but then select the path, when you get the file selection menu, select the file called db.lck found in the db folder in your project files, then click ok. You should then find the database files and tables.
 * Git might ask you to Always add to local changes, pick yes.
 
+## The front end
+
+Inside your app folder, open a terminal window and write npm install
+after it's done, go to your package.json folder and change this line:
+    "react-scripts": "3.3.0"
+    to
+    "react-scripts": "3.4.0"
+Then do npm install again, or let intelliJ do it if it asks.
+After all that, just do npm run start
+
 ## How to commit changes
 
 When you commit changes, intelliJ adds them locally, to upload them you need to push those changes.
-When you click the green check mark you'll see a commit page, on this page make sure you uncheck the libraries box inside the .idea folder and the target folder, then click the menu arrow next to commit to commit and push at the same time, then make sure that you're committing it to your branch not the master branch. You'll see on the top-middle that it says commit to master branch, you can edit the word master and change it to your name before you push the changes.
+When you click the green check mark you'll see a commit page, on this page make sure you uncheck the libraries box inside the .idea folder and the target folder as well as the node modules folder of course, then click the menu arrow next to commit to commit and push at the same time, then make sure that you're committing it to your branch not the master branch. You'll see on the top-middle that it says commit to master branch, you can edit the word master and change it to your name before you push the changes.
+
+Also, please write a small description with your commit message that tells us what you did differently.
 
 Good luck.
