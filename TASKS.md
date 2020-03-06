@@ -8,3 +8,5 @@ We should be working with separate files most of the time, so our commits should
 * Make profile page for admin user (just make admin roles able to see it) -> Mahmoud
 * Make and set up a styled homepage -> Omar
 * Pick a color scheme and overall style -> Omar
+
+Please finish by Sunday 8/3/2020
