@@ -10,3 +10,4 @@ To add this project to your intellij do this:
 * Go to your DemoApplication file in the src folder and you should be asked to set up an SDK for the project, choose that and pick a java version that is at least 1.8 or higher.
 * Reimport the pom file again and you should now be able to see the Run button turn green and your base project should work.
 * The database is there but it doesn't show up, open the database tab and click the add button, choose HSQLDB as usual but then select the path, when you get the file selection menu, select the file called db.lck found in the db folder in your project files, then click ok. You should then find the database files and tables.
+Git might ask you to Always add to local changes, pick yes.
