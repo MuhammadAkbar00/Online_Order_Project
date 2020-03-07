@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import Authenticate from './public/Authenticate'
 import Auth from './auth'
 import Home from './public/Home'
@@ -8,12 +8,12 @@ import Students from './admin/Students'
 import Courses from './public/Courses'
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import Form from 'react-bootstrap/Form'
 import {
   Switch,
   Route,
@@ -42,12 +42,12 @@ export default () => {
 
   return (
     <>
-      <Navbar bg="dark" expand="lg">
+      <Navbar bg={"primary"} expand="lg">
         <Navbar.Brand as={Link} to="/">inDine</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link  as={Link} to="/">Home</Nav.Link>
             {
               Auth.isUser() &&
               <Nav.Link as={Link} to="profile">Profile</Nav.Link>
@@ -61,21 +61,21 @@ export default () => {
               </NavDropdown>
             }
           </Nav>
+          <Nav>
+            {
+              Auth.isLoggedIn()
+                  ?
+                  <Nav.Link as={Link} to="logout">Logout</Nav.Link>
+                  :
+                  <>
+                    <Nav.Link as={Link} to="register">Register</Nav.Link>
+                    <Nav.Link as={Link} to="login">Login</Nav.Link>
+                  </>
+            }
+          </Nav>
         </Navbar.Collapse>
-        <Nav className="mr-auto navbar-right">
-          {
-            Auth.isLoggedIn()
-              ?
-              <Nav.Link as={Link} to="logout">Logout</Nav.Link>
-              :
-              <>
-                <Nav.Link as={Link} to="register">Register</Nav.Link>
-                <Nav.Link as={Link} to="login">Login</Nav.Link>
-              </>
-          }
-        </Nav>
       </Navbar>
-
+      <br />
       <div>
         <div>
           <div>

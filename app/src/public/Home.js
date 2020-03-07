@@ -7,19 +7,17 @@ import Col from "react-bootstrap/Col";
 export default () => {
     return (
         <>
-
             <Container>
                 <Row>
                     <Col></Col>
-                    <Col>
-                        <div>
-                            <h1 className={"nobreak"} >inDine with us</h1>
-
+                    <Col xl={"auto"}>
+                        <div style={{backgroundColor: "#3B3F43"}}>
+                            <h1 style={{textAlign: "center"}} className={"nobreak"} >inDine with us</h1>
                         </div>
                     </Col>
                     <Col></Col>
                 </Row>
             </Container>
         </>
-    );
+    )
 }
