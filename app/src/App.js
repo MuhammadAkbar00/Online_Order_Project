@@ -8,6 +8,8 @@ import Students from './admin/Students'
 import Courses from './public/Courses'
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -21,7 +23,7 @@ import {
 } from "react-router-dom";
 
 export default () => {
-// Hello omar
+
   const location = useLocation()
 
   const [searchCourse, setSearchCourse] = useState("")
@@ -41,7 +43,7 @@ export default () => {
   return (
     <>
       <Navbar bg="dark" expand="lg">
-        <Navbar.Brand as={Link} to="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">inDine</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -75,22 +77,8 @@ export default () => {
       </Navbar>
 
       <div>
-        <div style={{ backgroundColor: "red", float: "left", width: "150px" }}>
-
-          <h1>Filter</h1>
-          <Form.Control type="text" placeholder="Search Courses by Name" onChange={handleSearchCourse} value={searchCourse} />
-          {
-            Auth.isAdmin() &&
-            <Form.Control type="text" placeholder="Search Students by Name" onChange={handleSearchStudent} value={searchStudent} />
-          }
-        </div>
-        <div style={{ float: "left", width: "750px" }}>
+        <div>
           <div>
-            {
-              searchCourse &&
-              location.pathname !== "/courses" &&
-              <Redirect to="/courses" />
-            }
             {
               Auth.isAdmin() &&
               searchStudent &&
