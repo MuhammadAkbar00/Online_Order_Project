@@ -12,12 +12,14 @@ export default () => {
   }, [])
 
   const handleUserProfile = async () => {
-    const student = await db.students.getUser()
+    const student = await db.students.getUser("")
+    console.log("student", student)
     setStudent(student)
   }
 
   const handleUserRegistrations = async () => {
-    const registrations = await db.registrations.getUser()
+    const registrations = await db.registrations.getUser("")
+    console.log("registration",registrations)
     setRegistrations(registrations)
   }
 

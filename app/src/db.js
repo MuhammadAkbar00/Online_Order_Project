@@ -112,5 +112,5 @@ class Table {
 export default {
     students: new Table("students"),
     courses: new Table("courses"),
-    registrations: new Table("registers")
+    registrations: new Table("registrations")
 }
