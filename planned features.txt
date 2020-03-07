@@ -1,0 +1,28 @@
+Current features we will implement:
+1 - Customer product reviews and delivery reviews 
+2 - Customer mailing list by email (we send ads and promotion by email) 
+3 - Coupons 
+4 - Analytics
+5 - Marketing manager page
+6 - Make your own dish feature (you build a custom dish online and the chef makes it for you, like Subway) *
+7 - Calculate delivery price based on distance, so customers are allowed to pick their place on a map
+8 - Adding arabic and french language translation
+as well as image and promotion translation.
+9 - Reward System
+10 - live chat bot
+11 - FAQ and Knowledge base
+12 - Occassion discounts
+13 - Ocassion styling
+14 - Find nearest branch
+15 - Legal Page
+16 - Blog
+17 - Personality quiz
+18 - Optional minigame after purchase (for points)
+19 - Schedule order
+20 - Monthly package loot box (randomazied item from many item)
+21 - Simple Tracking
+22 - Guest Access
+
+Extra:
+- dark/light mode
+- referer link program
