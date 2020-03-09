@@ -1,0 +1,24 @@
+.nobreak {
+    white-space: nowrap !important;
+    break-before: avoid;
+
+}
+.fineprint{
+    color: lightgrey;
+}
+.fineprint-hard{
+    color: darkgrey;
+}
+
+.list-link li{
+    margin: 15px;
+}
+
+#footer{
+ border-top-color: beige;
+}
+
+h1{
+    font-family: 'Lobster Two', cursive; !important;
+}
+

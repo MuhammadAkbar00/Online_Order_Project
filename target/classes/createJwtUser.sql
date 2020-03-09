@@ -2,7 +2,9 @@ drop table jwt_User if exists;
 
 create table jwt_User (
     id bigint primary key GENERATED ALWAYS AS IDENTITY(START WITH 1),
-    username varchar(50) not null,
+    username varchar(50) not null
+        constraint JWT_USER_USERNAME_UINDEX
+            unique,
     password varchar(60) not null,
     role varchar(50)
 );

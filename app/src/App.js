@@ -5,13 +5,15 @@ import Home from './public/Home'
 import Profile from './user/Profile'
 import Logout from './user/Logout'
 import Students from './admin/Students'
+import Settings from './admin/Settings'
 import Courses from './public/Courses'
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
+import Footer from './Comps/Footer.js'
+
 import {
   Switch,
   Route,
@@ -22,30 +24,30 @@ import {
 
 export default () => {
 
-  const location = useLocation()
+    const location = useLocation()
 
-  const [searchCourse, setSearchCourse] = useState("")
-  const [searchStudent, setSearchStudent] = useState("")
-  const [isLoggedIn, setLoggedIn] = useState(Auth.isLoggedIn())
-  console.log('isLoggedIn set to', isLoggedIn)
-  Auth.init(setLoggedIn)
+    const [searchCourse, setSearchCourse] = useState("")
+    const [searchStudent, setSearchStudent] = useState("")
+    const [isLoggedIn, setLoggedIn] = useState(Auth.isLoggedIn())
+    console.log('isLoggedIn set to', isLoggedIn)
+    Auth.init(setLoggedIn)
 
-  const handleSearchCourse = (event) => {
-    setSearchCourse(event.target.value)
-  }
+    const handleSearchCourse = (event) => {
+        setSearchCourse(event.target.value)
+    }
 
-  const handleSearchStudent = (event) => {
-    setSearchStudent(event.target.value)
-  }
+    const handleSearchStudent = (event) => {
+        setSearchStudent(event.target.value)
+    }
 
-  return (
-    <>
+    return (
+        <>
       <Navbar bg="dark" expand="lg">
-        <Navbar.Brand as={Link} to="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">inDine</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            {/*<Nav.Link as={Link} to="/">Home</Nav.Link>*/}
             {
               Auth.isUser() &&
               <Nav.Link as={Link} to="profile">Profile</Nav.Link>
@@ -57,46 +59,31 @@ export default () => {
                 <NavDropdown.Item as={Link} to="courses">Courses</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="registrations">Registration</NavDropdown.Item>
               </NavDropdown>
-            }
-          </Nav>
+                        }
+                        {
+                            Auth.isAdmin() &&
+                            <NavDropdown title="Settings" id="basic-nav-dropdown">
+                                <NavDropdown.Item as={Link} to="Settings">Features here</NavDropdown.Item>
+                            </NavDropdown>
+                        }
+                    </Nav>
+          <Nav>
+                    {
+                        Auth.isLoggedIn()
+                            ?
+                            <Nav.Link as={Link} to="logout">Logout</Nav.Link>
+                            :
+                            <>
+                                <Nav.Link as={Link} to="register">Register</Nav.Link>
+                                <Nav.Link as={Link} to="login">Login</Nav.Link>
+                            </>
+                    }
+                </Nav>
         </Navbar.Collapse>
-        <Nav className="mr-auto navbar-right">
-          {
-            Auth.isLoggedIn()
-              ?
-              <Nav.Link as={Link} to="logout">Logout</Nav.Link>
-              :
-              <>
-                <Nav.Link as={Link} to="register">Register</Nav.Link>
-                <Nav.Link as={Link} to="login">Login</Nav.Link>
-              </>
-          }
-        </Nav>
-      </Navbar>
-
+            </Navbar>
+      <br />
       <div>
-        <div style={{ backgroundColor: "red", float: "left", width: "150px" }}>
-
-          <h1>Filter</h1>
-          <Form.Control type="text" placeholder="Search Courses by Name" onChange={handleSearchCourse} value={searchCourse} />
-          {
-            Auth.isAdmin() &&
-            <Form.Control type="text" placeholder="Search Students by Name" onChange={handleSearchStudent} value={searchStudent} />
-          }
-        </div>
-        <div style={{ float: "left", width: "750px" }}>
           <div>
-            {
-              searchCourse &&
-              location.pathname !== "/courses" &&
-              <Redirect to="/courses" />
-            }
-            {
-              Auth.isAdmin() &&
-              searchStudent &&
-              location.pathname !== "/students" &&
-              <Redirect to="/students" />
-            }
             <Switch>
               <Route path="/register">
                 <Authenticate type="Register" />
@@ -121,6 +108,9 @@ export default () => {
               </Route>
               <Route path="/registrations">
                 <Registrations />
+                </Route>
+                <Route path="/settings">
+                    <Settings/>
               </Route>
               <Route path="/">
                 <Home />
@@ -128,11 +118,10 @@ export default () => {
             </Switch>
           </div>
 
-          <div>
-            <p>footer</p>
-          </div>
-        </div>
+            <Footer />
+
       </div>
-    </>
-  );
+        </>
+
+)
 }
