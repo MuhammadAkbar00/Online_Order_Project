@@ -1,0 +1,19 @@
+Profile page for user working
+Changes:
+1 - had to change "register" to "registrations" in db file.
+2 - added "" when calling getUser() function.
+
+Commit 2 -
+Changes:
+1 - Added all the tables in the ERD into my Database
+2 - Added the models for each tables
+3 - Added only the User repository (because that's all i needed to test)
+4 - Changed the content of UserController so that it would work with User table instead of students table
+5 - Changed the src/user/Profile.js so that it worked with the User table instead of Students table
+6 - Created a new directory in the src file called marketing
+    -Added Marketing.js
+7 - When changing role from "ROLE_USER" to "ROLE_MARKETING"
+    - Created a new MarketingController
+    - Changed the jwt/JwtWebSecurityConfig.java and added ".and().authorizeRequests().antMatchers("/marketing/**").hasRole("MARKETING")" so it would work
+8 - added "getMarketing = query => this.getByQuery('marketing', query)" in db
+9 - added "isMarketing = () => this.user && this.user.role === "ROLE_MARKETING"" in auth

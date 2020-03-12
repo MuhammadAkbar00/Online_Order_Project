@@ -12,7 +12,7 @@ export default () => {
   }, [])
 
   const handleUserProfile = async () => {
-    const user = await db.users.getUser("")
+    const user = await db.users.getMarketing("")
     console.log("user", user)
     setUser(user)
     console.log("after set", user)
@@ -39,7 +39,7 @@ export default () => {
           <dt>Points</dt><dd>{user.points}</dd>
           <dt>Language</dt><dd>{user.language}</dd>
         </dl>
-        <h1>Orders</h1>
+        <h1>WHAT IS MARKETING???</h1>
         <ul>
           {
             // registrations.map(item => <li key={item.id}>{item.course.name} - {item.course.capacity}</li>)

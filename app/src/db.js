@@ -49,9 +49,10 @@ class Table {
     }
 
     getUser = query => this.getByQuery('user', query)
+    getMarketing = query => this.getByQuery('marketing', query)
     getPublic = query => this.getByQuery('public', query)
     getAdmin = query => this.getByQuery('admin', query)
-    
+
     getByQuery = async (role, query) => {
         // public queries use regular fetch (is attached to window object)
         const fetch = role === 'public' ? window.fetch : Auth.fetch
@@ -110,7 +111,8 @@ class Table {
 }
 
 export default {
-    students: new Table("students"),
+    users: new Table("users"),
     courses: new Table("courses"),
     registrations: new Table("registrations")
+
 }

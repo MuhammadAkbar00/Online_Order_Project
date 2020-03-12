@@ -63,6 +63,7 @@ public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtUnAuthorizedResponseAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/user/**").hasRole("USER")
+                .and().authorizeRequests().antMatchers("/marketing/**").hasRole("MARKETING")
                 // or, whitelist all user urls directly here, one by one
                 .and().authorizeRequests().anyRequest().hasRole("ADMIN");
 
