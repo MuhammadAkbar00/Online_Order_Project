@@ -13,6 +13,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
+import Nearest from "./public/Nearest";
 
 import {
   Switch,
@@ -71,7 +72,10 @@ export default () => {
                     {
                         Auth.isLoggedIn()
                             ?
-                            <Nav.Link as={Link} to="logout">Logout</Nav.Link>
+                            <>
+                                <Nav.Link as={Link} to="logout">Logout</Nav.Link>
+                                <Nav.Link as={Link} to="nearest">Nearest</Nav.Link>
+                            </>
                             :
                             <>
                                 <Nav.Link as={Link} to="register">Register</Nav.Link>
@@ -94,6 +98,9 @@ export default () => {
               <Route path="/logout">
                 <Logout />
               </Route>
+                <Route path="/nearest">
+                    <Nearest />
+                </Route>
               <Route path="/profile">
                 <Profile />
               </Route>
