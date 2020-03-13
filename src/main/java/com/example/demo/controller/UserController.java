@@ -27,13 +27,13 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-//    @RequestMapping(path = "/students", method = { RequestMethod.GET })
-//    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
-//        System.out.println("profile for " + authentication.getName());
-//        Student student = studentRepository.findFirstByName(authentication.getName());
-//        System.out.println("data: " + student);
-//        return ResponseEntity.ok(student);
-//    }
+    @RequestMapping(path = "/students", method = { RequestMethod.GET })
+    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
+        System.out.println("profile for " + authentication.getName());
+        Student student = studentRepository.findFirstByName(authentication.getName());
+        System.out.println("data: " + student);
+        return ResponseEntity.ok(student);
+    }
 
     @RequestMapping(path = "/registrations", method = { RequestMethod.GET })
     public ResponseEntity<?> registrations(Authentication authentication) throws AuthenticationException {

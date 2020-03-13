@@ -14,6 +14,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest";
+import Marketing from './marketing/Marketing.js'
 
 import {
   Switch,
@@ -75,6 +76,7 @@ export default () => {
                             <>
                                 <Nav.Link as={Link} to="logout">Logout</Nav.Link>
                                 <Nav.Link as={Link} to="nearest">Nearest</Nav.Link>
+                                <Nav.Link as={Link} to="marketing">Marketing</Nav.Link>
                             </>
                             :
                             <>
@@ -100,6 +102,9 @@ export default () => {
               </Route>
                 <Route path="/nearest">
                     <Nearest />
+                </Route>
+                <Route path="/marketing">
+                    <Marketing />
                 </Route>
               <Route path="/profile">
                 <Profile />

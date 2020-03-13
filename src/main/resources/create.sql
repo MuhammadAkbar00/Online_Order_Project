@@ -9,9 +9,14 @@ create table jwt_User (
                           role varchar(50)
 );
 
-insert into jwt_User (username, password, role) values ('joe', '$2a$10$xZ5Hq/WNG8A.Viujt26uKOaT1l0rNUKS3gDhTWuyNKQ6CjnFgJ26W', 'ROLE_USER');
-insert into jwt_User (username, password, role) values ('ann', '$2a$10$oPYMdYOC58/jEIxchTu8cuJyaCICUxbURzrnyKeUbpT1ECIePU3Ky', 'ROLE_USER');
-insert into jwt_User (username, password, role) values ('admin', '$2a$10$ncFNgFU70d20U/YLHC.pBOAgGBUaRJUCNUsRfqilvQ0OI67mtJx.6', 'ROLE_ADMIN');
+INSERT INTO jwt_User (username, password, role) VALUES ('joe', '$2a$10$xZ5Hq/WNG8A.Viujt26uKOaT1l0rNUKS3gDhTWuyNKQ6CjnFgJ26W', 'ROLE_USER');
+INSERT INTO jwt_User (username, password, role) VALUES ('ann', '$2a$10$oPYMdYOC58/jEIxchTu8cuJyaCICUxbURzrnyKeUbpT1ECIePU3Ky', 'ROLE_USER');
+INSERT INTO jwt_User (username, password, role) VALUES ('admin', '$2a$10$ncFNgFU70d20U/YLHC.pBOAgGBUaRJUCNUsRfqilvQ0OI67mtJx.6', 'ROLE_ADMIN');
+INSERT INTO jwt_User (username, password, role) VALUES ('ahmed', '$2a$10$Xm9Bzl8I7MVei2RHagJqX.q0vRsGQho1864G2o4dVsCdmsfmysbEu', 'ROLE_USER');
+INSERT INTO jwt_User (username, password, role) VALUES ('marketing', '$2a$10$gR8AJKwRGH6malNTO7VU3OkzBwOroB9usOrjiRo645Y9bMR7HqmNC', 'ROLE_MARKETING');
+INSERT INTO jwt_User (username, password, role) VALUES ('advertiser', '$2a$10$xCIdUocTQbo7vyR7OrJcnOWufptsftV4F05AvyggcC035NORthKye', 'ROLE_ADVERTISER');
+INSERT INTO jwt_User (username, password, role) VALUES ('omar', '$2a$10$koyDZlk0jA.PedrQEnw.t.XeMUyqIOn1OC0qJzjQTJWMhMtl1JVtG', 'ROLE_USER');
+
 
 DROP TABLE ADVERTISER IF EXISTS CASCADE;
 DROP TABLE ADVERT IF EXISTS CASCADE;
@@ -27,6 +32,7 @@ DROP TABLE ANALYTICS IF EXISTS CASCADE;
 DROP TABLE NORMAL IF EXISTS CASCADE;
 DROP TABLE PRODUCT IF EXISTS CASCADE;
 DROP TABLE ORDER_ITEM IF EXISTS CASCADE;
+DROP TABLE BRANCH IF EXISTS CASCADE;
 
 create table ADVERTISER
 (
@@ -65,9 +71,9 @@ create table USER
         constraint USER_USERNAME_JWT_USERNAME_FK
             references JWT_USER (USERNAME),
     FIRST_NAME VARCHAR(30) not null,
-    LAST_NAME VARCHAR(30) not null,
-    ADDRESS VARCHAR(250) not null,
-    EMAIL VARCHAR(50) not null,
+    LAST_NAME VARCHAR(30) null,
+    ADDRESS VARCHAR(250) null,
+    EMAIL VARCHAR(50) null,
     MAILING CHAR(1) not null,
     POINTS INTEGER not null,
     LANGUAGE CHAR(2) not null
@@ -87,6 +93,17 @@ create table COUPON
     DESC VARCHAR(250) NOT NULL
 );
 
+CREATE TABLE BRANCH
+(
+    ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
+        constraint BRANCH_PK
+            primary key,
+    NAME VARCHAR(50) NOT NULL,
+    PROVINCE VARCHAR(30) NOT NULL,
+    LON INT NOT NULL,
+    LAT INT NOT NULL
+);
+
 create table "ORDER"
 (
     ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
@@ -95,6 +112,9 @@ create table "ORDER"
     USER_ID BIGINT not null
         constraint ORDER_USER_ID_USER_ID_FK
             references USER,
+    BRANCH_ID BIGINT not null
+        constraint ORDER_BRANCH_ID_BRANCH_ID_FK
+            references BRANCH,
     DATE DATE not null,
     TOTAL INTEGER not null,
     PAYMENT_METHOD CHAR(1) not null,
@@ -224,3 +244,12 @@ CREATE TABLE ORDER_ITEM
         constraint ORDER_ITEM_PRODUCT_ID_FK
             references PRODUCT
 );
+
+INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
+    VALUES ('omar','N',0,'EN');
+INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
+    VALUES ('ahmed','N',0,'EN');
+INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
+    VALUES ('joe','N',0,'EN');
+INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
+    VALUES ('ann','N',0,'EN');
