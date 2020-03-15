@@ -18,6 +18,6 @@ For example, if I'm in the menu page, I have many products, if I click on the se
 * Implement Analytics -> Attallah<br /> such that when a user visits it records all the relevant information in a new record in Anaylitcs
 Analytics saves the page name, which would be the component name in this case, and the product ID if the page visited is that of a product.
 
-**When you're making isolated components and you wanna test them, it's fine if you change other files, but once you know they work, please remove the testing from the other files. The idea of isolated components is that I can simply put the name of your component in a page and it just loads there ... Agile development and all that shit.**
+**When you're making isolated components and you wanna test them, it's fine if you change other files, but once you know they work, please remove the testing from the other files. The idea of isolated components is that I can simply put the name of your component in a page and it just loads there ... Agile development and all**
 
 
