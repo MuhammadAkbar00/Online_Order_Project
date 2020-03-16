@@ -1,12 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
-import com.example.demo.model.Register;
-import com.example.demo.model.Student;
-import com.example.demo.model.User;
-import com.example.demo.repository.RegisterRepository;
-import com.example.demo.repository.StudentRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,6 +22,8 @@ public class UserController {
     private RegisterRepository registerRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
@@ -51,6 +49,11 @@ public class UserController {
         System.out.println("data: " + user);
         return ResponseEntity.ok(user);
     }
+    @RequestMapping(path = "/orders/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> order(@PathVariable long id) {
+        return ResponseEntity.ok(orderRepository.findFirstByUserId(id));
+    }
+
 
 }
 
