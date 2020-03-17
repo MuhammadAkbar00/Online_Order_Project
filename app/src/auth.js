@@ -40,6 +40,8 @@ class Auth {
     isAdmin = () => this.user && this.user.role === "ROLE_ADMIN"
     isMarketing = () => this.user && this.user.role === "ROLE_MARKETING"
 
+    getUserRole = () => this.user.role
+
     fetch = (url, options) => {
         if (this.user) {
             options = options || {}
