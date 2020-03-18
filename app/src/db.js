@@ -112,6 +112,7 @@ class Table {
 export default {
     users: new Table("users"),
     orders: new Table("orders"),
+    order_items: new Table("order_item"),
     products: new Table("products"),
     courses: new Table("courses"),
     registrations: new Table("registrations")

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import db from '../db.js'
+import db from '../db.js';
+import Order_items from "./Order_items";
 
 export default () => {
 
@@ -38,6 +39,7 @@ export default () => {
             <dt>Dine in </dt><dd>{order.dinein}</dd>
           </dl>
           <h1>Orders</h1>
+          <Order_items order_id={order.id}/>
           <ul>
             {
               // registrations.map(item => <li key={item.id}>{item.course.name} - {item.course.capacity}</li>)

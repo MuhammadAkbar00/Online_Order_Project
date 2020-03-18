@@ -24,6 +24,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderItemRepository orderitemRepository;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
@@ -53,7 +55,9 @@ public class UserController {
     public ResponseEntity<?> order(@PathVariable long id) {
         return ResponseEntity.ok(orderRepository.findFirstByUserId(id));
     }
-
-
+    @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> order_item(@PathVariable long id) {
+        return ResponseEntity.ok(orderitemRepository.findAllByOrderId(id));
+    }
 }
 
