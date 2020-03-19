@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -14,9 +11,11 @@ public class Analytics {
     private Date date;
     private int time;
     private String username;
+    private String pagename;
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -101,5 +100,15 @@ public class Analytics {
         result = 31 * result + time;
         result = 31 * result + (username != null ? username.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "PAGENAME")
+    public String getPagename() {
+        return pagename;
+    }
+
+    public void setPagename(String pagename) {
+        this.pagename = pagename;
     }
 }

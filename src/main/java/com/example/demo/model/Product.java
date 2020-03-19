@@ -1,18 +1,18 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Product {
     private long id;
     private long customId;
     private long normalId;
+    private Custom customByCustomId;
+    private Normal normalByNormalId;
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -61,5 +61,25 @@ public class Product {
         result = 31 * result + (int) (customId ^ (customId >>> 32));
         result = 31 * result + (int) (normalId ^ (normalId >>> 32));
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "CUSTOM_ID", referencedColumnName = "ID")
+    public Custom getCustomByCustomId() {
+        return customByCustomId;
+    }
+
+    public void setCustomByCustomId(Custom customByCustomId) {
+        this.customByCustomId = customByCustomId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "NORMAL_ID", referencedColumnName = "ID")
+    public Normal getNormalByNormalId() {
+        return normalByNormalId;
+    }
+
+    public void setNormalByNormalId(Normal normalByNormalId) {
+        this.normalByNormalId = normalByNormalId;
     }
 }

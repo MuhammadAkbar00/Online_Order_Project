@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Advertiser {
@@ -16,6 +13,7 @@ public class Advertiser {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -50,6 +48,10 @@ public class Advertiser {
         return adAmnt;
     }
 
+    public void setAdAmnt(Integer adAmnt) {
+        this.adAmnt = adAmnt;
+    }
+
     public void setAdAmnt(int adAmnt) {
         this.adAmnt = adAmnt;
     }
@@ -58,6 +60,10 @@ public class Advertiser {
     @Column(name = "PRICE_PER_AD")
     public int getPricePerAd() {
         return pricePerAd;
+    }
+
+    public void setPricePerAd(Integer pricePerAd) {
+        this.pricePerAd = pricePerAd;
     }
 
     public void setPricePerAd(int pricePerAd) {

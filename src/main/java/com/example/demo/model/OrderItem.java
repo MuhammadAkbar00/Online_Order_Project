@@ -8,9 +8,11 @@ public class OrderItem {
     private long id;
     private long orderId;
     private long productId;
+    private Order orderByOrderId;
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -59,5 +61,15 @@ public class OrderItem {
         result = 31 * result + (int) (orderId ^ (orderId >>> 32));
         result = 31 * result + (int) (productId ^ (productId >>> 32));
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID", nullable = false)
+    public Order getOrderByOrderId() {
+        return orderByOrderId;
+    }
+
+    public void setOrderByOrderId(Order orderByOrderId) {
+        this.orderByOrderId = orderByOrderId;
     }
 }

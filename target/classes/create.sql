@@ -12,10 +12,8 @@ create table jwt_User (
 INSERT INTO jwt_User (username, password, role) VALUES ('joe', '$2a$10$xZ5Hq/WNG8A.Viujt26uKOaT1l0rNUKS3gDhTWuyNKQ6CjnFgJ26W', 'ROLE_USER');
 INSERT INTO jwt_User (username, password, role) VALUES ('ann', '$2a$10$oPYMdYOC58/jEIxchTu8cuJyaCICUxbURzrnyKeUbpT1ECIePU3Ky', 'ROLE_USER');
 INSERT INTO jwt_User (username, password, role) VALUES ('admin', '$2a$10$ncFNgFU70d20U/YLHC.pBOAgGBUaRJUCNUsRfqilvQ0OI67mtJx.6', 'ROLE_ADMIN');
-INSERT INTO jwt_User (username, password, role) VALUES ('ahmed', '$2a$10$Xm9Bzl8I7MVei2RHagJqX.q0vRsGQho1864G2o4dVsCdmsfmysbEu', 'ROLE_USER');
 INSERT INTO jwt_User (username, password, role) VALUES ('marketing', '$2a$10$gR8AJKwRGH6malNTO7VU3OkzBwOroB9usOrjiRo645Y9bMR7HqmNC', 'ROLE_MARKETING');
 INSERT INTO jwt_User (username, password, role) VALUES ('advertiser', '$2a$10$xCIdUocTQbo7vyR7OrJcnOWufptsftV4F05AvyggcC035NORthKye', 'ROLE_ADVERTISER');
-INSERT INTO jwt_User (username, password, role) VALUES ('omar', '$2a$10$koyDZlk0jA.PedrQEnw.t.XeMUyqIOn1OC0qJzjQTJWMhMtl1JVtG', 'ROLE_USER');
 
 
 DROP TABLE ADVERTISER IF EXISTS CASCADE;
@@ -43,9 +41,9 @@ create table ADVERTISER
         constraint ADVERTISER_JWT_USER_USERNAME_FK
             references JWT_USER (USERNAME),
     COMPANY_NAME VARCHAR(30) not null,
-    AD_AMNT INTEGER not null,
-    PRICE_PER_AD INTEGER not null,
-    DISPLAY CHAR(1) not null
+    AD_AMNT INTEGER null,
+    PRICE_PER_AD INTEGER null,
+    DISPLAY CHAR(1) null
 );
 
 CREATE TABLE ADVERT
@@ -100,8 +98,8 @@ CREATE TABLE BRANCH
             primary key,
     NAME VARCHAR(50) NOT NULL,
     PROVINCE VARCHAR(30) NOT NULL,
-    LON INT NOT NULL,
-    LAT INT NOT NULL
+    LON DOUBLE NOT NULL,
+    LAT DOUBLE NOT NULL
 );
 
 create table "ORDER"
@@ -168,7 +166,7 @@ CREATE TABLE CUSTOM
     DATE DATE NOT NULL,
     TYPE VARCHAR(30) NOT NULL,
     TOTAL INTEGER NOT NULL,
-    OCCASION_ID BIGINT NOT NULL
+    OCCASION_ID BIGINT NULL
     constraint CUSTOM_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
         REFERENCES OCCASION
 );
@@ -198,7 +196,7 @@ CREATE TABLE NORMAL
     PRICE INTEGER NOT NULL,
     STOCK CHAR(1) NOT NULL,
     QUANTITY INTEGER NOT NULL,
-    OCCASION_ID BIGINT NOT NULL
+    OCCASION_ID BIGINT NULL
     constraint NORMAL_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
         references OCCASION
 );
@@ -221,7 +219,7 @@ CREATE TABLE ANALYTICS
     ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
         constraint ANALYTICS_PK
             PRIMARY KEY,
-    PAGE CHAR(1) NOT NULL,
+    PAGENAME VARCHAR(30) NOT NULL,
     PRODUCT_ID BIGINT NOT NULL
         constraint ANALYTICS_PRODUCT_ID_PRODUCT_ID_FK FOREIGN KEY
             references PRODUCT,
@@ -245,11 +243,31 @@ CREATE TABLE ORDER_ITEM
             references PRODUCT
 );
 
+--User Inserts
 INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('omar','N',0,'EN');
-INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('ahmed','N',0,'EN');
-INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('joe','N',0,'EN');
+    VALUES ('joe','Y',0,'EN');
 INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
     VALUES ('ann','N',0,'EN');
+INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
+    VALUES ('admin','N',0,'EN');
+
+--Advertiser Inserts
+INSERT INTO ADVERTISER (USERNAME,COMPANY_NAME)
+    VALUES ('advertiser','Talabat');
+
+--Advert Inserts
+INSERT INTO ADVERT (ADVERTISER_ID, DESC, IMAGE, SLOT, DISPLAY)
+    VALUES (1,'Order from all your favorite restaurants on Talabat from the comfort of your home',
+            'talabat.png',3,'N');
+
+--Coupon Inserts
+INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
+    VALUES (1,20,'POD453', CURRENT_DATE+40 , '20 Percent off your next purchase from following our Facebook page!');
+INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
+    VALUES (1,10,'PHB352', CURRENT_DATE+7, 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
+INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
+    VALUES (2,10,'PHB352', CURRENT_DATE+7, 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
+
+--Branch Inserts
+INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
+    VALUES ("","",);

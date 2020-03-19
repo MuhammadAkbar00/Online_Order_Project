@@ -48,12 +48,17 @@ export default () => {
 
                 let point1 = new Feature({
                     type: 'icon',
-                    geometry: new Point([5735186.62973667, 2910517.015046888]),
+                    geometry: new Point([5735012.110758717, 2910249.8948588166]),
                 })
 
                 let point2 = new Feature({
                     type: 'icon',
-                    geometry: new Point([5735186.62973667, 2910610.01]),
+                    geometry: new Point([5727456.750964634, 2905822.4373057233]),
+                })
+                
+                let point3 = new Feature({
+                    type: 'icon',
+                    geometry: new Point([5734420.253940262, 2959501.989090159]),
                 })
 
                 let popup = new Overlay({
@@ -64,10 +69,9 @@ export default () => {
                 });
                   
 
-
                 let vectorLayer = new VectorLayer({
                     source: new VectorSource({
-                        features: [point1, point2]
+                        features: [point1, point2, point3]
                     }),
                     style: new Style({
                         image: new Icon({
@@ -140,7 +144,6 @@ export default () => {
                       }else{
                           hidePopUp(element)
                       }
-
                 }
 
                 map.on('click', clickHandler)

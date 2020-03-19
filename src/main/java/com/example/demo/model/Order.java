@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -16,9 +13,11 @@ public class Order {
     private String paid;
     private Date lastAccess;
     private String dinein;
+    private Branch branchByBranchId;
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -128,5 +127,15 @@ public class Order {
         result = 31 * result + (lastAccess != null ? lastAccess.hashCode() : 0);
         result = 31 * result + (dinein != null ? dinein.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "BRANCH_ID", referencedColumnName = "ID", nullable = false)
+    public Branch getBranchByBranchId() {
+        return branchByBranchId;
+    }
+
+    public void setBranchByBranchId(Branch branchByBranchId) {
+        this.branchByBranchId = branchByBranchId;
     }
 }
