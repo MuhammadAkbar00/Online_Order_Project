@@ -9,9 +9,9 @@
   * ~~Linking the component in another page is done by someone else.~~
   * ~~Make a new folder like user and public, but name it Sales or Marketing, something that fits the role~~
 * Implement an order page component, isolated as well, please do not edit existing files unless necessary. When you're building the component do your fetch and everything from within it. -> Mahmou
-* Implement a "find nearest branch" component page. Should include google maps api. -> Omar
-  * Google maps is no longer an option, so I'll have to figure out another mapping service.
-* Add inserts to Create Script -> Omar
+* ~Implement a "find nearest branch" component page. Should include google maps api. -> Omar~
+  * ~Google maps is no longer an option, so I'll have to figure out another mapping service.~
+* ~Add inserts to Create Script -> Omar~
 * Make a Order Menu page component -> Attallah
 * Make a ProductDetails page component -> Attallah<br />
 For example, if I'm in the menu page, I have many products, if I click on the second product it passes id = 2 to the productdetails component and now that page shows me details for product 2
