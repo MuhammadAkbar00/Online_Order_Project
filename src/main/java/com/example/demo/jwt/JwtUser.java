@@ -1,8 +1,10 @@
 package com.example.demo.jwt;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "JWT_USER", schema = "PUBLIC", catalog = "PUBLIC")
 public class JwtUser {
     private long id;
     private String username;
@@ -11,7 +13,6 @@ public class JwtUser {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -54,23 +55,15 @@ public class JwtUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         JwtUser jwtUser = (JwtUser) o;
-
-        if (id != jwtUser.id) return false;
-        if (username != null ? !username.equals(jwtUser.username) : jwtUser.username != null) return false;
-        if (password != null ? !password.equals(jwtUser.password) : jwtUser.password != null) return false;
-        if (role != null ? !role.equals(jwtUser.role) : jwtUser.role != null) return false;
-
-        return true;
+        return id == jwtUser.id &&
+                Objects.equals(username, jwtUser.username) &&
+                Objects.equals(password, jwtUser.password) &&
+                Objects.equals(role, jwtUser.role);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        return result;
+        return Objects.hash(id, username, password, role);
     }
 }

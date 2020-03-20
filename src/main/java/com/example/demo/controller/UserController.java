@@ -1,11 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
-import com.example.demo.model.Register;
-import com.example.demo.model.Student;
+
 import com.example.demo.model.User;
-import com.example.demo.repository.RegisterRepository;
-import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

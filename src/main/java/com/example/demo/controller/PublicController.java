@@ -2,8 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.AuthenticationException;
 import com.example.demo.jwt.JwtUserRepository;
-import com.example.demo.model.Course;
-import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,8 @@ public class PublicController {
 //    private CourseRepository courseRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BranchRepository branchRepository;
 
 //    @RequestMapping(path = "/courses/{id}", method = {RequestMethod.GET})
 //    public ResponseEntity<?> course(@PathVariable Long id) {
@@ -38,10 +39,14 @@ public class PublicController {
 //        return ResponseEntity.ok(courseRepository.findByNameContaining(name));
 //    }
 
-    @RequestMapping(path = "/usr/{name}", method = {RequestMethod.GET})
-    public ResponseEntity<?> usr(@PathVariable String name) {
-        System.out.println("reached usr");
-        return ResponseEntity.ok(userRepository.findFirstByUsername(name));
+//    @RequestMapping(path = "/usr/{name}", method = {RequestMethod.GET})
+//    public ResponseEntity<?> usr(@PathVariable String name) {
+//        return ResponseEntity.ok(userRepository.findFirstByUsername(name));
+//    }
+
+      @RequestMapping(path = "/branches", method = {RequestMethod.GET})
+        public ResponseEntity<?> getMap() {
+        return ResponseEntity.ok(branchRepository.findAll());
     }
 
 }

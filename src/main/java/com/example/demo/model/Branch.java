@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -10,10 +11,10 @@ public class Branch {
     private String province;
     private double lon;
     private double lat;
+    private Collection<Order> orders;
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -77,5 +78,14 @@ public class Branch {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, province, lon, lat);
+    }
+
+    @OneToMany(mappedBy = "branch")
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
     }
 }

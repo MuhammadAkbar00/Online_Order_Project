@@ -112,6 +112,7 @@ class Table {
 
 export default {
     users: new Table("users"),
+    branches: new Table("branches"),
     courses: new Table("courses"),
     registrations: new Table("registrations")
 

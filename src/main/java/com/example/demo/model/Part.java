@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Part {
@@ -9,12 +11,11 @@ public class Part {
     private String type;
     private int price;
     private String image;
-    private String position;
     private String required;
+    private Collection<CustomPart> customParts;
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -64,16 +65,6 @@ public class Part {
     }
 
     @Basic
-    @Column(name = "POSITION")
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    @Basic
     @Column(name = "REQUIRED")
     public String getRequired() {
         return required;
@@ -87,29 +78,26 @@ public class Part {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Part part = (Part) o;
-
-        if (id != part.id) return false;
-        if (price != part.price) return false;
-        if (name != null ? !name.equals(part.name) : part.name != null) return false;
-        if (type != null ? !type.equals(part.type) : part.type != null) return false;
-        if (image != null ? !image.equals(part.image) : part.image != null) return false;
-        if (position != null ? !position.equals(part.position) : part.position != null) return false;
-        if (required != null ? !required.equals(part.required) : part.required != null) return false;
-
-        return true;
+        return id == part.id &&
+                price == part.price &&
+                Objects.equals(name, part.name) &&
+                Objects.equals(type, part.type) &&
+                Objects.equals(image, part.image) &&
+                Objects.equals(required, part.required);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        result = 31 * result + (required != null ? required.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, type, price, image, required);
+    }
+
+    @OneToMany(mappedBy = "part")
+    public Collection<CustomPart> getCustomParts() {
+        return customParts;
+    }
+
+    public void setCustomParts(Collection<CustomPart> customParts) {
+        this.customParts = customParts;
     }
 }

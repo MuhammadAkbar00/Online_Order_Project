@@ -7,28 +7,46 @@ import {Container, Col, Row} from "react-bootstrap"
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Point from 'ol/geom/Point'
-import {Circle as CircleStyle, Fill, Icon, Stroke, Style, RegularShape} from 'ol/style';
+import {Icon, Style} from 'ol/style'
 import Auth from "../auth.js"
 import { toSize } from 'ol/size'
-import Overlay from 'ol/Overlay';
-import TileState from 'ol/TileState';
+import Overlay from 'ol/Overlay'
+import TileState from 'ol/TileState'
+import db from '../db'
+import Button from 'react-bootstrap/Button'
+import { fromLonLat } from 'ol/proj'
 
 export default () => {
 
-    //State to save permission to locate the user
-    const [permission, setPermission] = useState(false)
+    const [message, setMessage] = useState([])
+    const [data, setData] = useState([])
+    const [focus, setFocus] = useState([])
 
-    //Do this one time and delete after objects references
+    const getData = async () => {
+        return await db.branches.getByQuery("public","")
+    }
+
+    
     useEffect(()=>{
+        (async ()=>{
+            let data = await getData()
+            setData(data)
+        })()
+    },[])
+
+    useEffect(()=>{
+
+        //clear
+        document.getElementById('map').innerHTML = `
+            <div id="popup"></div>
+        `
 
 
         const showPopUp = (element, data)=>{
             element.innerHTML = `
-            
                 <div style="background-color: black; padding: 10px; border-radius: 10px">
                     <p>${data}</p>
                 </div>
-            
             `
         }
 
@@ -37,29 +55,10 @@ export default () => {
         }
 
 
-
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(
-                ()=>{setPermission(true)}
-            )
-            if (permission) {
+        if (true){
+            if (true) {
 
                 let popupElement = document.getElementById('popup');
-
-                let point1 = new Feature({
-                    type: 'icon',
-                    geometry: new Point([5735012.110758717, 2910249.8948588166]),
-                })
-
-                let point2 = new Feature({
-                    type: 'icon',
-                    geometry: new Point([5727456.750964634, 2905822.4373057233]),
-                })
-                
-                let point3 = new Feature({
-                    type: 'icon',
-                    geometry: new Point([5734420.253940262, 2959501.989090159]),
-                })
 
                 let popup = new Overlay({
                     element: popupElement,
@@ -71,7 +70,7 @@ export default () => {
 
                 let vectorLayer = new VectorLayer({
                     source: new VectorSource({
-                        features: [point1, point2, point3]
+                        features: []
                     }),
                     style: new Style({
                         image: new Icon({
@@ -82,10 +81,17 @@ export default () => {
                             size: toSize(428)
                         })
                     })
-
                 })
 
-
+                const getData = async () => {
+                    let all = await db.branches.getByQuery("public","")
+                    all.map((e)=>{
+                        vectorLayer.getSource().addFeature(new Feature({type: 'icon', geometry: new Point([e.lon,e.lat])}) )
+                    })
+                }
+                
+                getData()
+        
                 let map = new Map({
                     target: 'map',
                     layers: [
@@ -134,13 +140,18 @@ export default () => {
                     let feature = map.forEachFeatureAtPixel(e.pixel,
                         function(feature) {
                           return feature
-                        });
+                        })
                       let element = popup.getElement()
                       if (feature) {
                         let coordinates = feature.getGeometry().getCoordinates()
-                        
+                        console.log('coor', coordinates)
                         popup.setPosition(coordinates)
-                        showPopUp(element, "Al Rayyan branch")
+
+                        let featureData = data.filter((e)=>{
+                            return (e.lon == coordinates[0] && e.lat == coordinates[1] ? e.province : "") 
+                        })
+
+                        showPopUp(element, featureData[0].province+" branch")
                       }else{
                           hidePopUp(element)
                       }
@@ -148,17 +159,70 @@ export default () => {
 
                 map.on('click', clickHandler)
 
+                if (focus) {
+                    if (focus.length != 0) {
+                        if (focus.length == 3) {
+
+                            let userLocation = fromLonLat(focus)
+                            let distances = []
+                        
+                            data.map((e,i) =>{
+                                let distance = (userLocation[0]+userLocation[1] - e.lon+e.lat < 0 ?
+                                    (userLocation[0]+userLocation[1] - e.lon+e.lat)*-1            :
+                                     userLocation[0]+userLocation[1] - e.lon+e.lat)
+                                distances.push({distance,i})
+                            })
+    
+                            let shortest = distances[0]
+                            distances.map((e)=>{
+                                if(e.distance < shortest.distance)
+                                    shortest = e
+                            })
+                            // console.log('distances ',distances)
+                            // console.log('shortest one ',data[shortest.i])
+    
+                            map.getView().setCenter([data[shortest.i].lon,data[shortest.i].lat])
+
+                        } else {
+                            map.getView().setCenter(focus)
+                        }
+                    }
+                }
             }
         }
-    })
+    }, [focus,data])
 
+    const findNearest = () => {
+        navigator.geolocation.getCurrentPosition((position)=>{
+            setFocus([position.coords.longitude, position.coords.latitude,"third"])
+        })
+        console.log(focus)
+    }
 
     return (
         <Container fluid>
             <Row>
-                <Col md={6} xs={6}></Col>
-                <Col md={6}>
+                <Col xl={{order:2}} md={{span:10,order:2}}>
                     <div id={"map"} className={"map"}><div id="popup"></div></div>
+                </Col>
+                <Col md={{span:10,order:1}} xl={{order:1}}>
+                    <br />
+                    <h3>Looking for a dine in experience ?</h3>
+                    <br />
+                    <Button onClick={()=>{findNearest()}} variant={"primary"} >Find the nearest branch</Button>
+                    <br /><br /><br />
+                    <Row>
+                        <Col>
+                            <h3>All our Restaurants</h3> 
+                            <ul>
+                            {
+                                data.map(e => 
+                                <>&nbsp;<a style={{listStyle:"none"}} key={e.id}><Button onClick={()=>{setFocus([e.lon, e.lat])}} variant={"light"}>inDine {e.province}</Button></a></>
+                                )
+                            }
+                            </ul>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>
