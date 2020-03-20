@@ -6,8 +6,8 @@ Current features we will implement:
 5 - Marketing manager page
 6 - Make your own dish feature (you build a custom dish online and the chef makes it for you, like Subway) *
 7 - Calculate delivery price based on distance, so customers are allowed to pick their place on a map
-8 - Adding arabic and french language translation
-as well as image and promotion translation.
+8 - Adding arabic and french language translation ************
+as well as image and promotion translation. 
 9 - Reward System
 10 - live chat bot
 11 - FAQ and Knowledge base
