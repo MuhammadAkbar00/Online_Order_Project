@@ -15,6 +15,7 @@
 * Make a Order Menu page component -> Omar
 * Make a ProductDetails page component -> Omar<br />
 For example, if I'm in the menu page, I have many products, if I click on the second product it passes id = 2 to the productdetails component and now that page shows me details for product 2
+* Update admin dashboard -> Omar
 * Implement Analytics -> Omar<br /> such that when a user visits it records all the relevant information in a new record in Anaylitcs
 Analytics saves the page name, which would be the component name in this case, and the product ID if the page visited is that of a product.
 * Implement a kind of support chat bot. A small chat window that accepts questions. It checks if questions exist in FAQ table, if not it directs the user to submit a question in a separate page. The bot should have something to say in case the user says something outside of a question. If the question exists in the FAQ, then fetch the answer and show it in the chat. Add some basic records in the FAQ table to test this. To find out if the user asked a question in the FAQ, search for important keywords in the question and if they match enough keywords, then get the correct answer. -> Attallah
