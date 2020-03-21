@@ -246,7 +246,7 @@ CREATE TABLE ORDER_ITEM
     ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
         constraint ORDER_ITEM_PK
             primary key,
-    ORDER_ID BIGINT unique not null
+    ORDER_ID BIGINT not null
         constraint ORDER_ITEM_ORDER_ID_FK
             references "ORDER",
     PRODUCT_ID BIGINT not null
