@@ -48,7 +48,7 @@ public class MarketingController {
 //    }
 
     @RequestMapping(path = "/users", method = { RequestMethod.GET })
-    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
+    public ResponseEntity<?> users(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);

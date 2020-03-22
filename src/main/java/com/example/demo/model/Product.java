@@ -27,6 +27,10 @@ public class Product {
         return customId;
     }
 
+    public void setCustomId(Long customId) {
+        this.customId = customId;
+    }
+
     public void setCustomId(long customId) {
         this.customId = customId;
     }
@@ -35,6 +39,10 @@ public class Product {
     @Column(name = "NORMAL_ID")
     public long getNormalId() {
         return normalId;
+    }
+
+    public void setNormalId(Long normalId) {
+        this.normalId = normalId;
     }
 
     public void setNormalId(long normalId) {

@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Normal {
@@ -18,6 +15,7 @@ public class Normal {
     private long occasionId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -101,6 +99,10 @@ public class Normal {
     @Column(name = "OCCASION_ID")
     public long getOccasionId() {
         return occasionId;
+    }
+
+    public void setOccasionId(Long occasionId) {
+        this.occasionId = occasionId;
     }
 
     public void setOccasionId(long occasionId) {

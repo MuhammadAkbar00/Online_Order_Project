@@ -113,6 +113,6 @@ class Table {
 export default {
     users: new Table("users"),
     courses: new Table("courses"),
-    registrations: new Table("registrations")
-
+    menu: new Table("menu"),
+    analytics: new Table("analytics")
 }
