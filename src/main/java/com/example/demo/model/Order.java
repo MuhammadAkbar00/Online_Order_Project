@@ -2,17 +2,22 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Order {
     private long id;
-    private long userId;
     private Date date;
     private int total;
     private String paymentMethod;
     private String paid;
     private Date lastAccess;
     private String dinein;
+    private Collection<Experience> experiences;
+    private User user;
+    private Branch branch;
+    private Collection<OrderItem> orderItems;
 
     @Id
     @Column(name = "ID")
@@ -23,16 +28,6 @@ public class Order {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "USER_ID")
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 
     @Basic
@@ -99,32 +94,56 @@ public class Order {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Order order = (Order) o;
-
-        if (id != order.id) return false;
-        if (userId != order.userId) return false;
-        if (total != order.total) return false;
-        if (date != null ? !date.equals(order.date) : order.date != null) return false;
-        if (paymentMethod != null ? !paymentMethod.equals(order.paymentMethod) : order.paymentMethod != null)
-            return false;
-        if (paid != null ? !paid.equals(order.paid) : order.paid != null) return false;
-        if (lastAccess != null ? !lastAccess.equals(order.lastAccess) : order.lastAccess != null) return false;
-        if (dinein != null ? !dinein.equals(order.dinein) : order.dinein != null) return false;
-
-        return true;
+        return id == order.id &&
+                total == order.total &&
+                Objects.equals(date, order.date) &&
+                Objects.equals(paymentMethod, order.paymentMethod) &&
+                Objects.equals(paid, order.paid) &&
+                Objects.equals(lastAccess, order.lastAccess) &&
+                Objects.equals(dinein, order.dinein);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (userId ^ (userId >>> 32));
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + total;
-        result = 31 * result + (paymentMethod != null ? paymentMethod.hashCode() : 0);
-        result = 31 * result + (paid != null ? paid.hashCode() : 0);
-        result = 31 * result + (lastAccess != null ? lastAccess.hashCode() : 0);
-        result = 31 * result + (dinein != null ? dinein.hashCode() : 0);
-        return result;
+        return Objects.hash(id, date, total, paymentMethod, paid, lastAccess, dinein);
+    }
+
+    @OneToMany(mappedBy = "order")
+    public Collection<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(Collection<Experience> experiences) {
+        this.experiences = experiences;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "BRANCH_ID", referencedColumnName = "ID", nullable = false)
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    @OneToMany(mappedBy = "order")
+    public Collection<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(Collection<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

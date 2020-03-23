@@ -2,11 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.AuthenticationException;
 import com.example.demo.jwt.JwtUserRepository;
-import com.example.demo.model.Register;
-import com.example.demo.model.Student;
+
 import com.example.demo.model.User;
-import com.example.demo.repository.RegisterRepository;
-import com.example.demo.repository.StudentRepository;
+
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +21,6 @@ public class MarketingController {
 
     @Autowired
     private JwtUserRepository jwtUserRepository;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private RegisterRepository registerRepository;
     @Autowired
     private UserRepository userRepository;
 

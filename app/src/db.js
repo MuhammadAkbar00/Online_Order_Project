@@ -69,7 +69,7 @@ class Table {
     getAll = async () => {
         const response = await Auth.fetch(`/${this.table}`)
         const json = await response.json()
-        console.log('getAll json', json)
+        console.log('getAll', json)
         return await this.reformatAll(json)
     }
 
@@ -78,6 +78,7 @@ class Table {
         const json = await response.json()
         console.log('getOne', json)
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+
     }
 
     save = async (data) => {
@@ -111,9 +112,8 @@ class Table {
 
 export default {
     users: new Table("users"),
-    orders: new Table("orders"),
-    order_items: new Table("order_item"),
-    products: new Table("products"),
+    branches: new Table("branches"),
     courses: new Table("courses"),
     registrations: new Table("registrations")
+
 }

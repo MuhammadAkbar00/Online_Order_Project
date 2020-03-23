@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Normal {
@@ -12,11 +14,10 @@ public class Normal {
     private int price;
     private String stock;
     private int quantity;
-    private long occasionId;
+    private Occasion occasion;
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -95,47 +96,34 @@ public class Normal {
         this.quantity = quantity;
     }
 
-    @Basic
-    @Column(name = "OCCASION_ID")
-    public long getOccasionId() {
-        return occasionId;
-    }
-
-    public void setOccasionId(long occasionId) {
-        this.occasionId = occasionId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Normal normal = (Normal) o;
-
-        if (id != normal.id) return false;
-        if (price != normal.price) return false;
-        if (quantity != normal.quantity) return false;
-        if (occasionId != normal.occasionId) return false;
-        if (name != null ? !name.equals(normal.name) : normal.name != null) return false;
-        if (desc != null ? !desc.equals(normal.desc) : normal.desc != null) return false;
-        if (image != null ? !image.equals(normal.image) : normal.image != null) return false;
-        if (type != null ? !type.equals(normal.type) : normal.type != null) return false;
-        if (stock != null ? !stock.equals(normal.stock) : normal.stock != null) return false;
-
-        return true;
+        return id == normal.id &&
+                price == normal.price &&
+                quantity == normal.quantity &&
+                Objects.equals(name, normal.name) &&
+                Objects.equals(desc, normal.desc) &&
+                Objects.equals(image, normal.image) &&
+                Objects.equals(type, normal.type) &&
+                Objects.equals(stock, normal.stock);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (desc != null ? desc.hashCode() : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + price;
-        result = 31 * result + (stock != null ? stock.hashCode() : 0);
-        result = 31 * result + quantity;
-        result = 31 * result + (int) (occasionId ^ (occasionId >>> 32));
-        return result;
+        return Objects.hash(id, name, desc, image, type, price, stock, quantity);
     }
+
+    @ManyToOne
+    @JoinColumn(name = "OCCASION_ID", referencedColumnName = "ID")
+    public Occasion getOccasion() {
+        return occasion;
+    }
+
+    public void setOccasion(Occasion occasion) {
+        this.occasion = occasion;
+    }
+
 }

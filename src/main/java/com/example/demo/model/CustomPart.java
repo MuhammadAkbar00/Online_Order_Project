@@ -1,13 +1,14 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "CUSTOM_PART", schema = "PUBLIC", catalog = "PUBLIC")
 public class CustomPart {
     private long id;
-    private long partId;
-    private long customId;
+    private Part part;
+    private Custom custom;
 
     @Id
     @Column(name = "ID")
@@ -19,45 +20,36 @@ public class CustomPart {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "PART_ID")
-    public long getPartId() {
-        return partId;
-    }
-
-    public void setPartId(long partId) {
-        this.partId = partId;
-    }
-
-    @Basic
-    @Column(name = "CUSTOM_ID")
-    public long getCustomId() {
-        return customId;
-    }
-
-    public void setCustomId(long customId) {
-        this.customId = customId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         CustomPart that = (CustomPart) o;
-
-        if (id != that.id) return false;
-        if (partId != that.partId) return false;
-        if (customId != that.customId) return false;
-
-        return true;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (partId ^ (partId >>> 32));
-        result = 31 * result + (int) (customId ^ (customId >>> 32));
-        return result;
+        return Objects.hash(id);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "PART_ID", referencedColumnName = "ID", nullable = false)
+    public Part getPart() {
+        return part;
+    }
+
+    public void setPart(Part part) {
+        this.part = part;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "CUSTOM_ID", referencedColumnName = "ID", nullable = false)
+    public Custom getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Custom custom) {
+        this.custom = custom;
     }
 }

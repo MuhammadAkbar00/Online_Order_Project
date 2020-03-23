@@ -1,17 +1,16 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Advertiser {
     private long id;
     private String username;
     private String companyName;
-    private int adAmnt;
-    private int pricePerAd;
+    private Integer adAmnt;
+    private Integer pricePerAd;
     private String display;
 
     @Id
@@ -46,21 +45,21 @@ public class Advertiser {
 
     @Basic
     @Column(name = "AD_AMNT")
-    public int getAdAmnt() {
+    public Integer getAdAmnt() {
         return adAmnt;
     }
 
-    public void setAdAmnt(int adAmnt) {
+    public void setAdAmnt(Integer adAmnt) {
         this.adAmnt = adAmnt;
     }
 
     @Basic
     @Column(name = "PRICE_PER_AD")
-    public int getPricePerAd() {
+    public Integer getPricePerAd() {
         return pricePerAd;
     }
 
-    public void setPricePerAd(int pricePerAd) {
+    public void setPricePerAd(Integer pricePerAd) {
         this.pricePerAd = pricePerAd;
     }
 
@@ -78,27 +77,18 @@ public class Advertiser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Advertiser that = (Advertiser) o;
-
-        if (id != that.id) return false;
-        if (adAmnt != that.adAmnt) return false;
-        if (pricePerAd != that.pricePerAd) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null) return false;
-        if (display != null ? !display.equals(that.display) : that.display != null) return false;
-
-        return true;
+        return id == that.id &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(companyName, that.companyName) &&
+                Objects.equals(adAmnt, that.adAmnt) &&
+                Objects.equals(pricePerAd, that.pricePerAd) &&
+                Objects.equals(display, that.display);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (companyName != null ? companyName.hashCode() : 0);
-        result = 31 * result + adAmnt;
-        result = 31 * result + pricePerAd;
-        result = 31 * result + (display != null ? display.hashCode() : 0);
-        return result;
+        return Objects.hash(id, username, companyName, adAmnt, pricePerAd, display);
     }
+
 }
