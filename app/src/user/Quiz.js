@@ -268,7 +268,7 @@ export default () => {
                   </span>
                 :
                   <span className={"gamestart"}>
-                    <div id="home" class="flex-center flex-column">
+                    <div id="home" className={"flex-center flex-column"}>
                       <h1>Personality Quiz</h1>
                       <Button className="btn" onClick={changeState} variant={"primary"}>Play</Button>
                     </div>

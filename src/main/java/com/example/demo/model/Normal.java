@@ -11,9 +11,9 @@ public class Normal {
     private String desc;
     private String image;
     private String type;
-    private int price;
+    private Integer price;
     private String stock;
-    private int quantity;
+    private Integer quantity;
     private Occasion occasion;
 
     @Id
@@ -69,11 +69,11 @@ public class Normal {
 
     @Basic
     @Column(name = "PRICE")
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -89,11 +89,11 @@ public class Normal {
 
     @Basic
     @Column(name = "QUANTITY")
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

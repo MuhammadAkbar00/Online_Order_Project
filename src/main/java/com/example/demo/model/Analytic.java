@@ -9,7 +9,7 @@ public class Analytic {
     private String pagename;
     private long productId;
     private Date date;
-    private int time;
+    private Integer time;
     private String username;
 
     @Id
@@ -55,11 +55,11 @@ public class Analytic {
 
     @Basic
     @Column(name = "TIME")
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Integer time) {
         this.time = time;
     }
 

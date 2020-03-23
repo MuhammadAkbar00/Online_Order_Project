@@ -3,7 +3,6 @@ package com.example.demo.model;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
-import com.example.demo.jwt.JwtUser;
 
 @Entity
 public class User {
@@ -14,9 +13,9 @@ public class User {
     private String address;
     private String email;
     private String mailing;
-    private int points;
+    private Integer points;
     private String language;
-    private int phone;
+    private Integer phone;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,11 +90,11 @@ public class User {
 
     @Basic
     @Column(name = "POINTS")
-    public int getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(Integer points) {
         this.points = points;
     }
 
@@ -111,11 +110,11 @@ public class User {
 
     @Basic
     @Column(name = "PHONE")
-    public int getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 
@@ -134,6 +133,22 @@ public class User {
                 Objects.equals(mailing, user.mailing) &&
                 Objects.equals(language, user.language) &&
                 Objects.equals(phone, user.phone);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", mailing='" + mailing + '\'' +
+                ", points=" + points +
+                ", language='" + language + '\'' +
+                ", phone=" + phone +
+                '}';
     }
 
     @Override

@@ -202,14 +202,14 @@ export default () => {
     return (
         <Container fluid>
             <Row>
-                <Col xl={{order:2}} md={{span:10,order:2}}>
+                <Col xl={{order:2}} md={{span:11,order:2}}>
                     <div id={"map"} className={"map"}><div id="popup"></div></div>
                 </Col>
                 <Col md={{span:10,order:1}} xl={{order:1}}>
                     <br />
                     <h3>Looking for a dine in experience ?</h3>
                     <br />
-                    <Button onClick={()=>{findNearest()}} variant={"primary"} >Find the nearest branch</Button>
+                    <Button onClick={findNearest} variant={"primary"} >Find the nearest branch</Button>
                     <br /><br /><br />
                     <Row>
                         <Col>

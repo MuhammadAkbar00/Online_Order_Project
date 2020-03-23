@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 public class Coupon {
     private long id;
-    private int discount;
+    private Integer discount;
     private String code;
     private Date expire;
     private String desc;
@@ -26,11 +26,11 @@ public class Coupon {
 
     @Basic
     @Column(name = "DISCOUNT")
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 

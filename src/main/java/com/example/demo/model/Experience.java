@@ -6,7 +6,7 @@ import java.util.Objects;
 @Entity
 public class Experience {
     private long id;
-    private int stars;
+    private Integer stars;
     private Order order;
 
     @Id
@@ -22,11 +22,11 @@ public class Experience {
 
     @Basic
     @Column(name = "STARS")
-    public int getStars() {
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
+    public void setStars(Integer stars) {
         this.stars = stars;
     }
 

@@ -9,7 +9,7 @@ public class Part {
     private long id;
     private String name;
     private String type;
-    private int price;
+    private Integer price;
     private String image;
     private String required;
 
@@ -46,11 +46,11 @@ public class Part {
 
     @Basic
     @Column(name = "PRICE")
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

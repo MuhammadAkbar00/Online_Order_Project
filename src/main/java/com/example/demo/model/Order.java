@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Order {
     private long id;
     private Date date;
-    private int total;
+    private Integer total;
     private String paymentMethod;
     private String paid;
     private Date lastAccess;
@@ -40,11 +40,11 @@ public class Order {
 
     @Basic
     @Column(name = "TOTAL")
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 

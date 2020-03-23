@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Occasion {
     private long id;
     private String name;
-    private int discount;
+    private Integer discount;
     private Date startDate;
     private Date endDate;
 
@@ -36,11 +36,11 @@ public class Occasion {
 
     @Basic
     @Column(name = "DISCOUNT")
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 

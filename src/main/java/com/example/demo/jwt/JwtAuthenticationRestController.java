@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-//@CrossOrigin(origins={ "http://localhost:3000", "http://localhost:4200" })
 public class JwtAuthenticationRestController {
 
     @Value("Authorization")
@@ -90,11 +89,13 @@ public class JwtAuthenticationRestController {
             user.setLanguage("EN");
             user.setMailing("N");
             user.setPoints(0);
+            user.setPhone(10);
             userRepository.save(user);
+            System.out.println(user);
             System.out.println("Registered user in User table");
 
         } else {
-            System.out.println("User exists, attempting login instead:" + authenticationRequest.getUsername());
+            System.out.println("User exists, attempting login instead: " + authenticationRequest.getUsername());
         }
 
         return createAuthenticationToken(authenticationRequest);

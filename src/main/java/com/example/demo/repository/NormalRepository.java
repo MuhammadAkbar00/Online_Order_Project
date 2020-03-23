@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface NormalRepository extends JpaRepository<Normal, Long> {
-    Normal findById(int id);
+    Normal findById(Integer id);
 
 }

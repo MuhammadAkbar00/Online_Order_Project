@@ -12,10 +12,8 @@ public class Custom {
     private String desc;
     private Date date;
     private String type;
-    private int total;
+    private Integer total;
     private Occasion occasion;
-    private Collection<CustomPart> customParts;
-    private Collection<Product> products;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,11 +68,11 @@ public class Custom {
 
     @Basic
     @Column(name = "TOTAL")
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
@@ -104,23 +102,5 @@ public class Custom {
 
     public void setOccasion(Occasion occasion) {
         this.occasion = occasion;
-    }
-
-    @OneToMany(mappedBy = "custom")
-    public Collection<CustomPart> getCustomParts() {
-        return customParts;
-    }
-
-    public void setCustomParts(Collection<CustomPart> customParts) {
-        this.customParts = customParts;
-    }
-
-    @OneToMany(mappedBy = "custom")
-    public Collection<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Collection<Product> products) {
-        this.products = products;
     }
 }
