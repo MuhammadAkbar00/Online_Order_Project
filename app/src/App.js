@@ -7,14 +7,13 @@ import Logout from './user/Logout'
 import Students from './admin/Students'
 import Settings from './admin/Settings'
 import Courses from './public/Courses'
+import Menu from "./menu/Menu";
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
-import Nearest from "./public/Nearest";
-import Marketing from './marketing/Marketing.js'
 
 import {
   Switch,
@@ -23,6 +22,8 @@ import {
   Redirect,
   useLocation
 } from "react-router-dom";
+import MenuDetail from "./menu/MenuDetail";
+
 
 export default () => {
 
@@ -49,10 +50,10 @@ export default () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {/*<Nav.Link as={Link} to="/">Home</Nav.Link>*/}
+            <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
             {
               Auth.isUser() &&
-              <Nav.Link as={Link} to="profile">Profile</Nav.Link>
+              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
             }
             {
               Auth.isAdmin() &&
@@ -73,15 +74,11 @@ export default () => {
                     {
                         Auth.isLoggedIn()
                             ?
-                            <>
-                                <Nav.Link as={Link} to="logout">Logout</Nav.Link>
-                                <Nav.Link as={Link} to="nearest">Nearest</Nav.Link>
-                                <Nav.Link as={Link} to="marketing">Marketing</Nav.Link>
-                            </>
+                            <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
                             :
                             <>
-                                <Nav.Link as={Link} to="register">Register</Nav.Link>
-                                <Nav.Link as={Link} to="login">Login</Nav.Link>
+                                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
                             </>
                     }
                 </Nav>
@@ -100,15 +97,15 @@ export default () => {
               <Route path="/logout">
                 <Logout />
               </Route>
-                <Route path="/nearest">
-                    <Nearest />
-                </Route>
-                <Route path="/marketing">
-                    <Marketing />
-                </Route>
               <Route path="/profile">
                 <Profile />
               </Route>
+                <Route exact path="/menu">
+                    <Menu />
+                </Route>
+                <Route path="/menu/:id">
+                    <MenuDetail />
+                </Route>
               <Route path="/students">
                 <Students search={searchStudent} />
               </Route>

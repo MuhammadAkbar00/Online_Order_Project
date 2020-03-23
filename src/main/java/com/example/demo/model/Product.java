@@ -1,16 +1,15 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
-import java.util.Collection;
-import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Product {
     private long id;
-    private Collection<Analytics> analytics;
-    private Collection<OrderItem> orderItems;
-    private Custom custom;
-    private Normal normal;
+    private long customId;
+    private long normalId;
 
     @Id
     @Column(name = "ID")
@@ -22,54 +21,53 @@ public class Product {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "CUSTOM_ID")
+    public long getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(Long customId) {
+        this.customId = customId;
+    }
+
+    public void setCustomId(long customId) {
+        this.customId = customId;
+    }
+
+    @Basic
+    @Column(name = "NORMAL_ID")
+    public long getNormalId() {
+        return normalId;
+    }
+
+    public void setNormalId(Long normalId) {
+        this.normalId = normalId;
+    }
+
+    public void setNormalId(long normalId) {
+        this.normalId = normalId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Product product = (Product) o;
-        return id == product.id;
+
+        if (id != product.id) return false;
+        if (customId != product.customId) return false;
+        if (normalId != product.normalId) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @OneToMany(mappedBy = "product")
-    public Collection<Analytics> getAnalytics() {
-        return analytics;
-    }
-
-    public void setAnalytics(Collection<Analytics> analytics) {
-        this.analytics = analytics;
-    }
-
-    @OneToMany(mappedBy = "product")
-    public Collection<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(Collection<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "CUSTOM_ID", referencedColumnName = "ID")
-    public Custom getCustom() {
-        return custom;
-    }
-
-    public void setCustom(Custom custom) {
-        this.custom = custom;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "NORMAL_ID", referencedColumnName = "ID")
-    public Normal getNormal() {
-        return normal;
-    }
-
-    public void setNormal(Normal normal) {
-        this.normal = normal;
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (customId ^ (customId >>> 32));
+        result = 31 * result + (int) (normalId ^ (normalId >>> 32));
+        return result;
     }
 }
