@@ -3,7 +3,7 @@
 * ~~Make profile page for admin user (just make admin roles able to see it) -> Mahmoud~~
 * ~~Make and set up a styled homepage -> Omar (Footer remaining)~~
 * ~~Pick a color scheme and overall style -> Omar (Need help in that, I might as well be color blind)~~
-**We will change the color scheme later, but the structure is sound so far**
+**~We will change the color scheme later, but the structure is sound so far~**
 
 * ~~Implement a marketing page, build an isolated component (the return body and data fetch) -> Attallah~~
   * ~~Linking the component in another page is done by someone else.~~
@@ -12,9 +12,9 @@
 * ~Implement a "find nearest branch" component page. Should include google maps api. -> Omar~
   * ~Google maps is no longer an option, so I'll have to figure out another mapping service.~
 * ~Add inserts to Create Script -> Omar~
-* Make a Order Menu page component -> Omar
-* Make a ProductDetails page component -> Omar<br />
-For example, if I'm in the menu page, I have many products, if I click on the second product it passes id = 2 to the productdetails component and now that page shows me details for product 2
+* ~Make a Order Menu page component -> Attallah~
+* ~Make a ProductDetails page component -> Attallah~<br />
+~For example, if I'm in the menu page, I have many products, if I click on the second product it passes id = 2 to the productdetails component and now that page shows me details for product 2~
 * Update admin dashboard -> Omar
 * Implement Analytics -> Omar<br /> such that when a user visits it records all the relevant information in a new record in Anaylitcs
 Analytics saves the page name, which would be the component name in this case, and the product ID if the page visited is that of a product.
