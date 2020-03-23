@@ -17,6 +17,7 @@ public class Normal {
     private Occasion occasion;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

@@ -7,6 +7,7 @@ import Logout from './user/Logout'
 import Students from './admin/Students'
 import Settings from './admin/Settings'
 import Courses from './public/Courses'
+import Menu from "./menu/Menu";
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
 import Navbar from 'react-bootstrap/Navbar';
@@ -24,6 +25,8 @@ import {
   Redirect,
   useLocation
 } from "react-router-dom";
+import MenuDetail from "./menu/MenuDetail";
+
 
 export default () => {
 
@@ -50,7 +53,7 @@ export default () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            {/*<Nav.Link as={Link} to="/">Home</Nav.Link>*/}
+            <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
             {
               Auth.isUser() &&
               <>
@@ -115,6 +118,12 @@ export default () => {
                 </Route>
               <Route path="/profile">
                 <Profile />
+              </Route>
+                <Route exact path="/menu">
+                    <Menu />
+                </Route>
+                <Route path="/menu/:id">
+                    <MenuDetail />
               </Route>
               <Route path="/students">
                 <Students search={searchStudent} />

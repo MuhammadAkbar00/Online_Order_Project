@@ -114,6 +114,6 @@ export default {
     users: new Table("users"),
     branches: new Table("branches"),
     courses: new Table("courses"),
-    registrations: new Table("registrations")
-
+    menu: new Table("menu"),
+    analytics: new Table("analytics")
 }
