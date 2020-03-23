@@ -15,6 +15,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest";
 import Marketing from './marketing/Marketing.js'
+import Quiz from './user/Quiz.js'
 
 import {
   Switch,
@@ -52,7 +53,10 @@ export default () => {
             {/*<Nav.Link as={Link} to="/">Home</Nav.Link>*/}
             {
               Auth.isUser() &&
-              <Nav.Link as={Link} to="profile">Profile</Nav.Link>
+              <>
+                <Nav.Link as={Link} to="profile">Profile</Nav.Link>
+                <Nav.Link as={Link} to="quiz">Quiz</Nav.Link>
+              </>
             }
             {
               Auth.isAdmin() &&
@@ -102,6 +106,9 @@ export default () => {
               </Route>
                 <Route path="/nearest">
                     <Nearest />
+                </Route>
+                <Route path="/quiz">
+                    <Quiz />
                 </Route>
                 <Route path="/marketing">
                     <Marketing />
