@@ -17,3 +17,23 @@ Changes:
     - Changed the jwt/JwtWebSecurityConfig.java and added ".and().authorizeRequests().antMatchers("/marketing/**").hasRole("MARKETING")" so it would work
 8 - added "getMarketing = query => this.getByQuery('marketing', query)" in db
 9 - added "isMarketing = () => this.user && this.user.role === "ROLE_MARKETING"" in auth
+
+Commit 3 -
+Changes:
+1 - Changed Analytics table to "Analytic" (singular). Changed Analytics page to (pagename) field.
+2 - Created Order Menu Component
+    - Added the Model for Normal (normal products)
+    - Created the NormalRepository
+    - Created a Menu.js which shows all of the products in the "Normal" table
+    - The page includes all of the name of the product the description the price and whether or not it is in stock.
+    - It also has a buy (not implemented yet) button where a user can click buy and then it will add that product to his cart. (This buy button will only show up if the user is logged in and if it is a user_role)
+    - There is also a detail link that will take you to a DetailsPage.
+3 - Created MenuDetails.js which will take you to another page by sending in the id of the product.
+    - Added to the NormalRepository findById
+    - In the Public controller i added it so that it would work when path "/menu/{id}" is entered (uses the normalRepository.findById to get the specific id and therefore the specific product)
+    - The page will include all of the details needed for that particular product (name, description, type, price, in stock and quantity) and it will also show the image of the product. (might add image to the menu page later on)
+4 - Started on implementing the Analytics component.
+    - Created Analytic Model and Repository
+    - Created a PageRecord.js in marketing folder.
+    - It is a class that takes in pagename, pid (product id), and username (if it is a user) and then runs a method called saveRecord which will save it and add it to the Analytic table.
+    (That's idea but it is not functional yet)
