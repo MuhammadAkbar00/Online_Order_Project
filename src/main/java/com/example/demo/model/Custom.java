@@ -114,12 +114,12 @@ public class Custom {
         this.customParts = customParts;
     }
 
-    @OneToMany(mappedBy = "custom")
-    public Collection<Product> getProducts() {
-        return products;
-    }
+//    @OneToMany(mappedBy = "custom")
+//    public Collection<Product> getProducts() {
+//        return products;
+//    }
+//    public void setProducts(Collection<Product> products) {
+//        this.products = products;
+//    }
 
-    public void setProducts(Collection<Product> products) {
-        this.products = products;
-    }
 }
