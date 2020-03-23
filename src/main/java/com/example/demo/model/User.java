@@ -19,6 +19,7 @@ public class User {
     private int phone;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

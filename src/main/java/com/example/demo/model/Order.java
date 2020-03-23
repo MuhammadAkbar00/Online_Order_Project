@@ -14,12 +14,11 @@ public class Order {
     private String paid;
     private Date lastAccess;
     private String dinein;
-    private Collection<Experience> experiences;
     private User user;
     private Branch branch;
-    private Collection<OrderItem> orderItems;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -108,15 +107,6 @@ public class Order {
         return Objects.hash(id, date, total, paymentMethod, paid, lastAccess, dinein);
     }
 
-    @OneToMany(mappedBy = "order")
-    public Collection<Experience> getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(Collection<Experience> experiences) {
-        this.experiences = experiences;
-    }
-
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     public User getUser() {
@@ -137,12 +127,4 @@ public class Order {
         this.branch = branch;
     }
 
-    @OneToMany(mappedBy = "order")
-    public Collection<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(Collection<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
 }

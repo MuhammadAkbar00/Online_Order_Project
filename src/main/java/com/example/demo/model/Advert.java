@@ -13,6 +13,7 @@ public class Advert {
     private Advertiser advertiser;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

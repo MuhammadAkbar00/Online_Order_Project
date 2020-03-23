@@ -14,6 +14,7 @@ public class Branch {
     private Collection<Order> orders;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

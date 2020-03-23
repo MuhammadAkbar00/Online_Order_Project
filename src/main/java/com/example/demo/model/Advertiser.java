@@ -14,6 +14,7 @@ public class Advertiser {
     private String display;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

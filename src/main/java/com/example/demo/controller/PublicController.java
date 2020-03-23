@@ -4,8 +4,6 @@ import com.example.demo.jwt.AuthenticationException;
 import com.example.demo.jwt.JwtUserRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.model.Course;
-import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.NormalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +38,7 @@ public class PublicController {
     @RequestMapping(path = "/menu/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> menu(@PathVariable Long id) {
         return ResponseEntity.ok(normalRepository.findById(id));
-
+    }
       @RequestMapping(path = "/branches", method = {RequestMethod.GET})
         public ResponseEntity<?> getMap() {
         return ResponseEntity.ok(branchRepository.findAll());

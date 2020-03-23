@@ -12,10 +12,9 @@ public class Occasion {
     private int discount;
     private Date startDate;
     private Date endDate;
-    private Collection<Custom> customs;
-    private Collection<Normal> normals;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -80,23 +79,5 @@ public class Occasion {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, discount, startDate, endDate);
-    }
-
-    @OneToMany(mappedBy = "occasion")
-    public Collection<Custom> getCustoms() {
-        return customs;
-    }
-
-    public void setCustoms(Collection<Custom> customs) {
-        this.customs = customs;
-    }
-
-    @OneToMany(mappedBy = "occasion")
-    public Collection<Normal> getNormals() {
-        return normals;
-    }
-
-    public void setNormals(Collection<Normal> normals) {
-        this.normals = normals;
     }
 }

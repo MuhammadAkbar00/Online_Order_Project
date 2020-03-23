@@ -12,9 +12,9 @@ public class Part {
     private int price;
     private String image;
     private String required;
-    private Collection<CustomPart> customParts;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -90,14 +90,5 @@ public class Part {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, type, price, image, required);
-    }
-
-    @OneToMany(mappedBy = "part")
-    public Collection<CustomPart> getCustomParts() {
-        return customParts;
-    }
-
-    public void setCustomParts(Collection<CustomPart> customParts) {
-        this.customParts = customParts;
     }
 }
