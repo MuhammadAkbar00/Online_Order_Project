@@ -25,7 +25,7 @@ export default () => {
     //   console.log("working user", user)
     //   setUser(user)
     // }
-    // setMenu(menu)
+    setMenu(menu)
   }
 
   // console.log(user.length == 0)
