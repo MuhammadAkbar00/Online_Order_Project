@@ -1,21 +1,20 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 public class Coupon {
     private long id;
-    private long userId;
-    private int discount;
+    private Integer discount;
     private String code;
     private Date expire;
     private String desc;
+    private User user;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -26,22 +25,12 @@ public class Coupon {
     }
 
     @Basic
-    @Column(name = "USER_ID")
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    @Basic
     @Column(name = "DISCOUNT")
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
@@ -79,27 +68,26 @@ public class Coupon {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Coupon coupon = (Coupon) o;
-
-        if (id != coupon.id) return false;
-        if (userId != coupon.userId) return false;
-        if (discount != coupon.discount) return false;
-        if (code != null ? !code.equals(coupon.code) : coupon.code != null) return false;
-        if (expire != null ? !expire.equals(coupon.expire) : coupon.expire != null) return false;
-        if (desc != null ? !desc.equals(coupon.desc) : coupon.desc != null) return false;
-
-        return true;
+        return id == coupon.id &&
+                discount == coupon.discount &&
+                Objects.equals(code, coupon.code) &&
+                Objects.equals(expire, coupon.expire) &&
+                Objects.equals(desc, coupon.desc);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (userId ^ (userId >>> 32));
-        result = 31 * result + discount;
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (expire != null ? expire.hashCode() : 0);
-        result = 31 * result + (desc != null ? desc.hashCode() : 0);
-        return result;
+        return Objects.hash(id, discount, code, expire, desc);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

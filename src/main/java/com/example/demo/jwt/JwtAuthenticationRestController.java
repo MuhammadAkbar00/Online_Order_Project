@@ -1,5 +1,7 @@
 package com.example.demo.jwt;
 
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,10 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
-//@CrossOrigin(origins={ "http://localhost:3000", "http://localhost:4200" })
 public class JwtAuthenticationRestController {
 
     @Value("Authorization")
@@ -38,6 +40,10 @@ public class JwtAuthenticationRestController {
 
     @Autowired
     private JwtUserRepository jwtUserRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
@@ -67,8 +73,29 @@ public class JwtAuthenticationRestController {
             jwtUser.setRole("ROLE_USER");
             jwtUserRepository.save(jwtUser);
             System.out.println("Registered: " + jwtUser);
+
+            //Create user in User table
+            String username = authenticationRequest.getUsername();
+            User user = new User();
+            if(userRepository.findFirstByUsernameOrderByFirstNameDesc(username) == null){
+                user.setId(1);
+            }else{
+                User lastUser = userRepository.findFirstByUsernameOrderByFirstNameDesc(username);
+                user.setId(lastUser.getId()+1);
+            }
+
+            user.setFirstName(username.substring(0,1).toUpperCase()+username.substring(1));
+            user.setUsername(username);
+            user.setLanguage("EN");
+            user.setMailing("N");
+            user.setPoints(0);
+            user.setPhone(10);
+            userRepository.save(user);
+            System.out.println(user);
+            System.out.println("Registered user in User table");
+
         } else {
-            System.out.println("User exists, attempting login instead:" + authenticationRequest.getUsername());
+            System.out.println("User exists, attempting login instead: " + authenticationRequest.getUsername());
         }
 
         return createAuthenticationToken(authenticationRequest);

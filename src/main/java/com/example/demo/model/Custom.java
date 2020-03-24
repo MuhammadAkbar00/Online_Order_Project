@@ -1,10 +1,9 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 public class Custom {
@@ -13,10 +12,11 @@ public class Custom {
     private String desc;
     private Date date;
     private String type;
-    private int total;
-    private long occasionId;
+    private Integer total;
+    private Occasion occasion;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -68,51 +68,39 @@ public class Custom {
 
     @Basic
     @Column(name = "TOTAL")
-    public int getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(Integer total) {
         this.total = total;
-    }
-
-    @Basic
-    @Column(name = "OCCASION_ID")
-    public long getOccasionId() {
-        return occasionId;
-    }
-
-    public void setOccasionId(long occasionId) {
-        this.occasionId = occasionId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Custom custom = (Custom) o;
-
-        if (id != custom.id) return false;
-        if (total != custom.total) return false;
-        if (occasionId != custom.occasionId) return false;
-        if (name != null ? !name.equals(custom.name) : custom.name != null) return false;
-        if (desc != null ? !desc.equals(custom.desc) : custom.desc != null) return false;
-        if (date != null ? !date.equals(custom.date) : custom.date != null) return false;
-        if (type != null ? !type.equals(custom.type) : custom.type != null) return false;
-
-        return true;
+        return id == custom.id &&
+                total == custom.total &&
+                Objects.equals(name, custom.name) &&
+                Objects.equals(desc, custom.desc) &&
+                Objects.equals(date, custom.date) &&
+                Objects.equals(type, custom.type);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (desc != null ? desc.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + total;
-        result = 31 * result + (int) (occasionId ^ (occasionId >>> 32));
-        return result;
+        return Objects.hash(id, name, desc, date, type, total);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "OCCASION_ID", referencedColumnName = "ID")
+    public Occasion getOccasion() {
+        return occasion;
+    }
+
+    public void setOccasion(Occasion occasion) {
+        this.occasion = occasion;
     }
 }

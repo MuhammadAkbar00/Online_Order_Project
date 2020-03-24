@@ -10,6 +10,7 @@ public class CustomPart {
     private long customId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

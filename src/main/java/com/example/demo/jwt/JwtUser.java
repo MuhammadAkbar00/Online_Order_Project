@@ -10,6 +10,7 @@ public class JwtUser {
     private String role;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {

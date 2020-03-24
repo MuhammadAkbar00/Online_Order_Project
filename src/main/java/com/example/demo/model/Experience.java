@@ -1,17 +1,16 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Experience {
     private long id;
-    private long orderId;
-    private int stars;
+    private Integer stars;
+    private Order order;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -22,22 +21,12 @@ public class Experience {
     }
 
     @Basic
-    @Column(name = "ORDER_ID")
-    public long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
-
-    @Basic
     @Column(name = "STARS")
-    public int getStars() {
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
+    public void setStars(Integer stars) {
         this.stars = stars;
     }
 
@@ -45,21 +34,23 @@ public class Experience {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Experience that = (Experience) o;
-
-        if (id != that.id) return false;
-        if (orderId != that.orderId) return false;
-        if (stars != that.stars) return false;
-
-        return true;
+        return id == that.id &&
+                stars == that.stars;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (orderId ^ (orderId >>> 32));
-        result = 31 * result + stars;
-        return result;
+        return Objects.hash(id, stars);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID", nullable = false)
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
