@@ -15,8 +15,8 @@ public class Normal {
     private long occasionId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -99,10 +99,6 @@ public class Normal {
     @Column(name = "OCCASION_ID")
     public long getOccasionId() {
         return occasionId;
-    }
-
-    public void setOccasionId(Long occasionId) {
-        this.occasionId = occasionId;
     }
 
     public void setOccasionId(long occasionId) {

@@ -38,7 +38,7 @@ export default () => {
             <dt>Last Access Date </dt><dd>{order.last_access}</dd>
             <dt>Dine in </dt><dd>{order.dinein}</dd>
           </dl>
-          <h1>Orders</h1>
+          <h1>Items</h1>
           <Order_items order_id={order.id}/>
           <ul>
             {

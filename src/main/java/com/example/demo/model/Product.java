@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Product {
@@ -13,6 +10,7 @@ public class Product {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -27,10 +25,6 @@ public class Product {
         return customId;
     }
 
-    public void setCustomId(Long customId) {
-        this.customId = customId;
-    }
-
     public void setCustomId(long customId) {
         this.customId = customId;
     }
@@ -39,10 +33,6 @@ public class Product {
     @Column(name = "NORMAL_ID")
     public long getNormalId() {
         return normalId;
-    }
-
-    public void setNormalId(Long normalId) {
-        this.normalId = normalId;
     }
 
     public void setNormalId(long normalId) {

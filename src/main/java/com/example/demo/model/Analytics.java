@@ -1,19 +1,21 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-public class Analytic {
+public class Analytics {
     private long id;
-    private String pagename;
+    private String page;
     private long productId;
     private Date date;
     private int time;
     private String username;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;
@@ -24,13 +26,13 @@ public class Analytic {
     }
 
     @Basic
-    @Column(name = "PAGENAME")
-    public String getPagename() {
-        return pagename;
+    @Column(name = "PAGE")
+    public String getPage() {
+        return page;
     }
 
-    public void setPagename(String pagename) {
-        this.pagename = pagename;
+    public void setPage(String page) {
+        this.page = page;
     }
 
     @Basic
@@ -78,14 +80,14 @@ public class Analytic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Analytic analytic = (Analytic) o;
+        Analytics analytics = (Analytics) o;
 
-        if (id != analytic.id) return false;
-        if (productId != analytic.productId) return false;
-        if (time != analytic.time) return false;
-        if (pagename != null ? !pagename.equals(analytic.pagename) : analytic.pagename != null) return false;
-        if (date != null ? !date.equals(analytic.date) : analytic.date != null) return false;
-        if (username != null ? !username.equals(analytic.username) : analytic.username != null) return false;
+        if (id != analytics.id) return false;
+        if (productId != analytics.productId) return false;
+        if (time != analytics.time) return false;
+        if (page != null ? !page.equals(analytics.page) : analytics.page != null) return false;
+        if (date != null ? !date.equals(analytics.date) : analytics.date != null) return false;
+        if (username != null ? !username.equals(analytics.username) : analytics.username != null) return false;
 
         return true;
     }
@@ -93,7 +95,7 @@ public class Analytic {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (pagename != null ? pagename.hashCode() : 0);
+        result = 31 * result + (page != null ? page.hashCode() : 0);
         result = 31 * result + (int) (productId ^ (productId >>> 32));
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + time;
