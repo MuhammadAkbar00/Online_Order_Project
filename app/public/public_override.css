@@ -1,0 +1,230 @@
+.nobreak {
+    white-space: nowrap !important;
+    break-before: avoid;
+
+}
+.fineprint{
+    color: lightgrey;
+}
+.fineprint-hard{
+    color: darkgrey;
+}
+
+.list-link li{
+    margin: 15px;
+}
+
+#footer{
+ border-top-color: beige;
+}
+
+h1{
+    font-family: 'Lobster Two', cursive !important;
+}
+
+/* Quiz home */
+
+  .game * {
+    box-sizing: border-box;
+    background-color: #ecf5ff;
+    font-size: 62.5%;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .game h1,
+  .game h2,
+  .game h3,
+  .game h4 {
+    margin-bottom: 1rem;
+  }
+  
+  .game h1 {
+    font-size: 5.4rem;
+    color: #56a5eb;
+    margin-bottom: 5rem;
+  }
+  
+  .game h1 > .game span {
+    font-size: 2.4rem;
+    font-weight: 500;
+  }
+  
+  .game h2 {
+    font-size: 4.2rem;
+    margin-bottom: 4rem;
+    font-weight: 700;
+  }
+  
+  .game h3 {
+    font-size: 2.8rem;
+    font-weight: 500;
+  }
+  
+  /* UTILITIES */
+  
+  .game .container1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .game .container1 > * {
+    width: 100%;
+  }
+  
+  .game .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .game .flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .game .justify-center {
+    justify-content: center;
+  }
+  
+  .game .text-center {
+    text-align: center;
+  }
+  
+  .game .hidden {
+    display: none;
+  }
+  
+  /* BUTTONS */
+  .game .btn {
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    width: 20rem;
+    text-align: center;
+    border: 0.1rem solid #56a5eb;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: #56a5eb;
+    background-color: white;
+  }
+  
+  .game .btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
+    transform: translateY(-0.1rem);
+    transition: transform 150ms;
+  }
+  
+  .game .btn[disabled]:hover {
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+  
+  /* FORMS */
+
+  .game form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game input {
+    margin-bottom: 1rem;
+    width: 20rem;
+    padding: 1.5rem;
+    font-size: 1.8rem;
+    border: none;
+    box-shadow: 0 0.1rem 1.4rem 0 ;
+  }
+  
+  .game input::placeholder {
+    color: #aaa;
+  }
+  
+
+  /* Quiz start */
+
+
+  .gamestart, .gamestart::before, .gamestart::after{
+    box-sizing: border-box;
+    font-family: Gotham Rounded;
+  }
+  
+  .gamestart body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #333;
+  }
+  
+  .gamestart .container2 {
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px;
+  }
+  
+  .gamestart .btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .gamestart .btn {
+    background-color: hsl(200, 100%, 50%);
+    border: 1px solid hsl(200, 100%, 30%);
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+    font-size: 25px;
+    width: 100%;
+  }
+  
+  .gamestart .btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
+    transform: translateY(-0.1rem);
+    transition: transform 150ms;
+  }
+  
+  .gamestart #text {
+    font-size: 30px;
+  }
+  
+  .gamestart .choice-container {
+    display: flex;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    font-size: 1.8rem;
+    border: 0.1rem solid rgb(86, 165, 235, 0.25);
+    background-color: white;
+  }
+  
+  .gamestart .choice-container:hover {
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
+    transform: translateY(-0.1rem);
+    transition: transform 150ms;
+  }
+  
+  .gamestart .choice-prefix {
+    padding: 1.5rem 2.5rem;
+    background-color: #56a5eb;
+    color: white;
+  }
+
+  
