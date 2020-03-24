@@ -16,7 +16,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest";
 import Marketing from './marketing/Marketing.js'
-import Quiz from './user/Quiz.js'
+import Quiz from './user/Quiz.js';
 
 import {
   Switch,
