@@ -17,6 +17,8 @@ import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest";
 import Marketing from './marketing/Marketing.js'
 import Quiz from './user/Quiz.js';
+import MenuDetail from "./menu/MenuDetail";
+import Menu from "./menu/Menu.js";
 
 import {
     Switch,
@@ -25,7 +27,6 @@ import {
     Redirect,
     useLocation
 } from "react-router-dom";
-import MenuDetail from "./menu/MenuDetail";
 
 
 export default () => {

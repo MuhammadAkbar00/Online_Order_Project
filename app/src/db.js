@@ -115,5 +115,7 @@ export default {
     order_items: new Table("order_item"),
     products: new Table("products"),
     courses: new Table("courses"),
-    registrations: new Table("registrations")
+    registrations: new Table("registrations"),
+    menu: new Table("menu"),
+    branches: new Table("branches")
 }
