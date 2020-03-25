@@ -81,12 +81,12 @@ public class Branch {
         return Objects.hash(id, name, province, lon, lat);
     }
 
-    @OneToMany(mappedBy = "branch")
-    public Collection<Order> getOrders() {
-        return orders;
-    }
+//    @OneToMany(mappedBy = "branch")
+//    public Collection<Order> getOrders() {
+//        return orders;
+//    }
 
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
-    }
+//    public void setOrders(Collection<Order> orders) {
+//        this.orders = orders;
+//    }
 }

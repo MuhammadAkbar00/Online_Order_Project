@@ -26,6 +26,10 @@ public class UserController {
     private OrderRepository orderRepository;
     @Autowired
     private OrderItemRepository orderitemRepository;
+    @Autowired
+    private ProductRepository productRepository ;
+    @Autowired
+    private NormalRepository normalRepository ;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
@@ -51,13 +55,22 @@ public class UserController {
         System.out.println("data: " + user);
         return ResponseEntity.ok(user);
     }
-    @RequestMapping(path = "/orders/", method = {RequestMethod.GET})
+    @RequestMapping(path = "/orders/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> order(@PathVariable long id) {
-        return ResponseEntity.ok(orderRepository.findFirstByUserId(id));
+        Order order = orderRepository.findFirstByUserId(id);
+        return ResponseEntity.ok(order);
     }
     @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> order_item(@PathVariable long id) {
         return ResponseEntity.ok(orderitemRepository.findAllByOrderId(id));
+    }
+    @RequestMapping(path = "/products/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> product(@PathVariable long id) {
+        return ResponseEntity.ok(productRepository.findAllById(id));
+    }
+    @RequestMapping(path = "/normal/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> normal(@PathVariable long id) {
+        return ResponseEntity.ok(normalRepository.findAllById(id));
     }
 }
 

@@ -59,8 +59,9 @@ class Table {
 
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
+        // console.log("response ",response)
         const json = await response.json()
-        console.log('getByQuery', role, json)
+        console.log('getByQuery', role, query , json)
 
         // admin query results need reformating
         return role !== 'admin' ? json : await this.reformatAll(json)
@@ -111,11 +112,15 @@ class Table {
 
 export default {
     users: new Table("users"),
-    orders: new Table("orders"),
-    order_items: new Table("order_item"),
-    products: new Table("products"),
     courses: new Table("courses"),
     registrations: new Table("registrations"),
     menu: new Table("menu"),
-    branches: new Table("branches")
+    branches: new Table("branches"),
+
+    //My Cart
+    orders: new Table("orders"),
+    order_items: new Table("order_item"),
+    products: new Table("products"),
+    normal: new Table("normal"),
+    // custom: new Table("custom")
 }

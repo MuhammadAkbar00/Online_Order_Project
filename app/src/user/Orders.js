@@ -15,13 +15,12 @@ export default () => {
   const handleGetAll = async () => {
     const user = await db.users.getUser("")
     const order = await db.orders.getUser(`${user.id}`)
-    console.log("user", user)
-    console.log("orders", order)
+    // console.log("user", user)
+    // console.log("orders", order)
     setUser(user)
     setOrder(order)
-    console.log("user after set", user)
-    console.log("orders after set", order)
-
+    // console.log("user after set", user)
+    // console.log("orders after set", order)
   }
 
 
@@ -38,7 +37,6 @@ export default () => {
             <dt>Last Access Date </dt><dd>{order.last_access}</dd>
             <dt>Dine in </dt><dd>{order.dinein}</dd>
           </dl>
-          <h1>Items</h1>
           <Order_items order_id={order.id}/>
           <ul>
             {
