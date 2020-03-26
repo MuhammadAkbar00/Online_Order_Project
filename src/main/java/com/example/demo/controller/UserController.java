@@ -41,11 +41,18 @@ public class UserController {
 //        return ResponseEntity.ok(registrations);
 //    }
 
-    @RequestMapping(path = "/users", method = { RequestMethod.GET })
+    @RequestMapping(path = "/users/loggeduser", method = { RequestMethod.GET })
     public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);
+        return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(path = "/users", method = { RequestMethod.GET })
+    public ResponseEntity<?> getAll() throws AuthenticationException {
+        System.out.println("Fetching all users");
+        List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
     }
 

@@ -12,7 +12,7 @@ export default () => {
   }, [])
 
   const handleUserProfile = async () => {
-    const user = await db.users.getUser("")
+    const user = await db.users.getByQuery('user','loggeduser')
     console.log("user", user)
     setUser(user)
     console.log("after set", user)

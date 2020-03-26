@@ -10,7 +10,6 @@ import Students from "../admin/Students";
 import CourseDetail from "../public/CourseDetail";
 import Courses from "../public/Courses";
 import Registrations from "../public/Registrations";
-import Settings from "../admin/Settings";
 import Home from "../public/Home";
 import MenuDetail from "./MenuDetail";
 
