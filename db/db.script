@@ -86,7 +86,7 @@ INSERT INTO JWT_USER VALUES(6,'holly','$2a$10$iK.tP76UEdGnKcGO4kt4M.UYkLyGIDLLg2
 INSERT INTO ADVERTISER VALUES(1,'advertiser','Talabat',NULL,NULL,NULL)
 INSERT INTO ADVERT VALUES(1,1,'Order from all your favorite restaurants from the comfort of your home only on Talabat','talabat.png',3,'N')
 INSERT INTO USER VALUES(1,'holly','Holly',NULL,NULL,NULL,'N',0,'EN',10)
-INSERT INTO USER VALUES(2,'ann',NULL,NULL,NULL,NULL,'N',0,'EN',NULL)
+INSERT INTO USER VALUES(2,'ann','AnnaBelle','Gellika','Al-Waab','angie@gmail.com','N',0,'EN',NULL)
 INSERT INTO USER VALUES(3,'admin',NULL,NULL,NULL,NULL,'N',0,'EN',NULL)
 INSERT INTO COUPON VALUES(1,1,20,'POD453','2020-05-02','20 Percent off your next purchase from following our Facebook page!')
 INSERT INTO COUPON VALUES(2,1,10,'PHB352','2020-03-30','Please accept 10% off your next purchase as a warm welcome from the inDine team')

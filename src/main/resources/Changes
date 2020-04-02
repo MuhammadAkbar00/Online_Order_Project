@@ -62,3 +62,18 @@ Changes:
     - It has a hover "animation" so it doesnt look static, and will change depending on which star the user's mouse is on.
     - created an App.css for the styling of the starRating.
     - This component can be easily added to the order component so when the user finish his order they can rate their experience.
+
+Commit 5 -
+Changes:
+1 - Added search functionality in menu page.
+2 - Trying to add a dropdown list so the customer can search by Type.
+    - DropDown list has all of the Types that a product in the db has, and it will only show the unique records so the dropdown
+      does not show duplicates.
+3 - Adding an Edit feature to Profile component.
+4 - Adding save functionality to Profile.
+5 - Altering Post method in Controller to be able to edit and save Users
+6 - Altered Controller to be able to handle saving of user
+7 - WORKING on editing and saving menu (Only available if user_role === admin)
+8 - Starting on the FAQ
+    - Creating FAQ repository
+    - Altered controller to GET all faq

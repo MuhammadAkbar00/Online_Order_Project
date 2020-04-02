@@ -1,3 +1,5 @@
+Muhammad Akbar - 60094808
+
 Profile page for user working
 Changes:
 1 - had to change "register" to "registrations" in db file.
@@ -37,3 +39,38 @@ Changes:
     - Created a PageRecord.js in marketing folder.
     - It is a class that takes in pagename, pid (product id), and username (if it is a user) and then runs a method called saveRecord which will save it and add it to the Analytic table.
     (That's idea but it is not functional yet)
+
+Commit 4 -
+Changes:
+1 - Added a Personality Quiz feature (still proof of concept version)
+    - Created Quiz.js (with the help of Omar)
+    - The quiz shows a set of questions with options the user can choose
+    - Depending on the different options the user chooses they will get a different result. (it works, but it has so much more potential, and I will keep building it)
+    - And then they will be take to a different product details page (that depends on the options they chose)
+    (it taken to a different product page is temporary and a proof of concept i will later on change it and implement something better)
+2 - Created QuizResult.js
+    - This for now is a copy of productDetails page
+    - Different id will be sent depending on which options the user has chosen. (only the first 4 options will change the id for now)
+    - It will show the different products for the different options.
+3 - Added a chat bot component (src/components/chatbot/CustomChatbot.js)
+    - added a ChatBot library
+    - As of right now the chat bot is very minimal but I will be adding on to it soon.
+    - (Later) The bot will answer the FAQ made by the user
+    - In general it will help any user who needs help or has questions
+4 - Created a starRating component (src/components/rating/StarRating.js)
+    - The user can interact with it and can choose the star rating they want.
+    - It has a hover "animation" so it doesnt look static, and will change depending on which star the user's mouse is on.
+    - created an App.css for the styling of the starRating.
+    - This component can be easily added to the order component so when the user finish his order they can rate their experience.
+
+Commit 5 -
+Changes:
+1 - Added search functionality in menu page.
+2 - Trying to add a dropdown list so the customer can search by Type.
+3 - Adding an Edit feature to Profile component.
+4 - Adding save functionality to Profile.
+5 - Altering Post method in Controller to be able to edit and save Users
+6 - Altered Controller to be able to handle saving of user
+7 - WORKING on editing and saving menu (Only available if user_role === admin)
+8 - Starting on the FAQ
+    - Creating FAQ repository

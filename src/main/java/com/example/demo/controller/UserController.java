@@ -24,25 +24,53 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-//    @RequestMapping(path = "/students", method = { RequestMethod.GET })
-//    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
+    // copy above method and modify for POST (create or update)
+//    @RequestMapping(path = "/students", method = { RequestMethod.POST })
+//    public ResponseEntity<?> save(Authentication authentication, @RequestBody Student data) throws AuthenticationException {
 //        System.out.println("profile for " + authentication.getName());
 //        Student student = studentRepository.findFirstByName(authentication.getName());
-//        System.out.println("data: " + student);
+//        if(student != null) {
+//            // existing student, so modify allowed fields
+//            student.setAge(data.getAge());
+//        } else {
+//            // new student of same name as user
+//            student = new Student();
+//            student.setName(authentication.getName());
+//            student.setAge(data.getAge());
+//        }
+//        studentRepository.save(student);
+//        System.out.println("saved student: " + student.getAge());
 //        return ResponseEntity.ok(student);
 //    }
-//
-//    @RequestMapping(path = "/registrations", method = { RequestMethod.GET })
-//    public ResponseEntity<?> registrations(Authentication authentication) throws AuthenticationException {
-//        System.out.println("registrations for " + authentication.getName());
-//        Student student = studentRepository.findFirstByName(authentication.getName());
-//        List<Register> registrations = registerRepository.findByStudentId(student.getId());
-//        System.out.println("registrations: " + registrations);
-//        return ResponseEntity.ok(registrations);
-//    }
+
+        @RequestMapping(path = "/users", method = { RequestMethod.POST })
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
+        System.out.println("profile for " + authentication.getName());
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        if(user != null) {
+            // existing student, so modify allowed fields
+            user.setFirstName(data.getFirstName());
+        } else {
+            // new student of same name as user
+            user = new User();
+            user.setUsername(authentication.getName());
+            user.setFirstName(data.getFirstName());
+        }
+            userRepository.save(user);
+        System.out.println("saved student: " + user.getFirstName());
+        return ResponseEntity.ok(user);
+    }
 
     @RequestMapping(path = "/users", method = { RequestMethod.GET })
     public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
+        System.out.println("profile for " + authentication.getName());
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        System.out.println("data: " + user);
+        return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(path = "/users/edit", method = { RequestMethod.GET })
+    public ResponseEntity<?> profileedit(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);

@@ -31,6 +31,8 @@ import {
 } from "react-router-dom";
 import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
+import MenuEdit from "./menu/MenuEdit";
+import Faq from "./faq/Faq";
 
 
 export default () => {
@@ -137,6 +139,12 @@ export default () => {
                         </Route>
                         <Route path="/menu/:id">
                             <MenuDetail />
+                        </Route>
+                        <Route path="/menu/edit">
+                            <Menu />
+                        </Route>
+                        <Route exact path="/faq">
+                            <Faq />
                         </Route>
                         <Route path="/students">
                             <Students search={searchStudent} />

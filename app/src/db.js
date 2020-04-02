@@ -54,6 +54,8 @@ class Table {
     getAdmin = query => this.getByQuery('admin', query)
 
     getByQuery = async (role, query) => {
+        query = query || ""
+
         // public queries use regular fetch (is attached to window object)
         const fetch = role === 'public' ? window.fetch : Auth.fetch
 
@@ -81,9 +83,18 @@ class Table {
 
     }
 
-    save = async (data) => {
+    // for logged in user accessing UserController
+    saveUser = data => this.saveBasic('/user', data)
+
+    // for logged in admin accessing automatic REST API
+    saveAdmin = async data => {
+        const json = await this.saveBasic('', data)
+        return this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+    }
+
+    saveBasic = async (role, data) => {
         const response = await Auth.fetch(
-            `/${this.table}`,
+            `${role}/${this.table}`,
             {
                 method: 'POST',
                 headers: {
@@ -94,7 +105,7 @@ class Table {
         )
         const json = await response.json()
         console.log('save', json)
-        return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+        return json
     }
 
     deleteById = async (id) => {
@@ -115,5 +126,6 @@ export default {
     branches: new Table("branches"),
     courses: new Table("courses"),
     menu: new Table("menu"),
-    analytics: new Table("analytics")
+    analytics: new Table("analytics"),
+    faqs: new Table("faq")
 }
