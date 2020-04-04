@@ -87,6 +87,8 @@ public class Advertiser {
                 Objects.equals(display, that.display);
     }
 
+
+
     @Override
     public int hashCode() {
         return Objects.hash(id, username, companyName, adAmnt, pricePerAd, display);

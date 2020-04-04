@@ -53,4 +53,13 @@ public class Product {
     public void setNormal(Normal normal) {
         this.normal = normal;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", custom=" + custom +
+                ", normal=" + normal +
+                '}';
+    }
 }

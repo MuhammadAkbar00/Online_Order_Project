@@ -54,8 +54,6 @@ class Table {
     getAdmin = query => this.getByQuery('admin', query)
 
     getByQuery = async (role, query) => {
-        query = query || ""
-
         // public queries use regular fetch (is attached to window object)
         const fetch = role === 'public' ? window.fetch : Auth.fetch
 
@@ -68,8 +66,31 @@ class Table {
         return role !== 'admin' ? json : await this.reformatAll(json)
     }
 
+    getByQueryNoFormat = async (role, query) => {
+        // public queries use regular fetch (is attached to window object)
+        const fetch = role === 'public' ? window.fetch : Auth.fetch
+
+        // all queries except admin use custom controller based on role
+        const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
+        const json = await response.json()
+        console.log('getByQuery', role, json)
+
+        return json
+    }
+
+    getByQueryRaw = async (role, query) => {
+        // public queries use regular fetch (is attached to window object)
+        const fetch = role === 'public' ? window.fetch : Auth.fetch
+
+        // all queries except admin use custom controller based on role
+        const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
+        console.log('getByQuery', role, response)
+
+        return response
+    }
+
     getAll = async () => {
-        const response = await Auth.fetch(`/${this.table}`)
+        const response = await Auth.fetch(`/${this.table}s`)
         const json = await response.json()
         console.log('getAll', json)
         return await this.reformatAll(json)
@@ -83,18 +104,40 @@ class Table {
 
     }
 
-    // for logged in user accessing UserController
-    saveUser = data => this.saveBasic('/user', data)
-
-    // for logged in admin accessing automatic REST API
-    saveAdmin = async data => {
-        const json = await this.saveBasic('', data)
-        return this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+    savePublic = async (role,data) => {
+        const response = await window.fetch(
+            `/${role}/${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('save', json)
     }
 
-    saveBasic = async (role, data) => {
+    save = async (data) => {
         const response = await Auth.fetch(
-            `${role}/${this.table}`,
+            `/${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('save', json)
+        return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+    }
+
+    saveNoFormat = async (role,data) => {
+        const response = await Auth.fetch(
+            `/${(role?'/'+role:'')}${this.table}`,
             {
                 method: 'POST',
                 headers: {
@@ -108,9 +151,9 @@ class Table {
         return json
     }
 
-    deleteById = async (id) => {
+    deleteById = async (role,id) => {
         const response = await Auth.fetch(
-            `/${this.table}/${id}`,
+            `${role}/${this.table}/${id}`,
             {
                 method: 'DELETE'
             }
@@ -126,6 +169,7 @@ export default {
     branches: new Table("branches"),
     courses: new Table("courses"),
     menu: new Table("menu"),
-    analytics: new Table("analytics"),
-    faqs: new Table("faq")
+    analytics: new Table("analytic"),
+    coupons: new Table("coupons"),
+    products: new Table("products")
 }

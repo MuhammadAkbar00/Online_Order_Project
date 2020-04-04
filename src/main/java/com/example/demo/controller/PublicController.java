@@ -2,6 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.AuthenticationException;
 import com.example.demo.jwt.JwtUserRepository;
+import com.example.demo.model.Analytic;
+import com.example.demo.model.User;
+import com.example.demo.repository.AnalyticRepository;
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.BranchRepository;
 import com.example.demo.repository.FaqRepository;
 import com.example.demo.repository.UserRepository;
@@ -22,6 +26,10 @@ public class PublicController {
     private BranchRepository branchRepository;
     @Autowired
     private NormalRepository normalRepository;
+    @Autowired
+    private AnalyticRepository analyticRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private FaqRepository faqRepository;
 
@@ -44,6 +52,32 @@ public class PublicController {
     public ResponseEntity<?> menu(@PathVariable Long id) {
         return ResponseEntity.ok(normalRepository.findById(id));
     }
+    @RequestMapping(path = "/branches", method = {RequestMethod.GET})
+        public ResponseEntity<?> getMap() {
+        return ResponseEntity.ok(branchRepository.findAll());
+    }
+
+    @RequestMapping(path = "/analytic", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(@RequestBody Analytic data) {
+        if (data.getPagename() == null)
+            return null;
+        if (!data.getUsername().equalsIgnoreCase("admin")){
+            Analytic analytic = new Analytic();
+            analytic.setUsername(data.getUsername());
+            analytic.setDate(data.getDate());
+            analytic.setTime(data.getTime());
+            analytic.setPagename(data.getPagename());
+            if (data.getProductId() == null)
+                analytic.setProductId(null);
+            else
+                analytic.setProductId(data.getProductId());
+            System.out.println(data);
+            analyticRepository.save(analytic);
+            System.out.println("Recorded page visit");
+            return ResponseEntity.ok(1);
+        }else
+            return null;
+    }
 
     @RequestMapping(path = "/menu/findByNameContaining/{name}", method = {RequestMethod.GET})
     public ResponseEntity<?> menuname(@PathVariable String name) { return ResponseEntity.ok(normalRepository.findByNameContaining(name)); }
@@ -55,21 +89,6 @@ public class PublicController {
     public ResponseEntity<?> faq() {
         return ResponseEntity.ok(faqRepository.findAll());
     }
-
-//    @RequestMapping(value = "/containing/{name}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<?> findByNameContaining(@PathVariable String name) {
-//
-//        List<?> menuResponse = (List<?>) normalRepository.findByNameContaining(name);
-//
-//        return menuResponse;
-//    }
-
-    @RequestMapping(path = "/branches", method = {RequestMethod.GET})
-    public ResponseEntity<?> getMap() {
-        return ResponseEntity.ok(branchRepository.findAll());
-    }
-
 
 }
 

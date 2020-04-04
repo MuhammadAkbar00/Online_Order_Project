@@ -77,25 +77,19 @@ public class JwtAuthenticationRestController {
             //Create user in User table
             String username = authenticationRequest.getUsername();
             User user = new User();
-            if(userRepository.findFirstByUsernameOrderByFirstNameDesc(username) == null){
-                user.setId(1);
-            }else{
-                User lastUser = userRepository.findFirstByUsernameOrderByFirstNameDesc(username);
-                user.setId(lastUser.getId()+1);
+            if (userRepository.findFirstByUsername(username) == null) {
+                user.setFirstName(username.substring(0, 1).toUpperCase() + username.substring(1));
+                user.setUsername(username);
+                user.setLanguage("EN");
+                user.setMailing("N");
+                user.setPoints(0);
+                user.setPhone(0);
+                userRepository.save(user);
+                System.out.println(user);
+                System.out.println("Registered user in User table");
+            } else {
+                System.out.println("User exists, attempting login instead: " + authenticationRequest.getUsername());
             }
-
-            user.setFirstName(username.substring(0,1).toUpperCase()+username.substring(1));
-            user.setUsername(username);
-            user.setLanguage("EN");
-            user.setMailing("N");
-            user.setPoints(0);
-            user.setPhone(10);
-            userRepository.save(user);
-            System.out.println(user);
-            System.out.println("Registered user in User table");
-
-        } else {
-            System.out.println("User exists, attempting login instead: " + authenticationRequest.getUsername());
         }
 
         return createAuthenticationToken(authenticationRequest);

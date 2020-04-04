@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import db from '../db.js'
 import Auth from "../auth";
 import Button from "react-bootstrap/Button";
@@ -15,6 +15,7 @@ import Settings from "../admin/Settings";
 import Home from "../public/Home";
 import MenuDetail from "./MenuDetail";
 import {DropdownButton, DropdownItem , Dropdown} from "react-bootstrap";
+import PageRecord from '../marketing/PageRecord'
 
 export default ({}) => {
 
@@ -63,7 +64,18 @@ export default ({}) => {
   return (
     menu &&
     <div className="App">
+      <PageRecord pagename="menu" productId={null} />
       <header className="App-header">
+        <dl>
+          {/*<dt>Username</dt><dd>{menu.name}</dd>*/}
+          {/*<dt>First name</dt><dd>{menu.desc}</dd>*/}
+          {/*<dt>Last name</dt><dd>{menu.image}</dd>*/}
+          {/*<dt>Address</dt><dd>{menu.type}</dd>*/}
+          {/*<dt>Email</dt><dd>{menu.price}</dd>*/}
+          {/*<dt>Mailing</dt><dd>{menu.stock}</dd>*/}
+          {/*<dt>Points</dt><dd>{menu.quantity}</dd>*/}
+          {/*<dt>Language</dt><dd>{menu.occasionId}</dd>*/}
+        </dl>
         <h1>Menu</h1>
         <Form.Control type="text" placeholder="Search Menu" onChange={handleSearchName} value={searchName} />
         <DropdownButton id="dropdown-basic-button" title="Search By Type">
