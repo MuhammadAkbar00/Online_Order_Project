@@ -1,32 +1,35 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Authenticate from './public/Authenticate'
 import Auth from './auth'
 import Home from './public/Home'
 import Profile from './user/Profile'
-import Orders from './user/Orders'
 import Logout from './user/Logout'
 import Students from './admin/Students'
-import Settings from './admin/Settings'
 import Courses from './public/Courses'
+import Menu from "./menu/Menu"
 import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
-import Nearest from "./public/Nearest";
+import Nearest from "./public/Nearest"
 import Marketing from './marketing/Marketing.js'
 import Quiz from './user/Quiz.js';
-import MenuDetail from "./menu/MenuDetail";
-import Menu from "./menu/Menu.js";
+import QuizResult from "./user/QuizResult.js";
+import CustomChatbot from "./components/chatbot/CustomChatbot.js";
+import "./App.css";
+import Dashboard from './admin/Dashboard.js'
 
 import {
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useLocation
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useLocation
 } from "react-router-dom";
+import MenuDetail from "./menu/MenuDetail";
+import StarRating from "./components/rating/StarRating";
 
 
 export default () => {
@@ -58,39 +61,30 @@ export default () => {
                         {
                             Auth.isUser() &&
                             <>
-                                <Nav.Link as={Link} to="profile">Profile</Nav.Link>
-                                <Nav.Link as={Link} to="orders">My Cart</Nav.Link>
-                                <Nav.Link as={Link} to="quiz">Quiz</Nav.Link>
+                                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                                <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
+                                <Nav.Link as={Link} to="/review">Review</Nav.Link>
                             </>
                         }
                         {
                             Auth.isAdmin() &&
-                            <NavDropdown title="Admin" id="basic-nav-dropdown">
-                                <NavDropdown.Item as={Link} to="students">Students</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="courses">Courses</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="registrations">Registration</NavDropdown.Item>
-                            </NavDropdown>
-                        }
-                        {
-                            Auth.isAdmin() &&
-                            <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item as={Link} to="Settings">Features here</NavDropdown.Item>
-                            </NavDropdown>
-                        }
-                    </Nav>
-                    <Nav>
-                        {
-                            Auth.isLoggedIn()
-                                ?
-                                <>
-                                    <Nav.Link as={Link} to="logout">Logout</Nav.Link>
-                                    <Nav.Link as={Link} to="nearest">Nearest</Nav.Link>
-                                    <Nav.Link as={Link} to="marketing">Marketing</Nav.Link>
+              <Nav.Link as={Link} to="dashboard">Admin Dashboard</Nav.Link>
+            }
+            </Nav>
+            <Nav>
+              {
+                  Auth.isLoggedIn()
+                      ?
+                      <>
+                                    <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                                    <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
+                                    {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
+                                    <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
                                 </>
                                 :
                                 <>
-                                    <Nav.Link as={Link} to="register">Register</Nav.Link>
-                                    <Nav.Link as={Link} to="login">Login</Nav.Link>
+                                    <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
                                 </>
                         }
                     </Nav>
@@ -109,20 +103,26 @@ export default () => {
                         <Route path="/logout">
                             <Logout />
                         </Route>
+                        <Route path="/dashboard">
+                            <Dashboard />
+                        </Route>
                         <Route path="/nearest">
                             <Nearest />
                         </Route>
                         <Route path="/quiz">
                             <Quiz />
                         </Route>
+                        <Route path="/quiz/result/:id">
+                            <QuizResult />
+                        </Route>
                         <Route path="/marketing">
                             <Marketing />
                         </Route>
+                        <Route path="/review">
+                            <StarRating/>
+                        </Route>
                         <Route path="/profile">
                             <Profile />
-                        </Route>
-                        <Route path="/orders">
-                            <Orders />
                         </Route>
                         <Route exact path="/menu">
                             <Menu />
@@ -142,20 +142,19 @@ export default () => {
                         <Route path="/registrations">
                             <Registrations />
                         </Route>
-                        <Route path="/settings">
-                            <Settings/>
+                        <Route exact path="/chat">
+                            <CustomChatbot />
                         </Route>
                         <Route path="/">
                             <Home />
                         </Route>
-
                     </Switch>
-                </div>
-
-                <Footer />
-
             </div>
+
+            <Footer />
+
+      </div>
         </>
 
-    )
+)
 }

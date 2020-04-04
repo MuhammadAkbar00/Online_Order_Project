@@ -7,11 +7,11 @@ class Table {
     }
 
     reformatAll = async json => {
-        // console.log('json', json)
+        //console.log('json', json)
         const embedded = json._embedded
-        // console.log('embedded', embedded)
+        //console.log('embedded', embedded)
         const data = embedded[this.table]
-        // console.log('data', data)
+        //console.log('data', data)
         return await Promise.all(
             data.map(item =>
                 this.reformatOne(this.table.substring(0, this.table.length - 1), item)
@@ -22,10 +22,10 @@ class Table {
     reformatOne = async (table, json) => {
         // delete one field from an object
         const { _links, ...data } = json
-        console.log('new data', data)
-        console.log('_links', _links)
+        //console.log('new data', data)
+        //console.log('_links', _links)
         data.id = 1 * _links.self.href.split(`${table}s/`)[1]
-        console.log('id', data)
+        //console.log('id', data)
 
         // find out if related records exist (FK?)
         const self = _links.self
@@ -59,18 +59,40 @@ class Table {
 
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
-        // console.log("response ",response)
         const json = await response.json()
-        console.log('getByQuery', role, query , json)
+        console.log('getByQuery', role, json)
 
         // admin query results need reformating
         return role !== 'admin' ? json : await this.reformatAll(json)
     }
 
-    getAll = async () => {
-        const response = await Auth.fetch(`/${this.table}`)
+    getByQueryNoFormat = async (role, query) => {
+        // public queries use regular fetch (is attached to window object)
+        const fetch = role === 'public' ? window.fetch : Auth.fetch
+
+        // all queries except admin use custom controller based on role
+        const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
         const json = await response.json()
-        console.log('getAll json', json)
+        console.log('getByQuery', role, json)
+
+        return json
+    }
+
+    getByQueryRaw = async (role, query) => {
+        // public queries use regular fetch (is attached to window object)
+        const fetch = role === 'public' ? window.fetch : Auth.fetch
+
+        // all queries except admin use custom controller based on role
+        const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
+        console.log('getByQuery', role, response)
+
+        return response
+    }
+
+    getAll = async () => {
+        const response = await Auth.fetch(`/${this.table}s`)
+        const json = await response.json()
+        console.log('getAll', json)
         return await this.reformatAll(json)
     }
 
@@ -79,15 +101,12 @@ class Table {
         const json = await response.json()
         console.log('getOne', json)
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+
     }
-    saveAdmin = async data => {
-        console.log("data",data)
-        const json = await this.saveBasic('user', data)
-        return this.reformatOne(this.table.substring(0, this.table.length - 1), json)
-    }
-    saveBasic = async (role, data) => {
-        const response = await Auth.fetch(
-            `${role}/${this.table}`,
+
+    savePublic = async (role,data) => {
+        const response = await window.fetch(
+            `/${role}/${this.table}`,
             {
                 method: 'POST',
                 headers: {
@@ -96,13 +115,11 @@ class Table {
                 body: JSON.stringify(data)
             }
         )
-        console.log("response",response)
         const json = await response.json()
         console.log('save', json)
-        return json
     }
+
     save = async (data) => {
-        console.log("date:",data)
         const response = await Auth.fetch(
             `/${this.table}`,
             {
@@ -118,9 +135,25 @@ class Table {
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
     }
 
-    deleteById = async (id) => {
+    saveNoFormat = async (role,data) => {
         const response = await Auth.fetch(
-            `/${this.table}/${id}`,
+            `/${(role?'/'+role:'')}${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('save', json)
+        return json
+    }
+
+    deleteById = async (role,id) => {
+        const response = await Auth.fetch(
+            `${role}/${this.table}/${id}`,
             {
                 method: 'DELETE'
             }
@@ -133,15 +166,10 @@ class Table {
 
 export default {
     users: new Table("users"),
-    courses: new Table("courses"),
-    registrations: new Table("registrations"),
-    menu: new Table("menu"),
     branches: new Table("branches"),
-
-    //My Cart
-    orders: new Table("orders"),
-    order_items: new Table("order_item"),
-    products: new Table("products"),
-    normal: new Table("normal"),
-    // custom: new Table("custom")
+    courses: new Table("courses"),
+    menu: new Table("menu"),
+    analytics: new Table("analytic"),
+    coupons: new Table("coupons"),
+    products: new Table("products")
 }

@@ -90,6 +90,8 @@ public class Advertiser {
         return true;
     }
 
+
+
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));

@@ -77,6 +77,18 @@ public class Coupon {
     }
 
     @Override
+    public String toString() {
+        return "Coupon{" +
+                "id=" + id +
+                ", discount=" + discount +
+                ", code='" + code + '\'' +
+                ", expire=" + expire +
+                ", desc='" + desc + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id, discount, code, expire, desc);
     }

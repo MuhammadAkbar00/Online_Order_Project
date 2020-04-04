@@ -7,7 +7,7 @@ import java.sql.Date;
 public class Analytic {
     private long id;
     private String pagename;
-    private long productId;
+    private Long productId;
     private Date date;
     private Integer time;
     private String username;
@@ -35,12 +35,12 @@ public class Analytic {
 
     @Basic
     @Column(name = "PRODUCT_ID")
-    public long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setProductId(Long product) {
+        this.productId = product;
     }
 
     @Basic
@@ -90,11 +90,23 @@ public class Analytic {
         return true;
     }
 
+
+    @Override
+    public String toString() {
+        return "Analytic{" +
+                "id=" + id +
+                ", pagename='" + pagename + '\'' +
+                ", productId=" + productId +
+                ", date=" + date +
+                ", time=" + time +
+                ", username='" + username + '\'' +
+                '}';
+    }
+
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (pagename != null ? pagename.hashCode() : 0);
-        result = 31 * result + (int) (productId ^ (productId >>> 32));
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + time;
         result = 31 * result + (username != null ? username.hashCode() : 0);

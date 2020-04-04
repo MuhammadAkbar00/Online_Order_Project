@@ -18,7 +18,8 @@ export default ({ type }) => {
         setPassword(event.target.value)
     }
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault()
         await Auth.authenticate(type, username, password)
         setLoggedIn(Auth.isLoggedIn())
     }
@@ -29,12 +30,14 @@ export default ({ type }) => {
         )
     } else {
         return (
-            <>
-                <h1>{type}</h1>
-                <Form.Control type="text" placeholder="Username" onChange={handleUsername} value={username} />
-                <Form.Control type="password" placeholder="Password" onChange={handlePassword} value={password} />
-                <Button onClick={handleSave} >{type}</Button>
-            </>
+            <Form onSubmit={handleSave}>
+                <Form.Group>
+                    <h1>{type}</h1>
+                    <Form.Control type="text" placeholder="Username" onChange={handleUsername} value={username} />
+                    <Form.Control type="password" placeholder="Password" onChange={handlePassword} value={password} />
+                    <Button type="submit" onClick={handleSave}>{type}</Button>
+                </Form.Group>
+            </Form>
         );
     }
 }

@@ -5,7 +5,7 @@ create table jwt_User (
                           username varchar(50) not null
                               constraint JWT_USER_USERNAME_UINDEX
                                   unique,
-                          password varchar(60) not null,
+                          password varchar(250) not null,
                           role varchar(50)
 );
 
@@ -14,7 +14,7 @@ INSERT INTO jwt_User (username, password, role) VALUES ('ann', '$2a$10$oPYMdYOC5
 INSERT INTO jwt_User (username, password, role) VALUES ('admin', '$2a$10$ncFNgFU70d20U/YLHC.pBOAgGBUaRJUCNUsRfqilvQ0OI67mtJx.6', 'ROLE_ADMIN');
 INSERT INTO jwt_User (username, password, role) VALUES ('marketing', '$2a$10$gR8AJKwRGH6malNTO7VU3OkzBwOroB9usOrjiRo645Y9bMR7HqmNC', 'ROLE_MARKETING');
 INSERT INTO jwt_User (username, password, role) VALUES ('advertiser', '$2a$10$xCIdUocTQbo7vyR7OrJcnOWufptsftV4F05AvyggcC035NORthKye', 'ROLE_ADVERTISER');
-
+INSERT INTO jwt_User (username, password, role) VALUES ('guest', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndWVzdCIsImV4cCI6MTU4NjUwODg3NiwiaWF0IjoxNTg1OTA0MDc2fQ.thmaKQe69z4tFi5yI_8t9NkLvJ6_3MgK63ArdcTBy9a5MAGE9U2RjSLWAOZvYC3QJS8CLnes4f2SpRcdLK59cw', 'ROLE_GUEST');
 
 DROP TABLE ADVERTISER IF EXISTS CASCADE;
 DROP TABLE ADVERT IF EXISTS CASCADE;
@@ -122,7 +122,7 @@ create table "ORDER"
     USER_ID BIGINT not null
         constraint ORDER_USER_ID_USER_ID_FK
             references USER,
-    BRANCH_ID BIGINT null
+    BRANCH_ID BIGINT not null
         constraint ORDER_BRANCH_ID_BRANCH_ID_FK
             references BRANCH,
     DATE DATE not null,
@@ -178,8 +178,8 @@ CREATE TABLE CUSTOM
     TYPE VARCHAR(30) NOT NULL,
     TOTAL INTEGER NOT NULL,
     OCCASION_ID BIGINT NULL
-    constraint CUSTOM_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
-        REFERENCES OCCASION
+        constraint CUSTOM_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
+            REFERENCES OCCASION
 );
 
 CREATE TABLE CUSTOM_PART
@@ -208,8 +208,8 @@ CREATE TABLE NORMAL
     STOCK CHAR(1) NOT NULL,
     QUANTITY INTEGER NOT NULL,
     OCCASION_ID BIGINT NULL
-    constraint NORMAL_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
-        references OCCASION
+        constraint NORMAL_OCCASION_ID_OCCASION_ID_FK FOREIGN KEY
+            references OCCASION
 );
 
 CREATE TABLE PRODUCT
@@ -230,8 +230,8 @@ CREATE TABLE ANALYTIC
     ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
         constraint ANALYTIC_PK
             PRIMARY KEY,
-    PAGENAME VARCHAR(30) NOT NULL,
-    PRODUCT_ID BIGINT NOT NULL
+    PAGENAME VARCHAR(30) NULL,
+    PRODUCT_ID BIGINT NULL
         constraint ANALYTIC_PRODUCT_ID_PRODUCT_ID_FK FOREIGN KEY
             references PRODUCT,
     DATE DATE NOT NULL,
@@ -255,164 +255,162 @@ CREATE TABLE ORDER_ITEM
 );
 
 --User Inserts
-INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('joe','Y',0,'EN');
-INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('ann','N',0,'EN');
-INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('admin','N',0,'EN');
-    INSERT INTO USER (USERNAME,MAILING,POINTS,LANGUAGE)
-    VALUES ('joe','N',0,'EN');
+INSERT INTO USER (USERNAME,FIRST_NAME,MAILING,POINTS,LANGUAGE)
+VALUES ('joe','Joe','Y',0,'EN');
+INSERT INTO USER (USERNAME,FIRST_NAME,MAILING,POINTS,LANGUAGE)
+VALUES ('ann','Ann','N',0,'EN');
+INSERT INTO USER (USERNAME,FIRST_NAME,MAILING,POINTS,LANGUAGE)
+VALUES ('admin',null,'N',0,'EN');
 
 --Advertiser Inserts
 INSERT INTO ADVERTISER (USERNAME,COMPANY_NAME)
-    VALUES ('advertiser','Talabat');
+VALUES ('advertiser','Talabat');
 
 --Advert Inserts
 INSERT INTO ADVERT (ADVERTISER_ID, DESC, IMAGE, SLOT, DISPLAY)
-    VALUES (1,'Order from all your favorite restaurants from the comfort of your home only on Talabat',
-            'talabat.png',3,'N');
+VALUES (1,'Order from all your favorite restaurants from the comfort of your home only on Talabat',
+        'talabat.png',3,'N');
 
 --Coupon Inserts
 INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
-    VALUES (1,20,'POD453', DATEADD( 'dd', 40,  CURRENT_DATE ) , '20 Percent off your next purchase from following our Facebook page!');
+VALUES (1,20,'POD453', DATEADD( 'dd', 40,  CURRENT_DATE ) , '20 Percent off your next purchase from following our Facebook page!');
 INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
-    VALUES (1,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
+VALUES (1,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
 INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
-    VALUES (2,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
+VALUES (2,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
 
 --Branch Inserts
 INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
-    VALUES ('inDine Khor','Al-Khor',5734420.253940262,2959501.989090159);
- INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
-    VALUES ('inDine','Mushaireb',5735012.110758717,2910249.8948588166);
- INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
-    VALUES ('inDine Aziziya','Al-Aziziya',5727456.750964634,2905822.4373057233);
+VALUES ('inDine Khor','Al-Khor',5734420.253940262,2959501.989090159);
+INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
+VALUES ('inDine','Mushaireb',5735012.110758717,2910249.8948588166);
+INSERT INTO BRANCH (NAME, PROVINCE, LON, LAT)
+VALUES ('inDine Aziziya','Al-Aziziya',5727456.750964634,2905822.4373057233);
 
 --Normal Inserts
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Aloo gobi','Cauliflower with potatoes sautéed with garam masala',
-    'aloog.jpg','main',50,'Y',40,null);
+VALUES ('Aloo gobi','Cauliflower with potatoes sautéed with garam masala',
+        'aloog.jpg','main',50,'Y',40,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Aloo tikki','Potato patties mixed with some fried vegetables','aloo-t.jpg','side',25,'Y',70,null);
+VALUES ('Aloo tikki','Potato patties mixed with some fried vegetables','aloo-t.jpg','side',25,'Y',70,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Aloo matar','Potatoes and peas in curry','aloo-m.jpg','main',42,'Y',36,null);
+VALUES ('Aloo matar','Potatoes and peas in curry','aloo-m.jpg','main',42,'Y',36,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Aloo methi','Potato with fresh Methi leaves','aloo-me.jpg','side',22,'Y',56,null);
+VALUES ('Aloo methi','Potato with fresh Methi leaves','aloo-me.jpg','side',22,'Y',56,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Aloo shimla mirch','Capsicum with potatoes and cumin seeds, onions, tomatoes, ginger-garlic paste, red chilli powder and garam masala',
-    'aloo-s.jpg','main',48,'Y',45,null);
+VALUES ('Aloo shimla mirch','Capsicum with potatoes and cumin seeds, onions, tomatoes, ginger-garlic paste, red chilli powder and garam masala',
+        'aloo-s.jpg','main',48,'Y',45,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kulcha','Indian mildly leavend bread','kulcha.jpg','side',12,'Y',84,null);
+VALUES ('Kulcha','Indian mildly leavend bread','kulcha.jpg','side',12,'Y',84,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kuzhakkattai','Coconut dumplings','Kuzhakkattai.jpg','side',32,'Y',64,null);
+VALUES ('Kuzhakkattai','Coconut dumplings','Kuzhakkattai.jpg','side',32,'Y',64,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Baati','Hard, unleavened and sour bread','baati.jpg','dessert',8,'Y',90,null);
+VALUES ('Baati','Hard, unleavened and sour bread','baati.jpg','dessert',8,'Y',90,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Biryani','Mixed rice dish with spices, vegetables and meat','biryani.jpg','main',43,'Y',139,null);
+VALUES ('Biryani','Mixed rice dish with spices, vegetables and meat','biryani.jpg','main',43,'Y',139,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Butter chicken','Indian chicken dipped in butter and garlic','butterchicken.jpg','main',46,'Y',26,null);
+VALUES ('Butter chicken','Indian chicken dipped in butter and garlic','butterchicken.jpg','main',46,'Y',26,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Chaat','Potato patty fried in oil, topped with sweet yogurt','chaat.jpg','dessert',17,'Y',33,null);
+VALUES ('Chaat','Potato patty fried in oil, topped with sweet yogurt','chaat.jpg','dessert',17,'Y',33,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Chana masala','Chickpeas of the Chana type in tomato based sauce','chana.jpg','main',43,'Y',12,null);
+VALUES ('Chana masala','Chickpeas of the Chana type in tomato based sauce','chana.jpg','main',43,'Y',12,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Chicken tikka masala','Chicken marinated in a Yogurt tomato sauce','chicken.jpg','main',55,'Y',0,null);
+VALUES ('Chicken tikka masala','Chicken marinated in a Yogurt tomato sauce','chicken.jpg','main',55,'Y',0,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Chole bhature','Chick peas with assorted spices, wheat flour and bhatura yeast','chole.jpg','main',42,'Y',41,null);
+VALUES ('Chole bhature','Chick peas with assorted spices, wheat flour and bhatura yeast','chole.jpg','main',42,'Y',41,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Imarti','Round batter from moong dal dipped in sugary syrup','imarti.jpg','dessert',18,'Y',59,null);
+VALUES ('Imarti','Round batter from moong dal dipped in sugary syrup','imarti.jpg','dessert',18,'Y',59,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Jalebi','A North Indian twisted noodle like sweet dish dipped in sugary syrup','jalebi.jpg','dessert',14,'Y',43,null);
+VALUES ('Jalebi','A North Indian twisted noodle like sweet dish dipped in sugary syrup','jalebi.jpg','dessert',14,'Y',43,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kadai paneer','Paneer and green peppers in tomato gravy','kadai.jpg','main',46,'Y',23,null);
+VALUES ('Kadai paneer','Paneer and green peppers in tomato gravy','kadai.jpg','main',46,'Y',23,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kofta','Gram flour, veggies, rolled into balls and fried in oil then cooked with curry','kofta.jpg','main',40,'Y',53,null);
+VALUES ('Kofta','Gram flour, veggies, rolled into balls and fried in oil then cooked with curry','kofta.jpg','main',40,'Y',53,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kulfi falooda','A frozen dairy dessert to ward off the sweltering heat of summers','kulfi.jpg','dessert',14,'Y',24,null);
+VALUES ('Kulfi falooda','A frozen dairy dessert to ward off the sweltering heat of summers','kulfi.jpg','dessert',14,'Y',24,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Phirni','Rice pudding','phirni.jpg','dessert',10,'Y',45,null);
+VALUES ('Phirni','Rice pudding','phirni.jpg','dessert',10,'Y',45,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Arabic tea','Traditional Arabic tea','arabic.jpg','beverage',5,'Y',78,null);
+VALUES ('Arabic tea','Traditional Arabic tea','arabic.jpg','beverage',5,'Y',78,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Kharak tea','Sweet and creamy Kharak tea','kharak.jpg','beverage',3,'Y',75,null);
+VALUES ('Kharak tea','Sweet and creamy Kharak tea','kharak.jpg','beverage',3,'Y',75,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Lemon tea','Sour lemon tea','lemon.jpg','beverage',9,'Y',65,null);
+VALUES ('Lemon tea','Sour lemon tea','lemon.jpg','beverage',9,'Y',65,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-    VALUES ('Ginger honey tea','Hot honey tea with Ginger','honey.jpg','beverage',9,'Y',72,null);
+VALUES ('Ginger honey tea','Hot honey tea with Ginger','honey.jpg','beverage',9,'Y',72,null);
 
 
 --Part Inserts
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Lettuce','salad',2,'lettuce.jpg','Y');
+VALUES ('Lettuce','salad',2,'lettuce.jpg','Y');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Cucumber','salad',2,'cucumber.png','Y');
+VALUES ('Cucumber','salad',2,'cucumber.png','Y');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Scallion','salad',4,'scallion.jpg','Y');
+VALUES ('Scallion','salad',4,'scallion.jpg','Y');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Olive','salad',5,'olive.jpg','Y');
+VALUES ('Olive','salad',5,'olive.jpg','Y');
 
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Parmesan cheese','salad',6,'parmesan.jpg','N');
+VALUES ('Parmesan cheese','salad',6,'parmesan.jpg','N');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Cheddar cheese','salad',1,'cheddar.jpg','N');
+VALUES ('Cheddar cheese','salad',1,'cheddar.jpg','N');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Swiss cheese','salad',4,'swiss.jpg','N');
+VALUES ('Swiss cheese','salad',4,'swiss.jpg','N');
 
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Ranch dressing','salad',2,'ranch.jpg','N');
+VALUES ('Ranch dressing','salad',2,'ranch.jpg','N');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Coconut cream dressing','salad',2,'coconut.jpg','N');
+VALUES ('Coconut cream dressing','salad',2,'coconut.jpg','N');
 INSERT INTO PART (NAME,TYPE,PRICE,IMAGE,REQUIRED)
-    VALUES ('Italian dressing','salad',2,'italian.jpg','N');
+VALUES ('Italian dressing','salad',2,'italian.jpg','N');
 
 
 -- Product Inserts
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,1);
+VALUES (null,1);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,2);
+VALUES (null,2);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,3);
+VALUES (null,3);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,4);
+VALUES (null,4);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,5);
+VALUES (null,5);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,6);
+VALUES (null,6);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,7);
+VALUES (null,7);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,8);
+VALUES (null,8);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,9);
+VALUES (null,9);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,10);
+VALUES (null,10);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,11);
+VALUES (null,11);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,12);
+VALUES (null,12);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,13);
+VALUES (null,13);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,14);
+VALUES (null,14);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,15);
+VALUES (null,15);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,16);
+VALUES (null,16);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,17);
+VALUES (null,17);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,18);
+VALUES (null,18);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,19);
+VALUES (null,19);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,20);
+VALUES (null,20);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,21);
+VALUES (null,21);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,22);
+VALUES (null,22);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,23);
+VALUES (null,23);
 INSERT INTO PRODUCT (CUSTOM_ID,NORMAL_ID)
-    VALUES (null,24);
+VALUES (null,24);

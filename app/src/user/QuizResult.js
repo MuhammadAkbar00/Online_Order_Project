@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import db from '../db'
 import Auth from '../auth'
 import { useParams } from "react-router-dom";
-import PageRecord from '../marketing/PageRecord'
+import pageRecord from "../marketing/PageRecord";
 
 export default () => {
 
@@ -13,37 +13,16 @@ export default () => {
 
   useEffect(() => {
     handleGetOne(id)
-    // if (Auth.isAdmin()) {
-    //   handleGetRegistrationsByCourse(id)
-    // }
   }, [id])
 
   const handleGetOne = async (id) => {
     const menu = await db.menu.getPublic(id)
-    // if(Auth.isLoggedIn()){
-    //   const user = await db.users.getUser("")
-    //   console.log("working user", user)
-    //   setUser(user)
-    // }
     setMenu(menu)
   }
-
-  // console.log(user.length == 0)
-  // if(user.length == 0 ){
-  //   new pageRecord('MenuDetail', id, "")
-  // }
-  // // new pageRecord('MenuDetail', id, user.username)
-  // console.log("WORK WORK WORK WORK")
-
-  // const handleGetRegistrationsByCourse = async (id) => {
-  //   const registrations = await db.registrations.getAdmin(`/search/findByCourseId?id=${id}`)
-  //   setRegistrations(registrations)
-  // }
 
   return (
     menu &&
     <div className="App">
-      <PageRecord pagename={"product"} productId={id} />
       <header className="App-header">
         <h1>{menu.name}</h1>
         <img style={{width:"300px", height:"300px", float:"right",display:"block", marginRight:"50%"}} src={ require(`../images/${menu.image}`) } />
