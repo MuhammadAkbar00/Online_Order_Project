@@ -60,6 +60,24 @@ public class UserController {
         Order order = orderRepository.findFirstByUserId(id);
         return ResponseEntity.ok(order);
     }
+
+    @RequestMapping(path = "/orders/{id}", method = { RequestMethod.POST })
+    public ResponseEntity<?> save(@RequestBody Order data) throws AuthenticationException {
+//        Order order = orderRepository.findFirstByUserId(data.getUser().getId());
+        Order order = new Order();
+        order.setUserId(data.getUserId());
+        order.setBranchId(data.getBranchId());
+        order.setDate(data.getDate());
+        order.setTotal(data.getTotal());
+        order.setPaymentMethod(data.getPaymentMethod());
+        order.setPaid(data.getPaid());
+        order.setLastAccess(data.getLastAccess());
+        order.setDinein(data.getDinein());
+        orderRepository.save(order);
+        System.out.println("saved order: " + order.getUserId());
+        return ResponseEntity.ok(order);
+    }
+
     @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> order_item(@PathVariable long id) {
         return ResponseEntity.ok(orderitemRepository.findAllByOrderId(id));

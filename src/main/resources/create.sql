@@ -122,7 +122,7 @@ create table "ORDER"
     USER_ID BIGINT not null
         constraint ORDER_USER_ID_USER_ID_FK
             references USER,
-    BRANCH_ID BIGINT not null
+    BRANCH_ID BIGINT null
         constraint ORDER_BRANCH_ID_BRANCH_ID_FK
             references BRANCH,
     DATE DATE not null,

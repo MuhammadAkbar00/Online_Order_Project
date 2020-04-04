@@ -20,13 +20,10 @@ export default ({order_id}) => {
 
     return (
         order_item &&
-        <div className="App">
-            <header className="App-header">
+        <table>
                 {
-                    order_item.map(order_item => <Products key={order_item.id} product_id={order_item.productId}/> )
-                    // order_item.map(order_item => order_item. + "#####"+order_item.productId )
+                    order_item.map(order_item => <tr> <Products key={order_item.id} product_id={order_item.productId}/> </tr>)
                 }
-            </header>
-        </div>
+        </table>
     );
 }

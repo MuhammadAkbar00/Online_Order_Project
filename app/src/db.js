@@ -7,11 +7,11 @@ class Table {
     }
 
     reformatAll = async json => {
-        //console.log('json', json)
+        // console.log('json', json)
         const embedded = json._embedded
-        //console.log('embedded', embedded)
+        // console.log('embedded', embedded)
         const data = embedded[this.table]
-        //console.log('data', data)
+        // console.log('data', data)
         return await Promise.all(
             data.map(item =>
                 this.reformatOne(this.table.substring(0, this.table.length - 1), item)
@@ -22,10 +22,10 @@ class Table {
     reformatOne = async (table, json) => {
         // delete one field from an object
         const { _links, ...data } = json
-        //console.log('new data', data)
-        //console.log('_links', _links)
+        console.log('new data', data)
+        console.log('_links', _links)
         data.id = 1 * _links.self.href.split(`${table}s/`)[1]
-        //console.log('id', data)
+        console.log('id', data)
 
         // find out if related records exist (FK?)
         const self = _links.self
@@ -80,8 +80,29 @@ class Table {
         console.log('getOne', json)
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
     }
-
+    saveAdmin = async data => {
+        console.log("data",data)
+        const json = await this.saveBasic('user', data)
+        return this.reformatOne(this.table.substring(0, this.table.length - 1), json)
+    }
+    saveBasic = async (role, data) => {
+        const response = await Auth.fetch(
+            `${role}/${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        console.log("response",response)
+        const json = await response.json()
+        console.log('save', json)
+        return json
+    }
     save = async (data) => {
+        console.log("date:",data)
         const response = await Auth.fetch(
             `/${this.table}`,
             {
