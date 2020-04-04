@@ -2,19 +2,19 @@ import React, {useEffect, useState} from 'react'
 import 'ol/ol.css'
 import {Map, View, Feature} from 'ol'
 import TileLayer from 'ol/layer/Tile'
-import OSM, {ATTRIBUTION} from 'ol/source/OSM'
+import OSM from 'ol/source/OSM'
 import {Container, Col, Row} from "react-bootstrap"
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Point from 'ol/geom/Point'
 import {Icon, Style} from 'ol/style'
-import Auth from "../auth.js"
 import { toSize } from 'ol/size'
 import Overlay from 'ol/Overlay'
 import TileState from 'ol/TileState'
 import db from '../db'
 import Button from 'react-bootstrap/Button'
 import { fromLonLat } from 'ol/proj'
+import PageRecord from '../marketing/PageRecord'
 
 export default () => {
 
@@ -201,6 +201,7 @@ export default () => {
 
     return (
         <Container fluid>
+            <PageRecord pagename={"map"} productId={null} />
             <Row>
                 <Col xl={{order:2}} md={{span:11,order:2}}>
                     <div id={"map"} className={"map"}><div id="popup"></div></div>

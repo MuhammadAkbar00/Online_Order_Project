@@ -5,7 +5,7 @@ create table jwt_User (
                           username varchar(50) not null
                               constraint JWT_USER_USERNAME_UINDEX
                                   unique,
-                          password varchar(60) not null,
+                          password varchar(250) not null,
                           role varchar(50)
 );
 
@@ -14,7 +14,7 @@ INSERT INTO jwt_User (username, password, role) VALUES ('ann', '$2a$10$oPYMdYOC5
 INSERT INTO jwt_User (username, password, role) VALUES ('admin', '$2a$10$ncFNgFU70d20U/YLHC.pBOAgGBUaRJUCNUsRfqilvQ0OI67mtJx.6', 'ROLE_ADMIN');
 INSERT INTO jwt_User (username, password, role) VALUES ('marketing', '$2a$10$gR8AJKwRGH6malNTO7VU3OkzBwOroB9usOrjiRo645Y9bMR7HqmNC', 'ROLE_MARKETING');
 INSERT INTO jwt_User (username, password, role) VALUES ('advertiser', '$2a$10$xCIdUocTQbo7vyR7OrJcnOWufptsftV4F05AvyggcC035NORthKye', 'ROLE_ADVERTISER');
-
+INSERT INTO jwt_User (username, password, role) VALUES ('guest', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndWVzdCIsImV4cCI6MTU4NjUwODg3NiwiaWF0IjoxNTg1OTA0MDc2fQ.thmaKQe69z4tFi5yI_8t9NkLvJ6_3MgK63ArdcTBy9a5MAGE9U2RjSLWAOZvYC3QJS8CLnes4f2SpRcdLK59cw', 'ROLE_GUEST');
 
 DROP TABLE ADVERTISER IF EXISTS CASCADE;
 DROP TABLE ADVERT IF EXISTS CASCADE;
@@ -230,8 +230,8 @@ CREATE TABLE ANALYTIC
     ID BIGINT GENERATED ALWAYS AS IDENTITY(START WITH 1)
         constraint ANALYTIC_PK
             PRIMARY KEY,
-    PAGENAME VARCHAR(30) NOT NULL,
-    PRODUCT_ID BIGINT NOT NULL
+    PAGENAME VARCHAR(30) NULL,
+    PRODUCT_ID BIGINT NULL
         constraint ANALYTIC_PRODUCT_ID_PRODUCT_ID_FK FOREIGN KEY
             references PRODUCT,
     DATE DATE NOT NULL,

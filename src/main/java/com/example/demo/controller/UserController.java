@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
 
+import com.example.demo.model.Coupon;
 import com.example.demo.model.User;
+import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,10 @@ public class UserController {
 
     @Autowired
     private JwtUserRepository jwtUserRepository;
-//    @Autowired
-//    private StudentRepository studentRepository;
-//    @Autowired
-//    private RegisterRepository registerRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CouponRepository couponRepository;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
@@ -54,6 +54,13 @@ public class UserController {
         System.out.println("Fetching all users");
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(path = "/users/{id}", method = { RequestMethod.GET })
+    public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
+        System.out.println("Received id for deletion: "+id);
+        System.out.println("Checking for constraints");
+        return ResponseEntity.ok("test");
     }
 
 }

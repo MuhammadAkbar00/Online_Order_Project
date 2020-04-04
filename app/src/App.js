@@ -68,7 +68,7 @@ export default () => {
                         }
                         {
                             Auth.isAdmin() &&
-              <Nav.Link as={Link} to="dashboard">Dashboard</Nav.Link>
+              <Nav.Link as={Link} to="dashboard">Admin Dashboard</Nav.Link>
             }
             </Nav>
             <Nav>
@@ -78,7 +78,7 @@ export default () => {
                       <>
                                     <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
                                     <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
-                                    <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
+                                    {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
                                     <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
                                 </>
                                 :
@@ -103,9 +103,9 @@ export default () => {
                         <Route path="/logout">
                             <Logout />
                         </Route>
-              <Route path="/dashboard">
-                <Dashboard />
-              </Route>
+                        <Route path="/dashboard">
+                            <Dashboard />
+                        </Route>
                         <Route path="/nearest">
                             <Nearest />
                         </Route>
@@ -142,17 +142,14 @@ export default () => {
                         <Route path="/registrations">
                             <Registrations />
                         </Route>
-                        <Route path="/settings">
-                            <Settings/>
-                        </Route>
                         <Route exact path="/chat">
                             <CustomChatbot />
-                </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </div>
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                    </Switch>
+            </div>
 
             <Footer />
 

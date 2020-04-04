@@ -1,6 +1,7 @@
 import React from "react";
 import ChatBot from "react-simple-chatbot";
 import Image from "react-bootstrap/Image";
+import PageRecord from '../../marketing/PageRecord'
 
 function CustomChatbot(props) {
     const steps = [
@@ -42,6 +43,6 @@ function CustomChatbot(props) {
             end: true
         }
     ];
-    return <ChatBot steps={steps} />;
+    return (<><PageRecord pagename={"chat"} productId={null}/><ChatBot steps={steps} /></>);
 }
 export default CustomChatbot;

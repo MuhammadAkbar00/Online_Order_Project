@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findFirstByUsername (String name);
-
-    User findFirstByUsernameOrderByFirstNameDesc (String name);
+    User getById(long id);
+    User findFirstByUsernameOrderByIdDesc (String name);
 
     List<User> findAll();
 }

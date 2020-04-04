@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import db from '../db'
 import Auth from '../auth'
 import { useParams } from "react-router-dom";
-import pageRecord from "../marketing/PageRecord";
+import PageRecord from '../marketing/PageRecord'
 
 export default () => {
 
@@ -43,6 +43,7 @@ export default () => {
   return (
     menu &&
     <div className="App">
+      <PageRecord pagename={"product"} productId={id} />
       <header className="App-header">
         <h1>{menu.name}</h1>
         <img style={{width:"300px", height:"300px", float:"right",display:"block", marginRight:"50%"}} src={ require(`../images/${menu.image}`) } />

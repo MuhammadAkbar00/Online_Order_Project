@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import db from '../db.js'
-import Auth from "../auth";
-import Button from "react-bootstrap/Button";
-import {Link, Route, Switch} from "react-router-dom";
-import Authenticate from "../public/Authenticate";
-import Logout from "../user/Logout";
-import Profile from "../user/Profile";
-import Students from "../admin/Students";
-import CourseDetail from "../public/CourseDetail";
-import Courses from "../public/Courses";
-import Registrations from "../public/Registrations";
-import Home from "../public/Home";
-import MenuDetail from "./MenuDetail";
+import Auth from "../auth"
+import Button from "react-bootstrap/Button"
+import {Link, Route, Switch} from "react-router-dom"
+import PageRecord from '../marketing/PageRecord'
+import Authenticate from "../public/Authenticate"
+import Logout from "../user/Logout"
+import Profile from "../user/Profile"
+import Students from "../admin/Students"
+import CourseDetail from "../public/CourseDetail"
+import Courses from "../public/Courses"
+import Registrations from "../public/Registrations"
+import Home from "../public/Home"
+import MenuDetail from "./MenuDetail"
 
 export default () => {
 
@@ -50,6 +51,7 @@ export default () => {
   return (
     menu &&
     <div className="App">
+      <PageRecord pagename="menu" productId={null} />
       <header className="App-header">
         <dl>
           {/*<dt>Username</dt><dd>{menu.name}</dd>*/}
