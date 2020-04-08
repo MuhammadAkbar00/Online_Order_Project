@@ -19,7 +19,7 @@ export default () => {
 
 
     useEffect(() => {
-        handleGetAll()
+        handleGetOrder()
     }, [])
 
     // const zeroPad = (num, places) => String(num).padStart(places, '0')
@@ -40,7 +40,7 @@ export default () => {
     //     return today.getFullYear() + '-' + month + '-' + day;
     // }
 
-    const handleGetAll = async () => {
+    const handleGetOrder = async () => {
         // const branch = await db.branches.getPublic("")
         const user = await db.users.getUser("loggeduser");
         const order = await db.orders.getUser(`${user.id}`);
@@ -86,9 +86,7 @@ export default () => {
                 order
             }
         );
-        order = await db.orders.getByQueryRaw('user', `${user.id}`);
-        order = await order.json();
-        setOrder(order);
+        await handleGetOrder()
     }
 
     const handlePaymentMethod = (event) => {

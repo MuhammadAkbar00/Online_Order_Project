@@ -11,7 +11,6 @@ export default ({order_id}) => {
         handleGetAll()
     }, [])
 
-
     const handleGetAll = async () => {
         const order_items = await db.order_items.getUser(`${order_id}`)
         // console.log("order_items", order_items)
@@ -20,9 +19,8 @@ export default ({order_id}) => {
     }
 
     const deleteOrderItem = async (order_item) => {
-        // const user = await db.users.getUser("loggeduser");
-        // const userOrder = await db.orders.getUser(`${user.id}`);
-        await db.order_items.deleteById('user',order_item.id)
+        await db.order_items.deleteById('user', order_item.id)
+        await handleGetAll()
     }
 
     return (

@@ -71,7 +71,7 @@ public class UserController {
         return ResponseEntity.ok(order);
     }
 
-    @RequestMapping(path = "/orders", method = {RequestMethod.POST})
+    @RequestMapping(path = "/orders", method = {RequestMethod.PATCH})
     public ResponseEntity<?> save(@RequestBody Order data) {
         Order order = new Order();
         order.setUserId(data.getUserId());
@@ -102,13 +102,12 @@ public class UserController {
         System.out.println("data: " + order_Item);
         return ResponseEntity.ok(order_Item);
     }
-//, RequestMethod.GET
 
-    @RequestMapping(path = "/order_item", method = {RequestMethod.DELETE})
+    @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.DELETE})
     public void delete(@PathVariable Long id) {
-        System.out.println("Received id for order item deletion: " + id);
+        System.out.println("orderItem deletion for id: " + id);
         orderitemRepository.deleteById(id);
-        System.out.println("order item deleted for id: " + id);
+        System.out.println("orderItem deleted for id: " + id);
     }
 
 
