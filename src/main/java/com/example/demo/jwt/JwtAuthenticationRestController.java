@@ -1,7 +1,14 @@
 package com.example.demo.jwt;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+
+import com.example.demo.model.Order;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -31,6 +38,9 @@ public class JwtAuthenticationRestController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private UserDetailsService jwtTableUserDetailsService;
@@ -66,7 +76,7 @@ public class JwtAuthenticationRestController {
     public ResponseEntity<?> registerUser(@RequestBody JwtTokenRequest authenticationRequest)
             throws AuthenticationException {
 
-        if(jwtUserRepository.findByUsername(authenticationRequest.getUsername()) == null) {
+        if (jwtUserRepository.findByUsername(authenticationRequest.getUsername()) == null) {
             JwtUser jwtUser = new JwtUser();
             jwtUser.setUsername(authenticationRequest.getUsername());
             jwtUser.setPassword(passwordEncoder.encode(authenticationRequest.getPassword()));
@@ -90,9 +100,30 @@ public class JwtAuthenticationRestController {
             } else {
                 System.out.println("User exists, attempting login instead: " + authenticationRequest.getUsername());
             }
-        }
 
-        return createAuthenticationToken(authenticationRequest);
+            LocalDate myDate = LocalDate.now();
+//            System.out.println("LocalDate myDate " + myDate);
+            Date finalDate = java.sql.Date.valueOf(myDate);
+//            System.out.println("finalDate myDate " + myDate);
+
+            Order order = new Order();
+            if (orderRepository.findFirstByUserId(user.getId()) == null) {
+                order.setUserId(user.getId());
+                order.setBranchId((long) 1);
+                order.setDate(finalDate);
+                order.setTotal(0);
+                order.setPaymentMethod("C");
+                order.setPaid("N");
+                order.setLastAccess(finalDate);
+                order.setDinein("N");
+                orderRepository.save(order);
+                System.out.println(order);
+                System.out.println("order created in order table");
+            }
+            System.out.println("user cart created");
+        }
+        return
+                createAuthenticationToken(authenticationRequest);
     }
 
 //    @RequestMapping(value = "/refresh", method = RequestMethod.GET)

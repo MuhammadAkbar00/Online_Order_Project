@@ -6,7 +6,7 @@ import java.sql.Date;
 @Entity
 public class Order {
     private long id;
-    private long userId;
+    private Long userId;
     private Long branchId;
     private Date date;
     private int total;
@@ -32,7 +32,7 @@ public class Order {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

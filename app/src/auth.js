@@ -40,8 +40,6 @@ class Auth {
     isAdmin = () => this.user && this.user.role === "ROLE_ADMIN"
     isMarketing = () => this.user && this.user.role === "ROLE_MARKETING"
 
-    getUserRole = () => this.user.role
-
     fetch = (url, options) => {
         if (this.user) {
             options = options || {}
@@ -50,6 +48,8 @@ class Auth {
         } else {
             console.log('Error: calling Auth fetch but not logged in', this.user.token)
         }
+        // console.log("url",url)
+        // console.log("options",options)
         return fetch(url, options) // real fetch
     }
 

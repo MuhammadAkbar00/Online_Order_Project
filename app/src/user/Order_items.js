@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import db from '../db.js';
 import Products from "./Products";
+import Button from "react-bootstrap/Button";
 
 export default ({order_id}) => {
 
@@ -18,12 +19,23 @@ export default ({order_id}) => {
         // console.log("order_items after set", order_items)
     }
 
+    const deleteOrderItem = async (order_item) => {
+        // const user = await db.users.getUser("loggeduser");
+        // const userOrder = await db.orders.getUser(`${user.id}`);
+        await db.order_items.deleteById('user',order_item.id)
+    }
+
     return (
         order_item &&
-        <table>
-                {
-                    order_item.map(order_item => <tr> <Products key={order_item.id} product_id={order_item.productId}/> </tr>)
-                }
-        </table>
+        <>
+            {
+                order_item.map(order_item =>
+                    <tr>
+                        <Products key={order_item.id} product_id={order_item.productId}/>
+                        <Button onClick={() => deleteOrderItem(order_item)}>Delete</Button>
+                    </tr>
+                )
+            }
+        </>
     );
 }

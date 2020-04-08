@@ -21,7 +21,7 @@ class Table {
 
     reformatOne = async (table, json) => {
         // delete one field from an object
-        const { _links, ...data } = json
+        const {_links, ...data} = json
         //console.log('new data', data)
         //console.log('_links', _links)
         data.id = 1 * _links.self.href.split(`${table}s/`)[1]
@@ -59,6 +59,8 @@ class Table {
 
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
+        console.log("response", response)
+
         const json = await response.json()
         console.log('getByQuery', role, json)
 
@@ -104,7 +106,14 @@ class Table {
 
     }
 
-    savePublic = async (role,data) => {
+    // getOneNoFormat = async (id) => {
+    //     const response = await Auth.fetch(`/${this.table}/${id}`)
+    //     const json = await response.json()
+    //     console.log('getOneNoFormat', json)
+    //     return json
+    // }
+
+    savePublic = async (role, data) => {
         const response = await window.fetch(
             `/${role}/${this.table}`,
             {
@@ -135,9 +144,10 @@ class Table {
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
     }
 
-    saveNoFormat = async (role,data) => {
+    saveNoFormat = async (role, data) => {
+        console.log("data: ", data)
         const response = await Auth.fetch(
-            `/${(role?'/'+role:'')}${this.table}`,
+            `/${role + '/'}${this.table}`,
             {
                 method: 'POST',
                 headers: {
@@ -151,13 +161,14 @@ class Table {
         return json
     }
 
-    deleteById = async (role,id) => {
+    deleteById = async (role, id) => {
         const response = await Auth.fetch(
             `${role}/${this.table}/${id}`,
             {
                 method: 'DELETE'
             }
         )
+        console.log("delete response",response)
         if (response.ok) {
             console.log("Record deleted")
         }
@@ -169,7 +180,13 @@ export default {
     branches: new Table("branches"),
     courses: new Table("courses"),
     menu: new Table("menu"),
+
+    //My Cart
+    orders: new Table("orders"),
+    order_items: new Table("order_item"),
+    products: new Table("products"),
+    normal: new Table("normal"),
+    // custom: new Table("custom")
     analytics: new Table("analytic"),
-    coupons: new Table("coupons"),
-    products: new Table("products")
+    coupons: new Table("coupons")
 }
