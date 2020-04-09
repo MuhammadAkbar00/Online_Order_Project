@@ -32,6 +32,9 @@ import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
 import MenuEdit from "./menu/MenuEdit";
 import Faq from "./faq/Faq";
+import CreateFaq from "./faq/CreateFaq";
+import SearchFaq from "./faq/SearchFaq";
+
 
 
 export default () => {
@@ -60,6 +63,8 @@ export default () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
+                        <Nav.Link as={Link} to="/faq">Faq</Nav.Link>
+                        <Nav.Link as={Link} to="/createfaq">Create Faq</Nav.Link>
                         {
                             Auth.isUser() &&
                             <>
@@ -92,6 +97,7 @@ export default () => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
+            <CustomChatbot />
             <br />
             <div>
                 <div>
@@ -137,6 +143,12 @@ export default () => {
                         </Route>
                         <Route exact path="/faq">
                             <Faq />
+                        </Route>
+                        <Route exact path="/createfaq">
+                            <CreateFaq />
+                        </Route>
+                        <Route exact path="/searchfaq">
+                            <SearchFaq/>
                         </Route>
                         <Route path="/students">
                             <Students search={searchStudent} />

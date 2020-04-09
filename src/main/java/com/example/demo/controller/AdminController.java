@@ -4,9 +4,11 @@ import com.example.demo.jwt.*;
 
 import com.example.demo.model.Analytic;
 import com.example.demo.model.Coupon;
+import com.example.demo.model.Faq;
 import com.example.demo.model.User;
 import com.example.demo.repository.AnalyticRepository;
 import com.example.demo.repository.CouponRepository;
+import com.example.demo.repository.FaqRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.lang.reflect.Array;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class AdminController {
@@ -29,6 +32,8 @@ public class AdminController {
     private CouponRepository couponRepository;
     @Autowired
     private AnalyticRepository analyticRepository;
+    @Autowired
+    private FaqRepository faqRepository;
 
     @RequestMapping(path = "/loggeduser", method = { RequestMethod.GET })
     public ResponseEntity<?> profileLoggedUser(Authentication authentication) throws AuthenticationException {
@@ -219,6 +224,25 @@ public class AdminController {
         return null;
     }
 
+    @RequestMapping(path = "/faqs", method = {RequestMethod.GET})
+    public ResponseEntity<?> faq() {
+        return ResponseEntity.ok(faqRepository.findAll());
+    }
+
+    @RequestMapping(path = "/faqs", method = { RequestMethod.POST })
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody Faq data) throws AuthenticationException {
+        JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
+            Faq fq = new Faq();
+            fq.setQuestion(data.getQuestion());
+            fq.setAnswer(data.getAnswer());
+            fq.setHidden(data.getHidden());
+            faqRepository.save(fq);
+            System.out.println("Added FAQ: " + data.getId());
+            return ResponseEntity.ok(fq);
+        }
+        return null;
+    }
 
 }
 

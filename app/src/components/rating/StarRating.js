@@ -3,10 +3,20 @@ import { FaStar } from 'react-icons/fa'
 import Auth from "../../auth";
 import Nav from "react-bootstrap/Nav";
 import {Link} from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 export default () => {
     const [rating, setRating] = useState(null)
     const [hover, setHover] = useState(null)
+
+    // const saveReview = () => {
+    //     //Get Order ID
+    //     let review = {
+    //         orderId: orderId,
+    //         stars: rating
+    //     };
+    //     db.reviews.save();
+    // }
 
     return (
         <div className={"rating"}>
@@ -42,6 +52,7 @@ export default () => {
                         <p>{rating} star rating.</p>
                     </div>
             }
+            <Button>HHEHE</Button>
         </div>
     );
 }

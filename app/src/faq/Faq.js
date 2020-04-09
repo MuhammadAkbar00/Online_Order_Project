@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import db from '../db.js'
-import Auth from "../auth";
-import Button from "react-bootstrap/Button";
-import {Link, Route, Switch} from "react-router-dom";
-import Form from 'react-bootstrap/Form';
-import Authenticate from "../public/Authenticate";
-import Logout from "../user/Logout";
-import Profile from "../user/Profile";
-import Students from "../admin/Students";
-import CourseDetail from "../public/CourseDetail";
-import Courses from "../public/Courses";
-import Registrations from "../public/Registrations";
-import Settings from "../admin/Settings";
-import Home from "../public/Home";
-import {DropdownButton, DropdownItem , Dropdown} from "react-bootstrap";
+import {Button} from "react-bootstrap";
+
 
 export default ({}) => {
 
   const [faq, setFaq] = useState([])
-
 
   useEffect(() => {
     handleGetByQuery()
@@ -34,8 +21,19 @@ export default ({}) => {
     faq &&
     <div className="App">
       <header className="App-header">
+        <Button href={"/createfaq"}>Create FAQ</Button>
         <h1>Faq</h1>
-
+        {faq.map(item =>
+            item.hidden != "Y" ?
+            <div style={{border: 'solid 1px', marginBottom: '20px' }} key={item.id}>
+              <p>Question: {item.question}</p>
+              <p>Answer: {item.answer}</p>
+              <p>Hidden: {item.hidden}</p>
+            </div>
+                :
+                <>
+                </>
+        )}
         <ul>
 
         </ul>

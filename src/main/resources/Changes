@@ -77,3 +77,10 @@ Changes:
 8 - Starting on the FAQ
     - Creating FAQ repository
     - Altered controller to GET all faq
+
+Commit 6 -
+Changes:
+1 - fixed the search by type  in menu.js
+2 - added faq page, shows all of the faq that are not hidden
+3 - chatBot is made so that it will ask if the user has a question and will try to find the answer to that question in the database.
+4 - made a page where admin can create a new faq

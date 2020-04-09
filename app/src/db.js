@@ -118,6 +118,22 @@ class Table {
         const json = await response.json()
         console.log('save', json)
     }
+    // saveUser = data => this.saveBasic('/user', data)
+    // saveBasic = async (role, data) => {
+    //     const response = await Auth.fetch(
+    //         `${role}/${this.table}`,
+    //         {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
+    //         }
+    //     )
+    //     const json = await response.json()
+    //     console.log('save', json)
+    //     return json
+    // }
 
     save = async (data) => {
         const response = await Auth.fetch(
@@ -137,7 +153,7 @@ class Table {
 
     saveNoFormat = async (role,data) => {
         const response = await Auth.fetch(
-            `/${(role?'/'+role:'')}${this.table}`,
+            `/${role+'/'}${this.table}`,
             {
                 method: 'POST',
                 headers: {
@@ -150,6 +166,23 @@ class Table {
         console.log('save', json)
         return json
     }
+
+    saveFaq = async (data) => {
+        const response = await Auth.fetch(
+            `/${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('save', json)
+        return await json
+    }
+
 
     deleteById = async (role,id) => {
         const response = await Auth.fetch(
@@ -171,5 +204,6 @@ export default {
     menu: new Table("menu"),
     analytics: new Table("analytic"),
     coupons: new Table("coupons"),
-    products: new Table("products")
+    products: new Table("products"),
+    faqs: new Table("faqs")
 }

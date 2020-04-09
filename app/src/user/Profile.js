@@ -8,6 +8,15 @@ import {Link} from "react-router-dom";
 export default () => {
 
   const [user, setUser] = useState(null)
+  //UserData
+  const [firstName, setFirstName] = useState("")
+  const [lastName , setLastName ] = useState("")
+  const [address  , setAddress  ] = useState("")
+  const [email    , setEmail    ] = useState("")
+  const [mailing  , setMailing  ] = useState("")
+  const [points   , setPoints   ] = useState("")
+  const [language , setLanguage ] = useState("")
+  const [phone    , setPhone    ] = useState("")
 
   useEffect(() => {
     handleUserProfile()
@@ -15,22 +24,47 @@ export default () => {
   }, [])
 
   const handleFirstName = (event) => {
-    setUser({
-      username:user.username,
-      firstName : event.target.value,
-      lastName: user.lastName,
-      address: user.address,
-      email: user.email,
-      mailing: user.mailing,
-      points: user.points,
-      language: user.language,
-      phone: user.phone
-    })
+    setFirstName(event.target.value)
+    console.log("First Name Set", firstName)
+  }
+  const handleLastName = (event) => {
+    setLastName(event.target.value)
+    console.log("Last Name Set", lastName)
+  }
+  const handleAddress = (event) => {
+    setAddress(event.target.value)
+    console.log("Address Set")
+  }
+  const handleEmail = (event) => {
+    setEmail(event.target.value)
+    console.log("Email Set")
+  }
+  const handleMailing = (event) => {
+    setMailing(event.target.value)
+    console.log("Mailing Set")
+  }
+  const handlePhone = (event) => {
+    setPhone(event.target.value)
+    console.log("Phone Set")
   }
 
-
   const handleSave = async () => {
-    await db.users.saveUser(user)
+    let userg = {
+      id: user.id,
+      username: user.username,
+      firstName: (firstName ? firstName : user.firstName),
+      lastName: (lastName ? lastName : user.lastName),
+      address: (address ? address : user.address),
+      email: (email ? email : user.email),
+      mailing: (mailing ? mailing : user.mailing),
+      points: user.points,
+      language: user.language,
+      phone : (phone ? phone : user.phone)
+    }
+
+    console.log("what was meant to be",userg)
+
+    await db.users.saveNoFormat("user",userg)
     handleUserProfile()
   }
 
@@ -50,13 +84,32 @@ export default () => {
           <dt>Username</dt><dd>{user.username}</dd>
           <dt>First name</dt>
           <dd>
-            <Form.Control type="Text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={user.firstName} />
+            <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
           </dd>
-          <dt>Last name</dt><dd>{user.lastName}</dd>
-          <dt>Address</dt><dd>{user.address}</dd>
-          <dt>Email</dt><dd>{user.email}</dd>
-          <dt>Mailing</dt><dd>{user.mailing}</dd>
-          <dt>Points</dt><dd>{user.points}</dd>
+          <dt>Last name</dt>
+          <dd>
+            <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
+          </dd>
+          <dt>Address</dt>
+          <dd>
+            <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
+          </dd>
+          <dt>Email</dt>
+          <dd>
+            <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />
+          </dd>
+          <dt>Mailing</dt>
+          <dd>
+            <Form.Control type="text" placeholder={`${user.mailing}`} onChange={handleMailing} value={mailing} />
+          </dd>
+          <dt>Phone</dt>
+          <dd>
+            <Form.Control type="text" placeholder={`${user.phone}`} onChange={handlePhone} value={phone} />
+          </dd>
+          <dt>Points</dt>
+          <dd>
+            {user.points}
+          </dd>
           <dt>Language</dt><dd>{user.language}</dd>
           {/*<dt>Age</dt>*/}
           {/*<dd>*/}

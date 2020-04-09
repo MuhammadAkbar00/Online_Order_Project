@@ -52,6 +52,7 @@ public class PublicController {
     public ResponseEntity<?> menu(@PathVariable Long id) {
         return ResponseEntity.ok(normalRepository.findById(id));
     }
+
     @RequestMapping(path = "/branches", method = {RequestMethod.GET})
         public ResponseEntity<?> getMap() {
         return ResponseEntity.ok(branchRepository.findAll());
@@ -85,10 +86,13 @@ public class PublicController {
     @RequestMapping(path = "/menu/findByTypeContaining/{name}", method = {RequestMethod.GET})
     public ResponseEntity<?> menutype(@PathVariable String name) { return ResponseEntity.ok(normalRepository.findByTypeContaining(name)); }
 
-    @RequestMapping(path = "/faq", method = {RequestMethod.GET})
+    @RequestMapping(path = "/faqs", method = {RequestMethod.GET})
     public ResponseEntity<?> faq() {
         return ResponseEntity.ok(faqRepository.findAll());
     }
+
+    @RequestMapping(path = "/faqs/findByQuestionContaining/{name}", method = {RequestMethod.GET})
+    public ResponseEntity<?> faq(@PathVariable String name) { return ResponseEntity.ok(faqRepository.findByQuestionContaining(name)); }
 
 }
 
