@@ -3,6 +3,7 @@ import Authenticate from './public/Authenticate'
 import Auth from './auth'
 import Home from './public/Home'
 import Profile from './user/Profile'
+import Orders from './user/Orders'
 import Logout from './user/Logout'
 import Students from './admin/Students'
 import Courses from './public/Courses'
@@ -62,6 +63,7 @@ export default () => {
                             Auth.isUser() &&
                             <>
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                                <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
                             </>
@@ -111,6 +113,9 @@ export default () => {
                         </Route>
                         <Route path="/quiz">
                             <Quiz />
+                        </Route>
+                        <Route path="/orders">
+                            <Orders />
                         </Route>
                         <Route path="/quiz/result/:id">
                             <QuizResult />

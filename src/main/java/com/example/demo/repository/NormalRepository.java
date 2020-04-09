@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface NormalRepository extends JpaRepository<Normal, Long> {
     Normal findById(Integer id);
-
+    Normal findAllById(Long id);
 }

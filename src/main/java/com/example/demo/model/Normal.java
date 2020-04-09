@@ -16,6 +16,21 @@ public class Normal {
     private Integer quantity;
     private Occasion occasion;
 
+    @Override
+    public String toString() {
+        return "Normal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", image='" + image + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", stock='" + stock + '\'' +
+                ", quantity=" + quantity +
+                ", occasion=" + occasion +
+                '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

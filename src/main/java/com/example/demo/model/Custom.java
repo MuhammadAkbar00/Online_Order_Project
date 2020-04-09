@@ -103,4 +103,17 @@ public class Custom {
     public void setOccasion(Occasion occasion) {
         this.occasion = occasion;
     }
+
+    @Override
+    public String toString() {
+        return "Custom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", date=" + date +
+                ", type='" + type + '\'' +
+                ", total=" + total +
+                ", occasion=" + occasion +
+                '}';
+    }
 }

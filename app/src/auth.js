@@ -48,6 +48,8 @@ class Auth {
         } else {
             console.log('Error: calling Auth fetch but not logged in', this.user.token)
         }
+        // console.log("url",url)
+        // console.log("options",options)
         return fetch(url, options) // real fetch
     }
 

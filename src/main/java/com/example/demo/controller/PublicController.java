@@ -39,6 +39,7 @@ public class PublicController {
     public ResponseEntity<?> menu(@PathVariable Long id) {
         return ResponseEntity.ok(normalRepository.findById(id));
     }
+
     @RequestMapping(path = "/branches", method = {RequestMethod.GET})
         public ResponseEntity<?> getMap() {
         return ResponseEntity.ok(branchRepository.findAll());
