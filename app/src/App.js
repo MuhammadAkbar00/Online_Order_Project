@@ -75,17 +75,17 @@ export default () => {
               {
                   Auth.isLoggedIn()
                       ?
-                      <>
-                                    <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
-                                    <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
-                                    {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
-                                    <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
-                                </>
-                                :
-                                <>
-                                    <Nav.Link as={Link} to="/register">Register</Nav.Link>
-                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                                </>
+                            <>
+                                <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                                <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
+                                {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
+                                <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
+                            </>
+                            :
+                            <>
+                                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                            </>
                         }
                     </Nav>
                 </Navbar.Collapse>
