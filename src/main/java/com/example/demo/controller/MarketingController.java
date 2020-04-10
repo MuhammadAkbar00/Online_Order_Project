@@ -2,9 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.AuthenticationException;
 import com.example.demo.jwt.JwtUserRepository;
-
+import com.example.demo.model.Register;
+import com.example.demo.model.Student;
 import com.example.demo.model.User;
-
+import com.example.demo.repository.RegisterRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class MarketingController {
 
     @Autowired
     private JwtUserRepository jwtUserRepository;
+    @Autowired
+    private RegisterRepository registerRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -42,7 +45,7 @@ public class MarketingController {
 //    }
 
     @RequestMapping(path = "/users", method = { RequestMethod.GET })
-    public ResponseEntity<?> users(Authentication authentication) throws AuthenticationException {
+    public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);

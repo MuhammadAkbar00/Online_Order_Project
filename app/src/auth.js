@@ -1,3 +1,8 @@
+import React from 'react'
+import {
+    Redirect
+  } from "react-router-dom"
+
 class Auth {
 
     constructor() {
@@ -41,13 +46,18 @@ class Auth {
     isMarketing = () => this.user && this.user.role === "ROLE_MARKETING"
 
     fetch = (url, options) => {
-        if (this.user) {
+        if(this.user === null){
+            
+        }else if (this.user) {
             options = options || {}
             options.headers = options.headers || {}
             options.headers.Authorization = `Bearer ${this.user.token}`
         } else {
+
             console.log('Error: calling Auth fetch but not logged in', this.user.token)
         }
+        // console.log("url",url)
+        // console.log("options",options)
         return fetch(url, options) // real fetch
     }
 

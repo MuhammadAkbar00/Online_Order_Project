@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface NormalRepository extends JpaRepository<Normal, Long> {
     Normal findById(Integer id);
-
     List<Normal> findByNameContaining(String name);
-
     List<Normal> findByTypeContaining(String name);
+    Normal findAllById(Long id);
+    List<Normal> findAll();
 }

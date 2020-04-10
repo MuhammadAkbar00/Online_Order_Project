@@ -35,7 +35,7 @@ public class AdminController {
     @Autowired
     private FaqRepository faqRepository;
 
-    @RequestMapping(path = "/loggeduser", method = { RequestMethod.GET })
+    @RequestMapping(path = "/loggeduser", method = {RequestMethod.GET})
     public ResponseEntity<?> profileLoggedUser(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
@@ -43,28 +43,28 @@ public class AdminController {
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "/users", method = { RequestMethod.GET })
+    @RequestMapping(path = "/users", method = {RequestMethod.GET})
     public ResponseEntity<?> getAllUsers() throws AuthenticationException {
         System.out.println("Fetching all users");
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "/users/{id}", method = { RequestMethod.GET })
+    @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> getOneUser(@PathVariable(value = "id") long id) throws AuthenticationException {
         User user = userRepository.getById(id);
-        System.out.println("Fetching user "+user);
+        System.out.println("Fetching user " + user);
         return ResponseEntity.ok(user);
     }
 
     //Edit
-    @RequestMapping(path = "/users", method = { RequestMethod.POST })
+    @RequestMapping(path = "/users", method = {RequestMethod.POST})
     public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
         if (jwtuser.getRole().equals("ROLE_ADMIN")) {
             System.out.println("Saving");
             User user = userRepository.findFirstByUsername(data.getUsername());
-            if(user != null) {
+            if (user != null) {
                 user.setFirstName(data.getFirstName());
                 user.setLastName(data.getLastName());
                 user.setAddress(data.getAddress());
@@ -74,22 +74,22 @@ public class AdminController {
                 user.setLanguage(data.getLanguage());
                 user.setPhone(data.getPhone());
             }
-            System.out.println("Saved "+user);
+            System.out.println("Saved " + user);
             userRepository.save(user);
             return ResponseEntity.ok(1);
         }
         return null;
     }
 
-    @RequestMapping(path = "/users/{id}", method = { RequestMethod.DELETE })
-    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") long id,Authentication authentication) throws AuthenticationException {
+    @RequestMapping(path = "/users/{id}", method = {RequestMethod.DELETE})
+    public ResponseEntity<?> deleteUserById(@PathVariable(value = "id") long id, Authentication authentication) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
-        if (jwtuser.getRole().equals("ROLE_ADMIN")){
-            System.out.println("Received id for deletion: "+id);
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
+            System.out.println("Received id for deletion: " + id);
 
             List<Coupon> coupons = couponRepository.getAllByUser(userRepository.getById(id));
-            if (coupons.size() != 0){
-                for (Coupon c: coupons)
+            if (coupons.size() != 0) {
+                for (Coupon c : coupons)
                     couponRepository.deleteById(c.getId());
                 userRepository.deleteById(id);
                 return ResponseEntity.ok(1);
@@ -99,10 +99,10 @@ public class AdminController {
         return null;
     }
 
-    @RequestMapping(path = "/analytic", method = { RequestMethod.GET })
+    @RequestMapping(path = "/analytic", method = {RequestMethod.GET})
     public ResponseEntity<?> getAllAnalytics(Authentication authentication) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
-        if (jwtuser.getRole().equals("ROLE_ADMIN")){
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
             List<Analytic> analytics = analyticRepository.findAll();
             String popularPage = "";
             long popularProduct = 0;
@@ -124,14 +124,14 @@ public class AdminController {
                     chat++;
                 else if (a.getPagename().equalsIgnoreCase("quiz"))
                     quiz++;
-                else if (a.getPagename().equalsIgnoreCase("product")){
+                else if (a.getPagename().equalsIgnoreCase("product")) {
                     int index = productId.size();
 
-                    if (productId.contains(a.getProductId())){
+                    if (productId.contains(a.getProductId())) {
                         index = productId.indexOf(a.getProductId());
-                        productId.set(index,a.getProductId());
-                        productCount.set(index,productCount.get(index)+1);
-                    }else{
+                        productId.set(index, a.getProductId());
+                        productCount.set(index, productCount.get(index) + 1);
+                    } else {
                         productId.add(a.getProductId());
                         productCount.add(1);
                     }
@@ -155,42 +155,39 @@ public class AdminController {
                 popularPage = "chat";
             else
                 popularPage = "quiz";
-            if (productCount.size() == 0){
-                return ResponseEntity.ok(""+popularPage+" none");
-            }else{
+            if (productCount.size() == 0) {
+                return ResponseEntity.ok("" + popularPage + " none");
+            } else {
                 int highestCount = 0;
 
-                for (int num:productCount) {
+                for (int num : productCount) {
                     if (num > highestCount)
                         highestCount = num;
                 }
                 popularProduct = productId.get(productCount.indexOf(highestCount));
 
-                return ResponseEntity.ok(""+popularPage+" "+popularProduct);
+                return ResponseEntity.ok("" + popularPage + " " + popularProduct);
             }
-
-
-
-        }else
+        } else
             return null;
     }
 
-    @RequestMapping(path = "/coupons", method = { RequestMethod.GET })
+    @RequestMapping(path = "/coupons", method = {RequestMethod.GET})
     public ResponseEntity<?> getCoupons(Authentication authentication) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
-        if (jwtuser.getRole().equals("ROLE_ADMIN")){
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
             List<Coupon> coupons = couponRepository.findAll();
             return ResponseEntity.ok(coupons);
-        }else
+        } else
             return null;
     }
 
-    @RequestMapping(path = "/coupons", method = { RequestMethod.POST })
+    @RequestMapping(path = "/coupons", method = {RequestMethod.POST})
     public ResponseEntity<?> save(Authentication authentication, @RequestBody Coupon data) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
         if (jwtuser.getRole().equals("ROLE_ADMIN")) {
             Coupon coupon = couponRepository.getById(data.getId());
-            if(coupon != null) {
+            if (coupon != null) {
                 User user = userRepository.findFirstByUsername(data.getUser().getUsername());
                 coupon.setCode(data.getCode());
                 coupon.setDesc(data.getDesc());
@@ -199,7 +196,7 @@ public class AdminController {
                 coupon.setUser(user);
 
                 couponRepository.save(coupon);
-                System.out.println("Saved "+coupon);
+                System.out.println("Saved " + coupon);
                 return ResponseEntity.ok(1);
             }
             return null;
@@ -210,15 +207,15 @@ public class AdminController {
     @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> couponGet(@PathVariable Long id) { return ResponseEntity.ok(couponRepository.findById(id)); }
 
-    @RequestMapping(path = "/coupons/{id}", method = { RequestMethod.DELETE })
-    public ResponseEntity<?> deleteCouponById(@PathVariable(value = "id") long id,Authentication authentication) throws AuthenticationException {
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.DELETE})
+    public ResponseEntity<?> deleteCouponById(@PathVariable(value = "id") long id, Authentication authentication) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
-        if (jwtuser.getRole().equals("ROLE_ADMIN")){
-            System.out.println("Received id for coupon deletion: "+id);
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
+            System.out.println("Received id for coupon deletion: " + id);
             Coupon coupon = couponRepository.getById(id);
-            if (coupon != null){
+            if (coupon != null) {
                 couponRepository.deleteById(coupon.getId());
-                System.out.println("Coupon deleted for id: "+id);
+                System.out.println("Coupon deleted for id: " + id);
                 return ResponseEntity.ok(1);
             }
             return null;

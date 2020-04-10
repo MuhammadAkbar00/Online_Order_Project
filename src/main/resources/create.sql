@@ -122,7 +122,7 @@ create table "ORDER"
     USER_ID BIGINT not null
         constraint ORDER_USER_ID_USER_ID_FK
             references USER,
-    BRANCH_ID BIGINT not null
+    BRANCH_ID BIGINT null
         constraint ORDER_BRANCH_ID_BRANCH_ID_FK
             references BRANCH,
     DATE DATE not null,
@@ -303,7 +303,7 @@ VALUES ('Aloo shimla mirch','Capsicum with potatoes and cumin seeds, onions, tom
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
 VALUES ('Kulcha','Indian mildly leavend bread','kulcha.jpg','side',12,'Y',84,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-VALUES ('Kuzhakkattai','Coconut dumplings','Kuzhakkattai.jpg','side',32,'Y',64,null);
+VALUES ('Kuzhakkattai','Coconut dumplings','kozhukkatta.jpg','side',32,'Y',64,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
 VALUES ('Baati','Hard, unleavened and sour bread','baati.jpg','dessert',8,'Y',90,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)

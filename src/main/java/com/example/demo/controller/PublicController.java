@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/public")
@@ -55,7 +57,7 @@ public class PublicController {
     }
 
     @RequestMapping(path = "/branches", method = {RequestMethod.GET})
-        public ResponseEntity<?> getMap() {
+    public ResponseEntity<?> getMap() {
         return ResponseEntity.ok(branchRepository.findAll());
     }
 
@@ -103,26 +105,6 @@ public class PublicController {
     @RequestMapping(path = "/adverts/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> adsEdit(@PathVariable Long id) { return ResponseEntity.ok(advertRepository.findById(id)); }
 
-//    @RequestMapping(path = "/adverts", method = { RequestMethod.POST })
-//    public ResponseEntity<?> save(Authentication authentication, @RequestBody Advert data) throws AuthenticationException {
-//        System.out.println("profile for " + authentication.getName());
-//        System.out.println("Checking " + advertRepository.getById(data.getId()) );
-//        Advert adv = advertRepository.getById(data.getId());
-//        if(adv != null) {
-//            adv.setId(data.getId());
-//            adv.setAdvertiser(data.getAdvertiser());
-//            adv.setDesc(data.getDesc());
-//            adv.setImage(data.getImage());
-//            adv.setSlot(data.getSlot());
-//            adv.setDisplay(data.getDisplay());
-//            advertRepository.save(adv);
-//            System.out.println("saved advert: " + adv.getId());
-//            return ResponseEntity.ok(adv);
-//        }
-//        System.out.println("haha rip");
-//        return null;
-//    }
-
     @RequestMapping(path = "/adverts", method = {RequestMethod.POST})
     public ResponseEntity<?> save(Authentication authentication, @RequestBody Advert data) throws AuthenticationException {
         if(data.getId() != null){
@@ -165,6 +147,18 @@ public class PublicController {
         }
         return null;
     }
+
+    @RequestMapping(path = "normal/images", method = {RequestMethod.GET})
+    public ResponseEntity<?> getAllImages() {
+        List<Normal> normals = normalRepository.findAll();
+        ArrayList<String> imagesArr = new ArrayList<>();
+        for(Normal n : normals)
+            imagesArr.add(n.getImage());
+        String[] images = new String[normals.size()];
+        imagesArr.toArray(images);
+        return ResponseEntity.ok(images);
+    }
+
 
 }
 

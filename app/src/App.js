@@ -3,6 +3,7 @@ import Authenticate from './public/Authenticate'
 import Auth from './auth'
 import Home from './public/Home'
 import Profile from './user/Profile'
+import Orders from './user/Orders'
 import Logout from './user/Logout'
 import Students from './admin/Students'
 import Courses from './public/Courses'
@@ -30,6 +31,7 @@ import {
 } from "react-router-dom";
 import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
+import CustomProduct from './user/CustomProduct.js';
 import MenuEdit from "./menu/MenuEdit";
 import Faq from "./faq/Faq";
 import CreateFaq from "./faq/CreateFaq";
@@ -58,7 +60,7 @@ export default () => {
     return (
         <>
             <Navbar bg="dark" expand="lg">
-                <Navbar.Brand as={Link} to="/">inDine</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/"><img style={{transform: "scale(2,2)"}} width="50em" src={require(`./images/logo.png`)} /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -69,6 +71,7 @@ export default () => {
                             Auth.isUser() &&
                             <>
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                                <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
                                 <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
@@ -83,17 +86,17 @@ export default () => {
               {
                   Auth.isLoggedIn()
                       ?
-                      <>
-                                    <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
-                                    <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
-                                     <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
-                                    <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
-                                </>
-                                :
-                                <>
-                                    <Nav.Link as={Link} to="/register">Register</Nav.Link>
-                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                                </>
+                            <>
+                                <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                                <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
+                                {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
+                                <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
+                            </>
+                            :
+                            <>
+                                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                            </>
                         }
                     </Nav>
                 </Navbar.Collapse>
@@ -120,6 +123,9 @@ export default () => {
                         </Route>
                         <Route path="/quiz">
                             <Quiz />
+                        </Route>
+                        <Route path="/orders">
+                            <Orders />
                         </Route>
                         <Route path="/quiz/result/:id">
                             <QuizResult />
@@ -162,6 +168,9 @@ export default () => {
                         </Route>
                         <Route path="/registrations">
                             <Registrations />
+                        </Route>
+                        <Route path="/custom">
+                            <CustomProduct />
                         </Route>
                         <Route exact path="/chat">
                             <CustomChatbot />

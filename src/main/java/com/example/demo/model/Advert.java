@@ -24,7 +24,7 @@ public class Advert {
 
     @Basic
     @Column(name = "ADVERTISER_ID")
-    public Long getAdvertiserId() {
+    public long getAdvertiserId() {
         return advertiserId;
     }
 

@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import {Link} from "react-router-dom";
 
 export default () => {
-
+  let returnUrl = "profile"
   const [user, setUser] = useState(null)
   //UserData
   const [firstName, setFirstName] = useState("")
@@ -76,55 +76,57 @@ export default () => {
   }
 
   return (
-    user &&
-    <div className="App">
-      <header style={{marginLeft:200}} className="App-header">
-        <h1>User</h1>
-        <dl>
-          <dt>Username</dt><dd>{user.username}</dd>
-          <dt>First name</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
-          </dd>
-          <dt>Last name</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
-          </dd>
-          <dt>Address</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
-          </dd>
-          <dt>Email</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />
-          </dd>
-          <dt>Mailing</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.mailing}`} onChange={handleMailing} value={mailing} />
-          </dd>
-          <dt>Phone</dt>
-          <dd>
-            <Form.Control type="text" placeholder={`${user.phone}`} onChange={handlePhone} value={phone} />
-          </dd>
-          <dt>Points</dt>
-          <dd>
-            {user.points}
-          </dd>
-          <dt>Language</dt><dd>{user.language}</dd>
-          {/*<dt>Age</dt>*/}
-          {/*<dd>*/}
-          {/*  <Form.Control type="number" placeholder="Age" onChange={handleAge} value={student.age} />*/}
-          {/*</dd>*/}
+      Auth.isUser() ?
+      user &&
+      <div className="App">
+        <header style={{marginLeft:200}} className="App-header">
+          <h1>User</h1>
+          <dl>
+            <dt>Username</dt><dd>{user.username}</dd>
+            <dt>First name</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
+            </dd>
+            <dt>Last name</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
+            </dd>
+            <dt>Address</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
+            </dd>
+            <dt>Email</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />
+            </dd>
+            <dt>Mailing</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.mailing}`} onChange={handleMailing} value={mailing} />
+            </dd>
+            <dt>Phone</dt>
+            <dd>
+              <Form.Control type="text" placeholder={`${user.phone}`} onChange={handlePhone} value={phone} />
+            </dd>
+            <dt>Points</dt>
+            <dd>
+              {user.points}
+            </dd>
+            <dt>Language</dt><dd>{user.language}</dd>
+            {/*<dt>Age</dt>*/}
+            {/*<dd>*/}
+            {/*  <Form.Control type="number" placeholder="Age" onChange={handleAge} value={student.age} />*/}
+            {/*</dd>*/}
 
-        </dl>
-        <Button onClick={handleSave} >Save</Button>
-        <h1>Orders</h1>
-        <ul>
-          {
-            // registrations.map(item => <li key={item.id}>{item.course.name} - {item.course.capacity}</li>)
-          }
-        </ul>
-      </header>
-    </div>
+          </dl>
+          <Button onClick={handleSave} >Save</Button>
+          <h1>Orders</h1>
+          <ul>
+            {
+              // registrations.map(item => <li key={item.id}>{item.course.name} - {item.course.capacity}</li>)
+            }
+          </ul>
+        </header>
+      </div>
+    : <Redirect to={`/login?returnUrl=${returnUrl}`} />
   );
 }
