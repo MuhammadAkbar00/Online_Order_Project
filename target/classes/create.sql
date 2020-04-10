@@ -303,7 +303,7 @@ VALUES ('Aloo shimla mirch','Capsicum with potatoes and cumin seeds, onions, tom
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
 VALUES ('Kulcha','Indian mildly leavend bread','kulcha.jpg','side',12,'Y',84,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
-VALUES ('Kuzhakkattai','Coconut dumplings','Kuzhakkattai.jpg','side',32,'Y',64,null);
+VALUES ('Kuzhakkattai','Coconut dumplings','kozhukkatta.jpg','side',32,'Y',64,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)
 VALUES ('Baati','Hard, unleavened and sour bread','baati.jpg','dessert',8,'Y',90,null);
 INSERT INTO NORMAL (NAME,DESC,IMAGE,TYPE,PRICE,STOCK,QUANTITY,OCCASION_ID)

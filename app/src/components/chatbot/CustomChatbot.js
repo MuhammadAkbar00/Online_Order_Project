@@ -39,7 +39,7 @@ function CustomChatbot(props) {
         },
         {
             id: '7',
-            component: <img style={{width:"300px", height:"300px"}} src={ require('../../images/yourefired.jpg') } />,
+            component: <img alt="" style={{width:"300px", height:"300px"}} src={ require('../../images/yourefired.jpg') } />,
             end: true
         }
     ];

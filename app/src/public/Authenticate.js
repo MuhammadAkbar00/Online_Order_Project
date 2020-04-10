@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Auth from '../auth'
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 export default ({ type }) => {
+
+    let returnUrl = window.location.search.split('=')[1]
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -26,7 +28,7 @@ export default ({ type }) => {
 
     if (isLoggedIn) {
         return (
-            <Redirect to="/" />
+            <Redirect to={`/${returnUrl}`} />
         )
     } else {
         return (

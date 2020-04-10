@@ -14,7 +14,7 @@ import Nav from 'react-bootstrap/Nav'
 
 //Import to use for forms and user data entry
 import Button from "react-bootstrap/Button"
-import Form from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form'
 
 
 export default () => {
@@ -31,7 +31,7 @@ export default () => {
     //useStates created for every field of information a customer needs in
     //the database to be able to send it back for CRUD operations or display
     //it in a form
-    const [userId   , setuserId   ] = useState("")
+    const [userId   , setUserId   ] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName , setLastName ] = useState("")
     const [address  , setAddress  ] = useState("")
@@ -116,7 +116,7 @@ export default () => {
     const getUserOptions = () => {
         let usernames = []
         customers.map(item=>{
-            if (item.username != "admin") {
+            if (item.username !== "admin") {
                 usernames.push(item.username)
             }
         })
@@ -155,7 +155,7 @@ export default () => {
         setData("edit")
 
         let user = customers.filter(item=>{
-            if (item.id == id ) 
+            if (item.id === id ) 
                 return item
         })
         user = user[0]
@@ -179,43 +179,43 @@ export default () => {
     //existing one
     const createUser = async(id) => {
 
-        setuserId(""+(id+1))
-        setFirstName("")
-        setLastName("")
-        setAddress("")
-        setEmail("")
-        setMailing("")
-        setPoints("")
-        setLanguage("")
-        setPhone("")
+        // setuserId(""+(id+1))
+        // setFirstName("")
+        // setLastName("")
+        // setAddress("")
+        // setEmail("")
+        // setMailing("")
+        // setPoints("")
+        // setLanguage("")
+        // setPhone("")
 
-        let user = customers.filter(item=>{
-            if (item.id == id ) 
-                return item
-        })
-        user = user[0]
+        // let user = customers.filter(item=>{
+        //     if (item.id == id ) 
+        //         return item
+        // })
+        // user = user[0]
 
-        setFirstName(user.firstName ? user.firstName : "")
-        setLastName(user.lastName ? user.lastName : "")
-        setAddress(user.address ? user.address : "")
-        setEmail(user.email ? user.email : "")
-        setMailing(user.mailing ? user.mailing : "")
-        setPoints(user.points ? user.points : 0)
-        setLanguage(user.language ? user.language : "")
-        setPhone(user.phone ? user.phone : "")
+        // setFirstName(user.firstName ? user.firstName : "")
+        // setLastName(user.lastName ? user.lastName : "")
+        // setAddress(user.address ? user.address : "")
+        // setEmail(user.email ? user.email : "")
+        // setMailing(user.mailing ? user.mailing : "")
+        // setPoints(user.points ? user.points : 0)
+        // setLanguage(user.language ? user.language : "")
+        // setPhone(user.phone ? user.phone : "")
 
-        let user = {}
-        user.userId = customer.userId
-        user.username = customer.username
-        user.firstName = (firstName ? firstName : null)
-        user.lastName = (lastName ? lastName : null)
-        user.address = (address ? address : null)
-        user.email = (email ? email : null)
-        user.mailing = (mailing ? mailing : 'N')
-        user.points = (points ? points : 0)
-        user.language = (language ? language : "EN") 
-        user.phone = (phone ? phone : null)
-        await db.users.saveNoFormat(null,user)
+        // let user = {}
+        // user.userId = customer.userId
+        // user.username = customer.username
+        // user.firstName = (firstName ? firstName : null)
+        // user.lastName = (lastName ? lastName : null)
+        // user.address = (address ? address : null)
+        // user.email = (email ? email : null)
+        // user.mailing = (mailing ? mailing : 'N')
+        // user.points = (points ? points : 0)
+        // user.language = (language ? language : "EN") 
+        // user.phone = (phone ? phone : null)
+        // await db.users.saveNoFormat(null,user)
     }
 
 
@@ -296,7 +296,7 @@ export default () => {
     const editCoupon = async (id) => {
 
         let coupon = coupons.filter(item=>{
-            if (item.id == id ) 
+            if (item.id === id ) 
                 return item
         })
         coupon = coupon[0]

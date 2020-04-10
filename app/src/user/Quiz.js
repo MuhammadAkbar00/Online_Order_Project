@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from 'react'
+import Button from "react-bootstrap/Button"
 import {
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useLocation,
     useHistory,
-    browserHistory
-} from "react-router-dom";
+    Redirect
+} from "react-router-dom"
+import Auth from '../auth'
 
 export default () => {
 
+    let returnUrl = "quiz"
     const history = useHistory();
     const [start, setStart] = useState(false)
     const [next, setNext] = useState(0)
@@ -269,6 +266,7 @@ export default () => {
 
 
     return (
+        Auth.isUser() ? 
         <>
       <span className={"game"}>
           <div class="game container1">
@@ -297,5 +295,6 @@ export default () => {
             </div>
       </span>
         </>
+        : <Redirect to={`/login?returnUrl=${returnUrl}`} />
     )
 }

@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 public class Order {
-    private long id;
+    private Long id;
     private Long userId;
     private Long branchId;
     private Date date;
@@ -18,17 +18,17 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "USER_ID")
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -139,5 +139,20 @@ public class Order {
         result = 31 * result + (lastAccess != null ? lastAccess.hashCode() : 0);
         result = 31 * result + (dinein != null ? dinein.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", branchId=" + branchId +
+                ", date=" + date +
+                ", total=" + total +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", paid='" + paid + '\'' +
+                ", lastAccess=" + lastAccess +
+                ", dinein='" + dinein + '\'' +
+                '}';
     }
 }

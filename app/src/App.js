@@ -12,7 +12,6 @@ import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest"
 import Marketing from './marketing/Marketing.js'
@@ -31,6 +30,7 @@ import {
 } from "react-router-dom";
 import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
+import CustomProduct from './user/CustomProduct.js';
 
 
 export default () => {
@@ -54,7 +54,7 @@ export default () => {
     return (
         <>
             <Navbar bg="dark" expand="lg">
-                <Navbar.Brand as={Link} to="/">inDine</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/"><img style={{transform: "scale(2,2)"}} width="50em" src={require(`./images/logo.png`)} /></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -146,6 +146,9 @@ export default () => {
                         </Route>
                         <Route path="/registrations">
                             <Registrations />
+                        </Route>
+                        <Route path="/custom">
+                            <CustomProduct />
                         </Route>
                         <Route exact path="/chat">
                             <CustomChatbot />

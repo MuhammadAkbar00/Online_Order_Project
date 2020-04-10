@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import db from '../db.js'
+import Auth from '../auth'
+import {
+    Redirect
+  } from "react-router-dom"
 
 export default () => {
 
+  let returnUrl = "profile"
   const [user, setUser] = useState(null)
   // const [registrations, setRegistrations] = useState([])
 
@@ -25,6 +30,7 @@ export default () => {
   // }
 
   return (
+    Auth.isUser() ?
     user &&
     <div className="App">
       <header className="App-header">
@@ -47,5 +53,6 @@ export default () => {
         </ul>
       </header>
     </div>
+    : <Redirect to={`/login?returnUrl=${returnUrl}`} />
   );
 }

@@ -3,8 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.jwt.*;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
-
-import com.example.demo.model.Coupon;
 import com.example.demo.model.User;
 import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.UserRepository;
@@ -12,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -35,6 +33,12 @@ public class UserController {
     private NormalRepository normalRepository;
     @Autowired
     private CouponRepository couponRepository;
+    @Autowired
+    private AdvertRepository advertRepository;
+    @Autowired
+    private PartRepository partRepository;
+    @Autowired
+    private CustomRepository customRepository;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
@@ -61,20 +65,42 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "/orders/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> order(@PathVariable long id) {
-        Order order = orderRepository.findByUserId(id);
+    @RequestMapping(path = "/orders", method = {RequestMethod.GET})
+    public ResponseEntity<?> order(Authentication authentication) {
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
         if (order == null) {
             System.out.println("cannot find order buddy!");
-            return ResponseEntity.ok(null);
+
+            System.out.println("Creating new order");
+            order = new Order();
+            order.setUserId(user.getId());
+
+            Date date = new Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            order.setDate(sqlDate);
+
+            order.setDinein("N");
+            order.setTotal(0);
+            order.setBranchId((long) 1);
+            order.setPaymentMethod("C");
+            order.setPaid("N");
+            order.setLastAccess(sqlDate);
+            orderRepository.save(order);
+            System.out.println("Created new order: "+order);
+
+            return ResponseEntity.ok(order);
         }
         return ResponseEntity.ok(order);
     }
 
-    @RequestMapping(path = "/orders", method = {RequestMethod.PATCH})
-    public ResponseEntity<?> save(@RequestBody Order data) {
-        Order order = new Order();
-        order.setUserId(data.getUserId());
+    @RequestMapping(path = "/orders", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(@RequestBody Order data, Authentication authentication) throws AuthenticationException {
+
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
+
+        order.setUserId(user.getId());
         order.setBranchId(data.getBranchId());
         order.setDate(data.getDate());
         order.setTotal(data.getTotal());
@@ -146,5 +172,31 @@ public class UserController {
         System.out.println("Checking for constraints");
         return ResponseEntity.ok("test");
     }
+
+    @RequestMapping(path = "/parts", method = {RequestMethod.GET})
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(partRepository.findAll());
+    }
+
+
+    @RequestMapping(path = "/customs", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(@RequestBody Custom data, Authentication authentication) throws AuthenticationException {
+        Custom custom = customRepository.getById(data.getId());
+        if (custom == null){
+            custom = new Custom();
+
+            Date date = new Date();
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            custom.setDate(sqlDate);
+
+            custom.setOccasion(null);
+            custom.setTotal(0);
+            custom.setName("");
+            custom.setType("salad");
+            return ResponseEntity.ok(custom);
+        }
+        return ResponseEntity.ok(custom);
+    }
+
 
 }

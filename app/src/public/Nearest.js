@@ -148,7 +148,7 @@ export default () => {
                         popup.setPosition(coordinates)
 
                         let featureData = data.filter((e)=>{
-                            return (e.lon == coordinates[0] && e.lat == coordinates[1] ? e.province : "") 
+                            return (e.lon == coordinates[0] && e.lat === coordinates[1] ? e.province : "") 
                         })
 
                         showPopUp(element, featureData[0].province+" branch")
@@ -160,8 +160,8 @@ export default () => {
                 map.on('click', clickHandler)
 
                 if (focus) {
-                    if (focus.length != 0) {
-                        if (focus.length == 3) {
+                    if (focus.length !== 0) {
+                        if (focus.length === 3) {
 
                             let userLocation = fromLonLat(focus)
                             let distances = []

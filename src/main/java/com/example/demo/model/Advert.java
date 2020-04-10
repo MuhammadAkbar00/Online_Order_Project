@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 @Entity
 public class Advert {
-    private long id;
-    private long advertiserId;
+    private Long id;
+    private Long advertiserId;
     private String desc;
     private String image;
     private Integer slot;
@@ -14,11 +14,11 @@ public class Advert {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,7 +28,7 @@ public class Advert {
         return advertiserId;
     }
 
-    public void setAdvertiserId(long advertiserId) {
+    public void setAdvertiserId(Long advertiserId) {
         this.advertiserId = advertiserId;
     }
 

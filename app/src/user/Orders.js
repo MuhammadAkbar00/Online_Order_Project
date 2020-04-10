@@ -3,10 +3,18 @@ import db from '../db.js';
 import Order_items from "./Order_items";
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
-
+import Auth from '../auth'
+import {
+    Redirect
+  } from "react-router-dom"
+  
 export default () => {
 
+    let returnUrl = "orders"
+
     const [order, setOrder] = useState(null)
+    const [user , setUser] = useState(null)
+    
     const [editId, setEditId] = useState("")
     const [userId, setUserId] = useState(null)
     const [branchId, setBranchId] = useState(null)
@@ -16,7 +24,8 @@ export default () => {
     const [paid, setPaid] = useState(null)
     const [lastAccess, setLastAccess] = useState(null)
     const [dineIn, setDineIn] = useState(null)
-
+    
+    const [home, setHome] = useState(false)
 
     useEffect(() => {
         handleGetOrder()
@@ -41,52 +50,25 @@ export default () => {
     // }
 
     const handleGetOrder = async () => {
-        // const branch = await db.branches.getPublic("")
+        
         const user = await db.users.getUser("loggeduser");
-        const order = await db.orders.getUser(`${user.id}`);
-
-        /////////////////////////////////////////////////////////////////////
-        //              CREATING NEW CART THROUGH FRONT-END
-        // const date = getDateFormatted();
-        // let myOrder = await order.text();
-        // console.log("order",myOrder)
-        // if (!myOrder) {
-        //         await db.orders.saveNoFormat('user',
-        //             {
-        //                 userId: user.id,
-        //                 branchId: 1,
-        //                 date: date,
-        //                 total: 0,
-        //                 paymentMethod: 'C',
-        //                 paid: 'N',
-        //                 lastAccess: date,
-        //                 dinein: 'Y'
-        //             }
-        //         );
-        //     // console.log("after save")
-        // }
-        // console.log("user", user)
-        // console.log("orders", order)
-        // order = await db.orders.getByQueryRaw('user',`${user.id}`);
-        // order = await order.json();
+        setUser(user)
+        const order = await db.orders.getUser(``);
+        console.log('order id sent', order.id)
         setOrder(order);
-        // console.log("user after set", user)
-        // console.log("orders after set", order)
+
     }
 
     const userCheckout = async (order) => {
-        // try if paid is y "create new order" button which register user again
-        const user = await db.users.getUser("loggeduser");
-        // const order = await db.orders.getUser(`${user.id}`);
+        
         console.log("order paid before set ", order.paid)
         order.paid = 'Y';
         console.log("order paid after set ", order.paid)
         await db.orders.saveNoFormat('user',
-            {
-                order
-            }
+            order
         );
         await handleGetOrder()
+        setHome(true)
     }
 
     const handlePaymentMethod = (event) => {
@@ -98,6 +80,8 @@ export default () => {
     }
 
     return (
+        Auth.isUser() ?
+        !home ?
         order &&
         <div className="App">
             <header className="App-header">
@@ -130,5 +114,7 @@ export default () => {
                 <Button onClick={() => userCheckout(order)}>Check Out!</Button>
             </header>
         </div>
+        : <Redirect to={`/`} />
+        : <Redirect to={`/login?returnUrl=${returnUrl}`} />
     );
 }

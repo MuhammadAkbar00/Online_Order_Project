@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 public class Custom {
-    private long id;
+    private Long id;
     private String name;
     private String desc;
     private Date date;
@@ -18,11 +18,11 @@ public class Custom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

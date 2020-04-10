@@ -188,5 +188,6 @@ export default {
     normal: new Table("normal"),
     // custom: new Table("custom")
     analytics: new Table("analytic"),
-    coupons: new Table("coupons")
+    coupons: new Table("coupons"),
+    parts: new Table("parts")
 }

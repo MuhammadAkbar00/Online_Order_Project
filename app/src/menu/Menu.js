@@ -2,17 +2,16 @@ import React, {useState, useEffect} from 'react'
 import db from '../db.js'
 import Auth from "../auth"
 import Button from "react-bootstrap/Button"
-import {Link, Route, Switch} from "react-router-dom"
 import PageRecord from '../marketing/PageRecord'
-import Authenticate from "../public/Authenticate"
-import Logout from "../user/Logout"
-import Profile from "../user/Profile"
-import Students from "../admin/Students"
-import CourseDetail from "../public/CourseDetail"
-import Courses from "../public/Courses"
-import Registrations from "../public/Registrations"
-import Home from "../public/Home"
-import MenuDetail from "./MenuDetail"
+import Container from "react-bootstrap/Container"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import CustomProduct from "../user/CustomProduct.js"
+import {
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom"
 // import Normal from "./normal"
 
 
@@ -31,7 +30,6 @@ export default () => {
         setMenuDetail(id)
     }
 
-
     const handleUserMenu = async () => {
         const menu = await db.menu.getPublic("")
         console.log("Menu", menu)
@@ -40,47 +38,71 @@ export default () => {
 
     const addToMyCart = async (product_id) => {
         const user = await db.users.getUser("loggeduser");
-        const userOrder = await db.orders.getUser(`${user.id}`);
+        const userOrder = await db.orders.getUser(``);
         await db.order_items.saveNoFormat('user', {
             orderId: userOrder.id,
             productId: product_id
         })
+
+        document.getElementById('status '+product_id).style.display = ""
+        let timeout = setTimeout(() => {
+            document.getElementById('status '+product_id).style.display = "none"
+        }, 3000);
+        
     }
 
     return (
         menu &&
-        <div className="App">
+        <div >
             <PageRecord pagename="menu" productId={null}/>
-            <header className="App-header">
-                <dl>
-                </dl>
-                <h1>Menu</h1>
-                <ul>
-                    {
-                        menu.map(item => <div key={item.id}><p
-                            style={{fontWeight: "bold", fontSize: 30}}>{item.name}</p>
-                            <p>
-                                Description: {item.desc}
-                            </p>
-                            <p>
-                                Price: {item.price}
-                            </p>
-                            <p>
-                                Stock: {item.stock}
-                            </p>
-                            <p>
-                                OccasionId: {item.occasionId}
-                            </p>
-                            <p>
-                                Type: {item.type}
-                            </p>
-                            {Auth.isUser() &&
-                            <Button onClick={() => addToMyCart(item.id)}>Buy</Button>}
-                            <Link as={Link} to={`menu/${item.id}`}>Details</Link>
-                        </div>)
-                    }
-                </ul>
-            </header>
+
+            <Container>
+                <Row>
+                    <Col></Col>
+                    <Col xl={"auto"}>
+                        <div style={{backgroundColor: "#3B3F43"}}>
+                            <h1 style={{textAlign: "center"}} className={"nobreak"} >Menu</h1>
+                            <Link as={Link} to="/custom"><h5 class="card-header">Add a custom salad to your order!</h5></Link>
+                        </div>
+                        <div>
+                            {
+                              menu.map(item => 
+                              <div key={item.id}>
+                                
+                                <div class="card" style={{minWidth:306}}>
+                                <h5 class="card-header">{item.name}</h5>
+                                <div class="card-body" style={{display:"flex"}}>
+                                    
+                                    <Container>
+                                        <Row>
+                                            <Col lg={2} xl={2}><h5 class="card-title">{item.price} QAR</h5></Col>
+                                            <Col lg={3} xl={5}>
+                                                <p class="card-text" style={{textOverflow:"none"}}>{item.desc}</p><br />
+                                                {Auth.isUser() &&
+                                                <>
+                                                    <Button onClick={() => addToMyCart(item.id)} className={"btn btn-primary"}>Buy</Button>
+                                                    <br /> <br />
+                                                    <p style={{display: "none"}} id={`status ${item.id}`} >Added to cart!</p>
+                                                    <br/>
+                                                </>
+                                                }
+                                                <Link as={Link} to={`menu/${item.id}`}>Details</Link>
+                                            </Col>
+                                            <Col>
+                                                <img alt="" style={{width:"250px"}} src={ require(`../images/${item.image}`) } />
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                
+                                </div>
+                                </div>
+                              </div>) 
+                            }
+                        </div>
+                    </Col>
+                    <Col></Col>
+                </Row>
+            </Container>
         </div>
     );
 }
