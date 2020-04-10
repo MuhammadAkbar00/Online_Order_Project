@@ -18,10 +18,10 @@ export default ({product_id}) => {
 
     return (
         product &&
-            <div>
+            <td key={product.id}>
                 {
                     product.map(product =><Normal key={product.id} normalid={product.normal.id}/>)
                 }
-            </div>
+            </td>
     );
 }

@@ -3,6 +3,7 @@ import db from '../db.js';
 import Products from "./Products";
 import Button from "react-bootstrap/Button";
 
+// takes a an order ID parameter to get all the information for that specific order
 export default ({order_id}) => {
 
     const [order_item, setOrder_items] = useState([])
@@ -20,12 +21,12 @@ export default ({order_id}) => {
 
     const deleteOrderItem = async (order_item) => {
         await db.order_items.deleteById('user', order_item.id)
-        await handleGetAll()
+        handleGetAll()
     }
 
     return (
         order_item &&
-        <>
+        <table key={order_item.id}>
             {
                 order_item.map(order_item =>
                     <tr>
@@ -34,6 +35,6 @@ export default ({order_id}) => {
                     </tr>
                 )
             }
-        </>
+        </table>
     );
 }

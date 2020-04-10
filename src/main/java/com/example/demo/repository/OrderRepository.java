@@ -5,7 +5,11 @@ package com.example.demo.repository;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
         Order findFirstByUserId(long id);
+
         Order findByUserId(long id);
-        Order findByUserIdAndPaidEquals(long id,String paid);
+
+        Order findByUserIdAndPaidEquals(long id, String paid);
+
+        Order findById(long id);
 
 }

@@ -64,14 +64,17 @@ public class UserController {
     @RequestMapping(path = "/orders/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> order(@PathVariable long id) {
         Order order = orderRepository.findByUserId(id);
-        if (order == null) {
-            System.out.println("cannot find order buddy!");
-            return ResponseEntity.ok(null);
-        }
         return ResponseEntity.ok(order);
     }
 
-    @RequestMapping(path = "/orders", method = {RequestMethod.PATCH})
+
+    @RequestMapping(path = "/orders/myOrder/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> myOrder(@PathVariable long id) {
+        Order order = orderRepository.findById(id);
+        return ResponseEntity.ok(order);
+    }
+
+    @RequestMapping(path = "/orders", method = {RequestMethod.POST})
     public ResponseEntity<?> save(@RequestBody Order data) {
         Order order = new Order();
         order.setUserId(data.getUserId());
@@ -82,7 +85,6 @@ public class UserController {
         order.setPaid(data.getPaid());
         order.setLastAccess(data.getLastAccess());
         order.setDinein(data.getDinein());
-        //check if user exists in order db
         orderRepository.save(order);
         System.out.println("saved order: " + order.getUserId());
         return ResponseEntity.ok(order);
@@ -109,8 +111,6 @@ public class UserController {
         orderitemRepository.deleteById(id);
         System.out.println("orderItem deleted for id: " + id);
     }
-
-
 
     @RequestMapping(path = "/products/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> product(@PathVariable Long id) {
@@ -143,7 +143,6 @@ public class UserController {
     @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
         System.out.println("Received id for deletion: " + id);
-        System.out.println("Checking for constraints");
         return ResponseEntity.ok("test");
     }
 
