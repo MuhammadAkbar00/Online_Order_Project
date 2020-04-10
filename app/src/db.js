@@ -105,6 +105,7 @@ class Table {
     }
 
     savePublic = async (role,data) => {
+        console.log(data)
         const response = await window.fetch(
             `/${role}/${this.table}`,
             {
@@ -185,6 +186,7 @@ class Table {
 
 
     deleteById = async (role,id) => {
+        console.log("deleting", id)
         const response = await Auth.fetch(
             `${role}/${this.table}/${id}`,
             {
@@ -205,5 +207,7 @@ export default {
     analytics: new Table("analytic"),
     coupons: new Table("coupons"),
     products: new Table("products"),
-    faqs: new Table("faqs")
+    faqs: new Table("faqs"),
+    adverts: new Table("adverts"),
+    advertisers: new Table("advertisers")
 }

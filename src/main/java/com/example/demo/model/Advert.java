@@ -1,26 +1,35 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Advert {
-    private long id;
+    private Long id;
+    private Long advertiserId;
     private String desc;
     private String image;
     private Integer slot;
     private String display;
-    private Advertiser advertiser;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public long getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "ADVERTISER_ID")
+    public Long getAdvertiserId() {
+        return advertiserId;
+    }
+
+    public void setAdvertiserId(Long advertiserId) {
+        this.advertiserId = advertiserId;
     }
 
     @Basic
@@ -67,26 +76,27 @@ public class Advert {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Advert advert = (Advert) o;
-        return id == advert.id &&
-                Objects.equals(desc, advert.desc) &&
-                Objects.equals(image, advert.image) &&
-                Objects.equals(slot, advert.slot) &&
-                Objects.equals(display, advert.display);
+
+        if (id != advert.id) return false;
+        if (advertiserId != advert.advertiserId) return false;
+        if (desc != null ? !desc.equals(advert.desc) : advert.desc != null) return false;
+        if (image != null ? !image.equals(advert.image) : advert.image != null) return false;
+        if (slot != null ? !slot.equals(advert.slot) : advert.slot != null) return false;
+        if (display != null ? !display.equals(advert.display) : advert.display != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, desc, image, slot, display);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "ADVERTISER_ID", referencedColumnName = "ID", nullable = false)
-    public Advertiser getAdvertiser() {
-        return advertiser;
-    }
-
-    public void setAdvertiser(Advertiser advertiser) {
-        this.advertiser = advertiser;
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (advertiserId ^ (advertiserId >>> 32));
+        result = 31 * result + (desc != null ? desc.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (slot != null ? slot.hashCode() : 0);
+        result = 31 * result + (display != null ? display.hashCode() : 0);
+        return result;
     }
 }

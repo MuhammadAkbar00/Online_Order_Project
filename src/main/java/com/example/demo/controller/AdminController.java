@@ -207,6 +207,8 @@ public class AdminController {
         return null;
     }
 
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> couponGet(@PathVariable Long id) { return ResponseEntity.ok(couponRepository.findById(id)); }
 
     @RequestMapping(path = "/coupons/{id}", method = { RequestMethod.DELETE })
     public ResponseEntity<?> deleteCouponById(@PathVariable(value = "id") long id,Authentication authentication) throws AuthenticationException {

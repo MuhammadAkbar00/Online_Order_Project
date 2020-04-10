@@ -1,20 +1,17 @@
 package com.example.demo.controller;
 
 import com.example.demo.jwt.AuthenticationException;
+import com.example.demo.jwt.JwtUser;
 import com.example.demo.jwt.JwtUserRepository;
-import com.example.demo.model.Analytic;
-import com.example.demo.model.User;
-import com.example.demo.repository.AnalyticRepository;
-import com.example.demo.repository.ProductRepository;
-import com.example.demo.repository.BranchRepository;
-import com.example.demo.repository.FaqRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.NormalRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/public")
@@ -32,6 +29,10 @@ public class PublicController {
     private ProductRepository productRepository;
     @Autowired
     private FaqRepository faqRepository;
+    @Autowired
+    private AdvertRepository advertRepository;
+    @Autowired
+    private AdvertiserRepository advertiserRepository;
 
 //    @RequestMapping(path = "/courses/{id}", method = {RequestMethod.GET})
 //    public ResponseEntity<?> course(@PathVariable Long id) {
@@ -93,6 +94,77 @@ public class PublicController {
 
     @RequestMapping(path = "/faqs/findByQuestionContaining/{name}", method = {RequestMethod.GET})
     public ResponseEntity<?> faq(@PathVariable String name) { return ResponseEntity.ok(faqRepository.findByQuestionContaining(name)); }
+
+    @RequestMapping(path = "/adverts", method = {RequestMethod.GET})
+    public ResponseEntity<?> ads() {
+        return ResponseEntity.ok(advertRepository.findAll());
+    }
+
+    @RequestMapping(path = "/adverts/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> adsEdit(@PathVariable Long id) { return ResponseEntity.ok(advertRepository.findById(id)); }
+
+//    @RequestMapping(path = "/adverts", method = { RequestMethod.POST })
+//    public ResponseEntity<?> save(Authentication authentication, @RequestBody Advert data) throws AuthenticationException {
+//        System.out.println("profile for " + authentication.getName());
+//        System.out.println("Checking " + advertRepository.getById(data.getId()) );
+//        Advert adv = advertRepository.getById(data.getId());
+//        if(adv != null) {
+//            adv.setId(data.getId());
+//            adv.setAdvertiser(data.getAdvertiser());
+//            adv.setDesc(data.getDesc());
+//            adv.setImage(data.getImage());
+//            adv.setSlot(data.getSlot());
+//            adv.setDisplay(data.getDisplay());
+//            advertRepository.save(adv);
+//            System.out.println("saved advert: " + adv.getId());
+//            return ResponseEntity.ok(adv);
+//        }
+//        System.out.println("haha rip");
+//        return null;
+//    }
+
+    @RequestMapping(path = "/adverts", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody Advert data) throws AuthenticationException {
+        if(data.getId() != null){
+            Advert advert = advertRepository.getById(data.getId());
+            advert.setDesc(data.getDesc());
+            advert.setAdvertiserId(data.getAdvertiserId());
+            advert.setImage(data.getImage());
+            advert.setSlot(data.getSlot());
+            advert.setDisplay(data.getDisplay());
+            advertRepository.save(advert);
+            return ResponseEntity.ok(advert);
+        }else{
+            Advert adNew = new Advert();
+            adNew.setDesc(data.getDesc());
+            adNew.setAdvertiserId(data.getAdvertiserId());
+            adNew.setImage(data.getImage());
+            adNew.setSlot(data.getSlot());
+            adNew.setDisplay(data.getDisplay());
+            advertRepository.save(adNew);
+            return ResponseEntity.ok(adNew);
+        }
+    }
+
+    @RequestMapping(path = "/advertisers", method = {RequestMethod.GET})
+    public ResponseEntity<?> advertisersAll() {
+        return ResponseEntity.ok(advertiserRepository.findAll());
+    }
+
+    @RequestMapping(path = "/advertisers/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> advertisers(@PathVariable Long id) { return ResponseEntity.ok(advertiserRepository.findById(id)); }
+
+    @RequestMapping(path = "/adverts/{id}", method = { RequestMethod.DELETE })
+    public ResponseEntity<?> deleteAdvertsById(@PathVariable(value = "id") long id,Authentication authentication) throws AuthenticationException {
+        System.out.println("Received id for adverts deletion: "+id);
+        Advert adz = advertRepository.getById(id);
+        if (adz != null){
+            advertRepository.deleteById(adz.getId());
+            System.out.println("Ads deleted for id: "+id);
+            return ResponseEntity.ok(1);
+        }
+        return null;
+    }
 
 }
 

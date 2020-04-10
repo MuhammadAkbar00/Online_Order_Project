@@ -71,6 +71,7 @@ export default () => {
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
+                                <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                             </>
                         }
                         {
@@ -85,7 +86,7 @@ export default () => {
                       <>
                                     <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
                                     <Nav.Link as={Link} to="/nearest">Nearest</Nav.Link>
-                                    {/* <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link> */}
+                                     <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                                     <Nav.Link as={Link} to="/chat">Chat</Nav.Link>
                                 </>
                                 :
