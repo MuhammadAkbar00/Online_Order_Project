@@ -29,10 +29,15 @@ export default () => {
         } else {
             product = await db.products.getByQueryNoFormat('marketing',productId)
             console.log(product, "This is the product")
-            if (product.custom == null)
-                setPopularProduct(product.normal)
-            else
+            if (product.custom == null){
+                let normalProduct = await db.normal.getMarketing(product[0].normalId)
+                setPopularProduct(normalProduct)
+            }
+            else{
+                let customProduct = await db.customs.getMarketing(product[0].customId)
                 setPopularProduct(product.custom)
+            }
+                
         }
     }
 

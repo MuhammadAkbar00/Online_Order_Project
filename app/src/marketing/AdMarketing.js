@@ -33,14 +33,15 @@ export default () => {
     const [editDisplay , setEditDisplay ] = useState("")
 
     useEffect(() => {
-        if(auth.isLoggedIn()){
+
             handleGetByQuery()
             handleGetAllAdverts()
-        }
+        
     }, [])
 
     const handleGetByQuery = async () => {
-        const ads = await db.adverts.getByQueryNoFormat('marketing','')
+        let ads = await db.adverts.getByQueryRaw('marketing','')
+        ads = await ads.json()
         console.log(ads)
         setAd(ads)
     }

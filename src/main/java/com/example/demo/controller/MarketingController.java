@@ -36,7 +36,10 @@ public class MarketingController {
     private AnalyticRepository analyticRepository;
     @Autowired
     private ProductRepository productRepository;
-
+    @Autowired
+    private NormalRepository normalRepository;
+    @Autowired
+    private CustomRepository customRepository;
 
     @RequestMapping(path = "/users", method = { RequestMethod.GET })
     public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
@@ -44,6 +47,11 @@ public class MarketingController {
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);
         return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(path = "/normal/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> normal(@PathVariable Long id) {
+        return ResponseEntity.ok(normalRepository.findById(id));
     }
 
     @RequestMapping(path = "/products/{id}", method = {RequestMethod.GET})
@@ -157,7 +165,10 @@ public class MarketingController {
         }
         return null;
     }
-
+    @RequestMapping(path = "/customs/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> custom(@PathVariable Long id) {
+        return ResponseEntity.ok(customRepository.findById(id));
+    }
     @RequestMapping(path = "/analytic", method = {RequestMethod.GET})
     public ResponseEntity<?> getAllAnalytics(Authentication authentication) throws AuthenticationException {
             List<Analytic> analytics = analyticRepository.findAll();

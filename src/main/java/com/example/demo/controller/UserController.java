@@ -236,12 +236,6 @@ public class UserController {
         }
         return ResponseEntity.ok(1);
     }
-    @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
-        System.out.println("Received id for deletion: " + id);
-        return ResponseEntity.ok("test");
-    }
-
 
     @RequestMapping(path = "/parts", method = {RequestMethod.GET})
     public ResponseEntity<?> findAll() {

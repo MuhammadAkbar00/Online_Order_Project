@@ -17,6 +17,7 @@ export default () => {
     const [selectValueDressing, setSelectValueDressing] = useState("Ranch dressing")
     const [selectValueBase, setSelectValueBase] = useState("Lettuce")
     const [selectValueCheese, setSelectValueCheese] = useState("Parmesan cheese")
+    const [home, setHome] = useState(false)
 
     useEffect(()=>{
         getAllParts()
@@ -110,6 +111,7 @@ export default () => {
         let res = await db.customs.saveNoFormat('user',custom)
         saveCustomParts(res.id)
         saveProduct(res.id)
+        setHome(true);
     }
 
     if (parts) {

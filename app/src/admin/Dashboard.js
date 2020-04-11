@@ -267,7 +267,6 @@ export default () => {
                 <Col>
                     <Nav.Link onClick={()=>{setData("customers")}}>Manage users</Nav.Link>
                     <Nav.Link onClick={()=>{getCoupons()}}>Manage coupons</Nav.Link>
-                    <Nav.Link onClick={()=>{getAdverts()}}>Manage adverts</Nav.Link>
                 </Col>
                 <Col>
                     { //Sections of the website are displayed according to the value of the data
