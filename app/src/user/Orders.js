@@ -92,7 +92,7 @@ export default () => {
     const userCheckout = async (order) => {
         const order_items = await db.order_items.getUser(`${order.id}`)
         if (order_items.length == 0) {
-
+                // SIKE
         }else{
             order.paid = 'Y';
             order.paymentMethod = paymentMethod;
@@ -100,6 +100,7 @@ export default () => {
             
         if(coupon != null){
             order.total = order.total - (order.total * coupon.discount / 100);
+            await db.coupons.deleteById('user', coupon.id)
         }
         console.log("order total after set ", order.total)
 

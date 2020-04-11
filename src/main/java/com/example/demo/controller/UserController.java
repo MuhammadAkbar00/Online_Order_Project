@@ -322,13 +322,21 @@ public class UserController {
 
     @RequestMapping(path = "/coupons", method = {RequestMethod.GET})
     public ResponseEntity<?> couponsUser(Authentication authentication) throws AuthenticationException {
-            User user = userRepository.findFirstByUsername(authentication.getName());
-            return ResponseEntity.ok(couponRepository.getAllByUser(user));
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        return ResponseEntity.ok(couponRepository.getAllByUser(user));
     }
 
     @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> getCoupon(@PathVariable Long id) {
         return ResponseEntity.ok(couponRepository.getById(id));
+    }
+
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.DELETE})
+    public ResponseEntity<?> deleteCoupon(@PathVariable Long id) {
+        System.out.println("delete coupon id: " + id);
+        couponRepository.deleteById(id);
+        System.out.println("done deleting coupon id: " + id);
+        return ResponseEntity.ok(1);
     }
 
     @RequestMapping(path = "/coupons/code/{code}", method = {RequestMethod.GET})
@@ -353,5 +361,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-}
 
+
+}

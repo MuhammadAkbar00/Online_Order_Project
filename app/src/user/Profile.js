@@ -59,7 +59,6 @@ export default () => {
   }
 
   const handleSave = async () => {
-
     let userg = {
       id: user.id,
       username: user.username,
@@ -125,8 +124,9 @@ export default () => {
                 desc: "2% discount from playing our game!"
             };
             const response = await db.coupons.saveNoFormat('user', newCo);
-            if (response!=1) {
+            if (response != 1) {
                 user.points -= 200;
+                handleUserCoupons();
             }
         }
         await db.users.saveNoFormat('user', user)
@@ -150,12 +150,12 @@ export default () => {
     setCouponRedeem(cpn)
   }
 
-  return (
-      Auth.isUser() ?
-          !couponRedeem ?
-      user &&
-      <div className="App">
-        <Container>
+    return (
+        Auth.isUser() ?
+            !couponRedeem ?
+                user &&
+                <div className="App">
+                    <Container>
 
           <header style={{marginLeft:200}} className="App-header">
             <h1>User</h1>
@@ -163,11 +163,13 @@ export default () => {
               <dt>Username</dt><dd>{user.username}</dd>
               <dt>First name</dt>
               <dd>
-                <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
-              </dd>
-              <dt>Last name</dt>
-              <dd>
-                <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
+                                    <Form.Control type="text" placeholder={`${user.firstName}`}
+                                                  onChange={handleFirstName} value={firstName}/>
+                                </dd>
+                                <dt>Last name</dt>
+                                <dd>
+                                    <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName}
+                                                  value={lastName}/>
               </dd>
               <dt>Address</dt>
               <Form.Control as={"select"} value={selectValue} onChange={handleSelect}>
