@@ -31,6 +31,7 @@ import {
 } from "react-router-dom";
 import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
+import {Reacteroids} from "./game/Reacteroids";
 
 
 export default () => {
@@ -65,6 +66,7 @@ export default () => {
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
+                                <Nav.Link as={Link} to="/game">Game</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
                             </>
                         }
@@ -110,6 +112,9 @@ export default () => {
                         </Route>
                         <Route path="/nearest">
                             <Nearest />
+                        </Route>
+                        <Route path="/game">
+                            <Reacteroids />
                         </Route>
                         <Route path="/quiz">
                             <Quiz />

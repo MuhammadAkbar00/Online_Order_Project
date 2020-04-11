@@ -146,4 +146,15 @@ public class UserController {
         return ResponseEntity.ok("test");
     }
 
+    @RequestMapping(path = "/users", method = {RequestMethod.POST})
+    public ResponseEntity<?> addPoints(@RequestBody User data) {
+        System.out.println("Received id for adding points: " + data.getId());
+        User user = userRepository.getById(data.getId());
+        System.out.println("before adding points: " + data);
+        user.setPoints(data.getPoints());
+        System.out.println("after adding points: " + data);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
 }
