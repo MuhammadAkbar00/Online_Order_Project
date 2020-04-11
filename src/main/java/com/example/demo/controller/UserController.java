@@ -2,12 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
 
-import com.example.demo.model.Coupon;
-import com.example.demo.model.Faq;
-import com.example.demo.model.User;
-import com.example.demo.repository.CouponRepository;
-import com.example.demo.repository.FaqRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,6 +39,8 @@ public class UserController {
     private PartRepository partRepository;
     @Autowired
     private CustomRepository customRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
 
         @RequestMapping(path = "/users", method = { RequestMethod.POST })
         public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
@@ -110,6 +108,12 @@ public class UserController {
             return ResponseEntity.ok(order);
         }
         return ResponseEntity.ok(order);
+    }
+
+    @RequestMapping(path = "/orders/getuser", method = {RequestMethod.GET})
+    public ResponseEntity<?> ordersUser(Authentication authentication) {
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        return ResponseEntity.ok(orderRepository.findAllByUserId(user.getId()));
     }
 
     @RequestMapping(path = "/orders", method = {RequestMethod.POST})
@@ -210,10 +214,6 @@ public class UserController {
         return null;
     }
 
-
-
-
-
     @RequestMapping(path = "/customs", method = {RequestMethod.POST})
     public ResponseEntity<?> save(@RequestBody Custom data, Authentication authentication) throws AuthenticationException {
         Custom custom = customRepository.getById(data.getId());
@@ -231,6 +231,41 @@ public class UserController {
             return ResponseEntity.ok(custom);
         }
         return ResponseEntity.ok(custom);
+    }
+
+    @RequestMapping(path = "/review", method = {RequestMethod.POST})
+    public ResponseEntity<?> saveReview(@RequestBody Experience data) {
+        Experience rev = new Experience();
+        rev.setOrderId(data.getOrderId());
+        rev.setStars(data.getStars());
+        experienceRepository.save(rev);
+        return ResponseEntity.ok(rev);
+    }
+
+    @RequestMapping(path = "/review/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> orderCheck(@PathVariable Long id) {
+        return ResponseEntity.ok(experienceRepository.getById(id));
+    }
+
+    @RequestMapping(path = "/review", method = {RequestMethod.GET})
+    public ResponseEntity<?> reviewss() {
+        return ResponseEntity.ok(experienceRepository.findAll());
+    }
+
+    @RequestMapping(path = "/coupons", method = {RequestMethod.GET})
+    public ResponseEntity<?> couponsUser(Authentication authentication) throws AuthenticationException {
+            User user = userRepository.findFirstByUsername(authentication.getName());
+            return ResponseEntity.ok(couponRepository.getAllByUser(user));
+    }
+
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> getCoupon(@PathVariable Long id) {
+        return ResponseEntity.ok(couponRepository.getById(id));
+    }
+
+    @RequestMapping(path = "/coupons/code/{code}", method = {RequestMethod.GET})
+    public ResponseEntity<?> getCoupon(@PathVariable String code) {
+        return ResponseEntity.ok(couponRepository.getFirstByCode(code));
     }
 
 

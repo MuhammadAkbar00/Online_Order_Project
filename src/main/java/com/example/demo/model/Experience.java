@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Experience {
     private long id;
     private Integer stars;
-    private Order order;
+    private Long orderId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,16 @@ public class Experience {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "ORDER_ID")
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     @Basic
@@ -42,15 +52,5 @@ public class Experience {
     @Override
     public int hashCode() {
         return Objects.hash(id, stars);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID", nullable = false)
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 }

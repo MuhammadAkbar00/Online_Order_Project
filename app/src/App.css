@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 2vh;
 }
 
 .rating input[type="radio"] {
@@ -16,5 +16,15 @@
 
 .chatbotfaq {
   color: #56a5eb;
+}
+
+.review {
+  min-height: 50vh;
+}
+
+.btn-outline-primary {
+  position: absolute;
+  right: 48%;
+  color: #ecf5ff;
 }
 

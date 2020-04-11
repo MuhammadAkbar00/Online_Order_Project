@@ -35,6 +35,8 @@ public class PublicController {
     private AdvertRepository advertRepository;
     @Autowired
     private AdvertiserRepository advertiserRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
 
 //    @RequestMapping(path = "/courses/{id}", method = {RequestMethod.GET})
 //    public ResponseEntity<?> course(@PathVariable Long id) {
@@ -157,6 +159,11 @@ public class PublicController {
         String[] images = new String[normals.size()];
         imagesArr.toArray(images);
         return ResponseEntity.ok(images);
+    }
+
+    @RequestMapping(path = "/review/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> orderCheck(@PathVariable Long id) {
+        return ResponseEntity.ok(experienceRepository.getById(id));
     }
 
 

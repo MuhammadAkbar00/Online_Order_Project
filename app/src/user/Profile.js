@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import db from '../db.js'
+import Auth from "../auth";
 import Nav from "react-bootstrap/Nav";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import Orders from "./Orders";
 
 export default () => {
   let returnUrl = "profile"
@@ -17,10 +19,16 @@ export default () => {
   const [points   , setPoints   ] = useState("")
   const [language , setLanguage ] = useState("")
   const [phone    , setPhone    ] = useState("")
+  //User Coupons
+  const [coupons    , setCoupons] = useState([])
+  //Redeem Coupons
+  const [couponRedeem   , setCouponRedeem] = useState("")
+
+
 
   useEffect(() => {
     handleUserProfile()
-
+    handleUserCoupons()
   }, [])
 
   const handleFirstName = (event) => {
@@ -75,8 +83,21 @@ export default () => {
     console.log("after set", user)
   }
 
+  const handleUserCoupons = async () => {
+    const coupons = await db.coupons.getByQuery('user', '')
+    console.log(coupons)
+    setCoupons(coupons)
+  }
+
+  const redeemCoupon = async (cid) => {
+    const cpn = await db.coupons.getByQuery('user',cid)
+    console.log(cpn)
+    setCouponRedeem(cpn)
+  }
+
   return (
       Auth.isUser() ?
+          !couponRedeem ?
       user &&
       <div className="App">
         <header style={{marginLeft:200}} className="App-header">
@@ -112,21 +133,27 @@ export default () => {
               {user.points}
             </dd>
             <dt>Language</dt><dd>{user.language}</dd>
-            {/*<dt>Age</dt>*/}
-            {/*<dd>*/}
-            {/*  <Form.Control type="number" placeholder="Age" onChange={handleAge} value={student.age} />*/}
-            {/*</dd>*/}
-
           </dl>
           <Button onClick={handleSave} >Save</Button>
-          <h1>Orders</h1>
-          <ul>
+          <h1>Available Coupons</h1>
             {
-              // registrations.map(item => <li key={item.id}>{item.course.name} - {item.course.capacity}</li>)
+              coupons.map((item,i) =>
+                  <div key={i+1}>
+                    <p>Coupon {i+1}</p>
+                    <p>Coupon Code: {item.code}</p>
+                    <p>Coupon Description: {item.desc}</p>
+                    <p>For User: {item.user.username}</p>
+                    <Button onClick={() => redeemCoupon(item.id)}>Redeem</Button>
+                  </div>
+              )
             }
-          </ul>
         </header>
       </div>
+              :
+              <Redirect to={{
+                pathname: "/orders",
+                search: couponRedeem.code
+              }}/>
     : <Redirect to={`/login?returnUrl=${returnUrl}`} />
   );
 }

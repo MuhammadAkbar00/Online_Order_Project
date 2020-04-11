@@ -188,6 +188,7 @@ export default {
     branches: new Table("branches"),
     courses: new Table("courses"),
     menu: new Table("menu"),
+    review: new Table("review"),
 
     //My Cart
     orders: new Table("orders"),
@@ -199,6 +200,6 @@ export default {
     coupons: new Table("coupons"),
     faqs: new Table("faqs"),
     adverts: new Table("adverts"),
-    advertisers: new Table("advertisers")
+    advertisers: new Table("advertisers"),
     parts: new Table("parts")
 }

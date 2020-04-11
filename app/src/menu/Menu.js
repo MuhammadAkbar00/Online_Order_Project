@@ -129,7 +129,7 @@ export default ({}) => {
     document.getElementById('status '+product_id).style.display = ""
     let timeout = setTimeout(() => {
       document.getElementById('status '+product_id).style.display = "none"
-    }, 3000);
+    }, 1000);
 
   }
 

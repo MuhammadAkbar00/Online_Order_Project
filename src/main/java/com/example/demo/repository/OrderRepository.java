@@ -9,4 +9,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         Order findFirstByUserId(Long id);
         Order findByUserId(Long id);
         Order findFirstByUserIdAndPaidEquals(Long id,String paid);
+        List<Order> findAllByUserId(Long id);
 }

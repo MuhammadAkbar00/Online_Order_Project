@@ -36,6 +36,7 @@ import MenuEdit from "./menu/MenuEdit";
 import Faq from "./faq/Faq";
 import CreateFaq from "./faq/CreateFaq";
 import SearchFaq from "./faq/SearchFaq";
+import CartList from "./user/CartList";
 
 
 
@@ -66,12 +67,13 @@ export default () => {
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
                         <Nav.Link as={Link} to="/faq">Faq</Nav.Link>
-                        <Nav.Link as={Link} to="/createfaq">Create Faq</Nav.Link>
+                        <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                         {
                             Auth.isUser() &&
                             <>
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
+                                <Nav.Link as={Link} to="/cartlist">All Carts</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
                                 <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
@@ -127,6 +129,9 @@ export default () => {
                         <Route path="/orders">
                             <Orders />
                         </Route>
+                        <Route path="/cartlist">
+                            <CartList />
+                        </Route>
                         <Route path="/quiz/result/:id">
                             <QuizResult />
                         </Route>
@@ -150,6 +155,9 @@ export default () => {
                         </Route>
                         <Route exact path="/faq">
                             <Faq />
+                        </Route>
+                        <Route exact path="/review/:id">
+                            <StarRating/>
                         </Route>
                         <Route exact path="/createfaq">
                             <CreateFaq />
