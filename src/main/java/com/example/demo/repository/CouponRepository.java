@@ -14,5 +14,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Coupon findByUser(User user);
     List<Coupon> getAllByUser(User user);
     Coupon getFirstByCode(String code);
+    void deleteById(long id);
 
 }

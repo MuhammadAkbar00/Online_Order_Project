@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -49,11 +50,11 @@ public class UserController {
     @Autowired
     private ExperienceRepository experienceRepository;
 
-        @RequestMapping(path = "/users", method = { RequestMethod.POST })
-        public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
+    @RequestMapping(path = "/users", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
-        if(user != null) {
+        if (user != null) {
             user.setFirstName(data.getFirstName());
             user.setLastName(data.getLastName());
             user.setAddress(data.getAddress());
@@ -80,7 +81,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping(path = "/users/edit", method = { RequestMethod.GET })
+    @RequestMapping(path = "/users/edit", method = {RequestMethod.GET})
     public ResponseEntity<?> profileedit(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
@@ -91,7 +92,7 @@ public class UserController {
     @RequestMapping(path = "/orders", method = {RequestMethod.GET})
     public ResponseEntity<?> order(Authentication authentication) {
         User user = userRepository.findFirstByUsername(authentication.getName());
-        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
+        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(), "N");
         if (order == null) {
             System.out.println("cannot find order buddy!");
 
@@ -110,7 +111,7 @@ public class UserController {
             order.setPaid("N");
             order.setLastAccess(sqlDate);
             orderRepository.save(order);
-            System.out.println("Created new order: "+order);
+            System.out.println("Created new order: " + order);
 
             return ResponseEntity.ok(order);
         }
@@ -127,9 +128,9 @@ public class UserController {
     public ResponseEntity<?> save(@RequestBody Order data, Authentication authentication) throws AuthenticationException {
 
         User user = userRepository.findFirstByUsername(authentication.getName());
-        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
+        Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(), "N");
 
-        System.out.println("Order data recieved: "+data);
+        System.out.println("Order data recieved: " + data);
 
         order.setUserId(user.getId());
         order.setBranchId(data.getBranchId());
@@ -171,7 +172,7 @@ public class UserController {
         OrderItem orderItem = orderitemRepository.findFirstById(id);
         orderitemRepository.deleteById(id);
         System.out.println("orderItem deleted for id: " + id);
-        System.out.println("Returning : "+orderItem);
+        System.out.println("Returning : " + orderItem);
         return ResponseEntity.ok(orderItem);
 
     }
@@ -184,7 +185,7 @@ public class UserController {
     @RequestMapping(path = "/products", method = {RequestMethod.POST})
     public ResponseEntity<?> save(@RequestBody Product data) {
         Product product = new Product();
-        if (data.getNormalId() == null){
+        if (data.getNormalId() == null) {
             product.setCustomId(data.getCustomId());
             productRepository.save(product);
             System.out.println("data: " + product);
@@ -212,12 +213,13 @@ public class UserController {
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
     }
+
     @RequestMapping(path = "/coupons", method = {RequestMethod.POST})
     public ResponseEntity<?> newCoupon(@RequestBody Coupon data) throws AuthenticationException {
         System.out.println("creating new coupon:");
         Coupon exCoupon = couponRepository.findByUser(data.getUser());
         if (exCoupon == null) {
-            System.out.println("data "+data);
+            System.out.println("data " + data);
             User user = userRepository.findById(data.getUser().getId());
             Coupon coupon = new Coupon();
             coupon.setUser(user);
@@ -231,6 +233,7 @@ public class UserController {
         }
         return ResponseEntity.ok(1);
     }
+
     @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
         System.out.println("Received id for deletion: " + id);
@@ -241,7 +244,8 @@ public class UserController {
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(partRepository.findAll());
     }
-    @RequestMapping(path = "/faqs", method = { RequestMethod.POST })
+
+    @RequestMapping(path = "/faqs", method = {RequestMethod.POST})
     public ResponseEntity<?> save(Authentication authentication, @RequestBody Faq data) throws AuthenticationException {
         JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
         if (jwtuser.getRole().equals("ROLE_ADMIN")) {
@@ -259,7 +263,7 @@ public class UserController {
     @RequestMapping(path = "/customs", method = {RequestMethod.POST})
     public ResponseEntity<?> save(@RequestBody Custom data, Authentication authentication) throws AuthenticationException {
         Custom custom = customRepository.getById(data.getId());
-        if (custom == null){
+        if (custom == null) {
             custom = new Custom();
 
             Date date = new Date();
@@ -285,8 +289,8 @@ public class UserController {
     }
 
     @RequestMapping(path = "/customparts", method = {RequestMethod.POST})
-    public ResponseEntity<?> save(@RequestBody CustomPart data,Authentication authentication) throws AuthenticationException {
-        if (data.getId() == null){
+    public ResponseEntity<?> save(@RequestBody CustomPart data, Authentication authentication) throws AuthenticationException {
+        if (data.getId() == null) {
             CustomPart customPart = new CustomPart();
             customPart.setCustomId(data.getCustomId());
             customPart.setPartId(data.getPartId());
@@ -299,6 +303,7 @@ public class UserController {
         customPartRepository.save(customPart);
         return ResponseEntity.ok(customPart);
     }
+
     @RequestMapping(path = "/review", method = {RequestMethod.POST})
     public ResponseEntity<?> saveReview(@RequestBody Experience data) {
         Experience rev = new Experience();
@@ -320,8 +325,8 @@ public class UserController {
 
     @RequestMapping(path = "/coupons", method = {RequestMethod.GET})
     public ResponseEntity<?> couponsUser(Authentication authentication) throws AuthenticationException {
-            User user = userRepository.findFirstByUsername(authentication.getName());
-            return ResponseEntity.ok(couponRepository.getAllByUser(user));
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        return ResponseEntity.ok(couponRepository.getAllByUser(user));
     }
 
     @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
@@ -329,11 +334,18 @@ public class UserController {
         return ResponseEntity.ok(couponRepository.getById(id));
     }
 
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.DELETE})
+    public ResponseEntity<?> deleteCoupon(@PathVariable Long id) {
+        System.out.println("delete coupon id: " + id);
+        couponRepository.deleteById(id);
+        System.out.println("done deleting coupon id: " + id);
+        return ResponseEntity.ok(1);
+    }
+
     @RequestMapping(path = "/coupons/code/{code}", method = {RequestMethod.GET})
     public ResponseEntity<?> getCoupon(@PathVariable String code) {
         return ResponseEntity.ok(couponRepository.getFirstByCode(code));
     }
-
 
     @RequestMapping(path = "/users/addpoints", method = {RequestMethod.POST})
     public ResponseEntity<?> addPoints(@RequestBody User data) {
@@ -345,7 +357,6 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok(user);
     }
-
 
 
 }
