@@ -120,8 +120,10 @@ export default class Ship {
     context.lineWidth = 2;
     context.beginPath();
     context.moveTo(0, -15);
-    context.lineTo(5, 0);
-    context.lineTo(-5, 0);
+    context.lineTo(10, 10);
+    context.lineTo(5, 7);
+    context.lineTo(-5, 7);
+    context.lineTo(-10, 10);
     context.closePath();
     context.fill();
     context.stroke();

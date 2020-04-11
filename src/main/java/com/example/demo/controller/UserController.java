@@ -139,7 +139,25 @@ public class UserController {
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
     }
-
+    @RequestMapping(path = "/coupons", method = {RequestMethod.POST})
+    public ResponseEntity<?> newCoupon(@RequestBody Coupon data) throws AuthenticationException {
+        System.out.println("creating new coupon:");
+        Coupon exCoupon = couponRepository.findByUser(data.getUser());
+        if (exCoupon == null) {
+            System.out.println("data "+data);
+            User user = userRepository.findById(data.getUser().getId());
+            Coupon coupon = new Coupon();
+            coupon.setUser(user);
+            coupon.setDiscount(data.getDiscount());
+            coupon.setCode(data.getCode());
+            coupon.setExpire(data.getExpire());
+            coupon.setDesc(data.getDesc());
+            couponRepository.save(coupon);
+            System.out.println("New Coupon added: " + coupon);
+            return ResponseEntity.ok(coupon);
+        }
+        return ResponseEntity.ok(1);
+    }
     @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
         System.out.println("Received id for deletion: " + id);
@@ -156,5 +174,7 @@ public class UserController {
         userRepository.save(user);
         return ResponseEntity.ok(user);
     }
+
+
 
 }

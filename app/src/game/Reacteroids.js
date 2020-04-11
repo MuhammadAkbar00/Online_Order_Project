@@ -236,7 +236,6 @@ export class Reacteroids extends Component {
         return false;
     }
 
-
     addPoints = async (points) => {
         const user = await db.users.getUser("loggeduser");
         user.points += points;
@@ -265,7 +264,8 @@ export class Reacteroids extends Component {
                     <button
                         onClick={this.startGame.bind(this)}>
                         try again?
-                    </button><br></br>
+                    </button>
+                    <br></br>
                     <button
                         onClick={() => {
                             this.addPoints(this.state.currentScore)

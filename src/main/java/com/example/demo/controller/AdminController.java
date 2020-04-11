@@ -189,16 +189,15 @@ public class AdminController {
                 coupon.setDiscount(data.getDiscount());
                 coupon.setExpire(data.getExpire());
                 coupon.setUser(user);
-
                 couponRepository.save(coupon);
                 System.out.println("Saved " + coupon);
                 return ResponseEntity.ok(1);
             }
             return null;
         }
+
         return null;
     }
-
 
     @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.DELETE})
     public ResponseEntity<?> deleteCouponById(@PathVariable(value = "id") long id, Authentication authentication) throws AuthenticationException {
