@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import db from '../db.js'
 import Nav from "react-bootstrap/Nav";
-import {Col} from "react-bootstrap";
+import auth from "../auth";
 import AdMarketing from "./AdMarketing";
 import CouponMarketing from "./CouponMarketing";
 
@@ -29,6 +29,7 @@ export default () => {
 
 
   return (
+      auth.isMarketing() ?
     <div className="App">
       <header className="App-header">
         <h1>Marketing Page</h1>
@@ -51,5 +52,7 @@ export default () => {
         </div>
       </header>
     </div>
+          :
+          <h2 style={{textAlign:"center"}}>You do not have the Marketing Role to access this</h2>
   );
 }

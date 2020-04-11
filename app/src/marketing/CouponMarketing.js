@@ -115,7 +115,7 @@ export default () => {
     }
 
     return(
-        auth.isAdmin() ?
+        auth.isMarketing() ?
             couponCreate ?
             <div className="App">
                 <header style={{marginLeft:200}} className="App-header">

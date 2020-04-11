@@ -153,7 +153,7 @@ export default () => {
     }
 
     return (
-        auth.isLoggedIn() ?
+        auth.isMarketing() ?
         adCreate ?
         <div className="App">
             <header style={{marginLeft:200}} className="App-header">
