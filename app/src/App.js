@@ -38,6 +38,7 @@ import CreateFaq from "./faq/CreateFaq";
 import SearchFaq from "./faq/SearchFaq";
 import CartList from "./user/CartList";
 
+import {Reacteroids} from "./game/Reacteroids";
 
 
 export default () => {
@@ -69,6 +70,7 @@ export default () => {
                                 <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
                                 <Nav.Link as={Link} to="/cartlist">Order History</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
+                                <Nav.Link as={Link} to="/game">Game</Nav.Link>
                             </>
                         }
                         {
@@ -114,6 +116,9 @@ export default () => {
                         </Route>
                         <Route path="/nearest">
                             <Nearest />
+                        </Route>
+                        <Route path="/game">
+                            <Reacteroids />
                         </Route>
                         <Route path="/quiz">
                             <Quiz />

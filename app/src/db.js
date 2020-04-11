@@ -128,7 +128,7 @@ class Table {
     }
 
     saveNoFormat = async (role, data) => {
-        console.log("data: ", data)
+        console.log("saveNoFormat data: ", data)
         const response = await Auth.fetch(
             `/${role + '/'}${this.table}`,
             {
@@ -140,7 +140,7 @@ class Table {
             }
         )
         const json = await response.json()
-        console.log('save', json)
+        console.log('saveNoFormat save json', json)
         return json
     }
 

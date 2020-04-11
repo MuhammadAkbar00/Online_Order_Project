@@ -4,6 +4,8 @@ import com.example.demo.jwt.*;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
+
+import com.example.demo.model.Coupon;
 import com.example.demo.model.User;
 import com.example.demo.repository.CouponRepository;
 import com.example.demo.repository.UserRepository;
@@ -210,11 +212,28 @@ public class UserController {
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
     }
-
+    @RequestMapping(path = "/coupons", method = {RequestMethod.POST})
+    public ResponseEntity<?> newCoupon(@RequestBody Coupon data) throws AuthenticationException {
+        System.out.println("creating new coupon:");
+        Coupon exCoupon = couponRepository.findByUser(data.getUser());
+        if (exCoupon == null) {
+            System.out.println("data "+data);
+            User user = userRepository.findById(data.getUser().getId());
+            Coupon coupon = new Coupon();
+            coupon.setUser(user);
+            coupon.setDiscount(data.getDiscount());
+            coupon.setCode(data.getCode());
+            coupon.setExpire(data.getExpire());
+            coupon.setDesc(data.getDesc());
+            couponRepository.save(coupon);
+            System.out.println("New Coupon added: " + coupon);
+            return ResponseEntity.ok(coupon);
+        }
+        return ResponseEntity.ok(1);
+    }
     @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
         System.out.println("Received id for deletion: " + id);
-        System.out.println("Checking for constraints");
         return ResponseEntity.ok("test");
     }
 
@@ -314,6 +333,19 @@ public class UserController {
     public ResponseEntity<?> getCoupon(@PathVariable String code) {
         return ResponseEntity.ok(couponRepository.getFirstByCode(code));
     }
+
+
+    @RequestMapping(path = "/users/addpoints", method = {RequestMethod.POST})
+    public ResponseEntity<?> addPoints(@RequestBody User data) {
+        System.out.println("Received id for adding points: " + data.getId());
+        User user = userRepository.getById(data.getId());
+        System.out.println("before adding points: " + data);
+        user.setPoints(data.getPoints());
+        System.out.println("after adding points: " + data);
+        userRepository.save(user);
+        return ResponseEntity.ok(user);
+    }
+
 
 
 }

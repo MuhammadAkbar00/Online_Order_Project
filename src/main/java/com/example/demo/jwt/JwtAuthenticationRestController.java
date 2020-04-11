@@ -106,7 +106,12 @@ public class JwtAuthenticationRestController {
             Date finalDate = java.sql.Date.valueOf(myDate);
 //            System.out.println("finalDate myDate " + myDate);
 
+            // create new order object
             Order order = new Order();
+
+            // check if order table have a record with the same user if null (when the user just registered)
+            // create a new one for user.
+            // note: this ONLY runs when the user register
             if (orderRepository.findFirstByUserId(user.getId()) == null) {
                 order.setUserId(user.getId());
                 order.setBranchId((long) 1);
@@ -116,6 +121,7 @@ public class JwtAuthenticationRestController {
                 order.setPaid("N");
                 order.setLastAccess(finalDate);
                 order.setDinein("N");
+                // saving the current order in the order table
                 orderRepository.save(order);
                 System.out.println(order);
                 System.out.println("order created in order table");
