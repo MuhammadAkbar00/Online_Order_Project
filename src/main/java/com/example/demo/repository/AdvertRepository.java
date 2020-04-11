@@ -9,4 +9,5 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
 
     List<Advert> findAll();
     Advert getById(Long id);
+    void deleteById(Long id);
 }

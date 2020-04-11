@@ -96,13 +96,6 @@ class Table {
 
     }
 
-    // getOneNoFormat = async (id) => {
-    //     const response = await Auth.fetch(`/${this.table}/${id}`)
-    //     const json = await response.json()
-    //     console.log('getOneNoFormat', json)
-    //     return json
-    // }
-
     savePublic = async (role, data) => {
         const response = await window.fetch(
             `/${role}/${this.table}`,
@@ -163,6 +156,21 @@ class Table {
             console.log("Record deleted")
         }
     }
+    saveFaq = async (data) => {
+        const response = await Auth.fetch(
+            `/${this.table}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('save', json)
+        return await json
+    }
 }
 
 export default {
@@ -170,6 +178,7 @@ export default {
     branches: new Table("branches"),
     courses: new Table("courses"),
     menu: new Table("menu"),
+    review: new Table("review"),
 
     orders: new Table("orders"),
     order_items: new Table("order_item"),
@@ -179,5 +188,8 @@ export default {
     coupons: new Table("coupons"),
     parts: new Table("parts"),
     customs: new Table("customs"),
-    custom_parts: new Table("customparts")
+    custom_parts: new Table("customparts"),
+    faqs: new Table("faqs"),
+    adverts: new Table("adverts"),
+    advertisers: new Table("advertisers")
 }

@@ -38,22 +38,22 @@ export default () => {
                 options: [
                     {
                         text: 'Look around to find out where you are.',
-                        setState: { o1: 1},
+                        setState: { op1: 1},
                         nextText: 2
                     },
                     {
                         text: 'GO WILD!!!',
-                        setState: { o1: 2},
+                        setState: { op1: 2},
                         nextText: 2
                     },
                     {
                         text: 'Stay and think.',
-                        setState: { o1: 3},
+                        setState: { op1: 3},
                         nextText: 2
                     },
                     {
                         text: 'Go back to sleep.',
-                        setState: { o1: 4},
+                        setState: { op1: 4},
                         nextText: 2
                     }
                 ]
@@ -245,14 +245,18 @@ export default () => {
 
         const picker = () => {
             let id = 0;
-            if(state.o1 == 1){
+            if(state.op1 == 1 && state.op2 == 1){
                 id = 1;
-            }else if (state.o1 == 2){
+            }else if (state.op1 == 2 && state.op2 == 1){
                 id = 2;
-            } else if (state.o1 == 3){
+            } else if (state.op1 == 3 && state.op2 == 1){
                 id = 3;
-            }else {
+            }else if(state.op1 == 1){
                 id = 4;
+            }else if(state.op4 == 4){
+                id = 5;
+            }else{
+                id = 6;
             }
             return id;
         }
@@ -269,8 +273,8 @@ export default () => {
         Auth.isUser() ? 
         <>
       <span className={"game"}>
-          <div class="game container1">
-            <div class="gamestart container2">
+          <div className="game container1">
+            <div className="gamestart container2">
             {
                 start
                     ?

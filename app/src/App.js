@@ -12,6 +12,7 @@ import CourseDetail from './public/CourseDetail'
 import Registrations from './public/Registrations'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Footer from './Comps/Footer.js'
 import Nearest from "./public/Nearest"
 import Marketing from './marketing/Marketing.js'
@@ -31,6 +32,12 @@ import {
 import MenuDetail from "./menu/MenuDetail";
 import StarRating from "./components/rating/StarRating";
 import CustomProduct from './user/CustomProduct.js';
+import MenuEdit from "./menu/MenuEdit";
+import Faq from "./faq/Faq";
+import CreateFaq from "./faq/CreateFaq";
+import SearchFaq from "./faq/SearchFaq";
+import CartList from "./user/CartList";
+
 
 
 export default () => {
@@ -59,13 +66,17 @@ export default () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
+                        <Nav.Link as={Link} to="/faq">Faq</Nav.Link>
+                        <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                         {
                             Auth.isUser() &&
                             <>
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
+                                <Nav.Link as={Link} to="/cartlist">All Carts</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
                                 <Nav.Link as={Link} to="/review">Review</Nav.Link>
+                                <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                             </>
                         }
                         {
@@ -92,6 +103,7 @@ export default () => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
+            <CustomChatbot />
             <br />
             <div>
                 <div>
@@ -117,6 +129,9 @@ export default () => {
                         <Route path="/orders">
                             <Orders />
                         </Route>
+                        <Route path="/cartlist">
+                            <CartList />
+                        </Route>
                         <Route path="/quiz/result/:id">
                             <QuizResult />
                         </Route>
@@ -134,6 +149,21 @@ export default () => {
                         </Route>
                         <Route path="/menu/:id">
                             <MenuDetail />
+                        </Route>
+                        <Route path="/menu/edit">
+                            <Menu />
+                        </Route>
+                        <Route exact path="/faq">
+                            <Faq />
+                        </Route>
+                        <Route exact path="/review/:id">
+                            <StarRating/>
+                        </Route>
+                        <Route exact path="/createfaq">
+                            <CreateFaq />
+                        </Route>
+                        <Route exact path="/searchfaq">
+                            <SearchFaq/>
                         </Route>
                         <Route path="/students">
                             <Students search={searchStudent} />

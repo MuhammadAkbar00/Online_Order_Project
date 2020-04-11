@@ -19,13 +19,13 @@ export default ({product_id}) => {
 
     return (
         product &&
-            <div>
+            <tr>
                 {
                     product.map(product =>
                         product.customId === null ? <Normal key={product.id} normalid={product.normalId}/>
                         : product.normalId === null ? <Custom key={product.id} customid={product.customId}/> :null
                     )
                 }
-            </div>
+            </tr>
     );
 }

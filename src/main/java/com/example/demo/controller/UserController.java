@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
+
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.model.User;
@@ -34,6 +35,8 @@ public class UserController {
     @Autowired
     private CouponRepository couponRepository;
     @Autowired
+    private FaqRepository faqRepository;
+    @Autowired
     private AdvertRepository advertRepository;
     @Autowired
     private PartRepository partRepository;
@@ -41,26 +44,42 @@ public class UserController {
     private CustomRepository customRepository;
     @Autowired
     private CustomPartRepository customPartRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
 
-//    @RequestMapping(path = "/students", method = { RequestMethod.GET })
-//    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
-//        System.out.println("profile for " + authentication.getName());
-//        Student student = studentRepository.findFirstByName(authentication.getName());
-//        System.out.println("data: " + student);
-//        return ResponseEntity.ok(student);
-//    }
-//
-//    @RequestMapping(path = "/registrations", method = { RequestMethod.GET })
-//    public ResponseEntity<?> registrations(Authentication authentication) throws AuthenticationException {
-//        System.out.println("registrations for " + authentication.getName());
-//        Student student = studentRepository.findFirstByName(authentication.getName());
-//        List<Register> registrations = registerRepository.findByStudentId(student.getId());
-//        System.out.println("registrations: " + registrations);
-//        return ResponseEntity.ok(registrations);
-//    }
+        @RequestMapping(path = "/users", method = { RequestMethod.POST })
+        public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
+        System.out.println("profile for " + authentication.getName());
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        if(user != null) {
+            user.setFirstName(data.getFirstName());
+            user.setLastName(data.getLastName());
+            user.setAddress(data.getAddress());
+            user.setEmail(data.getEmail());
+            user.setMailing(data.getMailing());
+            user.setPoints(data.getPoints());
+            user.setLanguage(data.getLanguage());
+            user.setPhone(data.getPhone());
+        } else {
+            user = new User();
+            user.setUsername(authentication.getName());
+            user.setFirstName(data.getFirstName());
+        }
+        userRepository.save(user);
+        System.out.println("saved student: " + user.getFirstName());
+        return ResponseEntity.ok(user);
+    }
 
     @RequestMapping(path = "/users/loggeduser", method = {RequestMethod.GET})
     public ResponseEntity<?> profile(Authentication authentication) throws AuthenticationException {
+        System.out.println("profile for " + authentication.getName());
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        System.out.println("data: " + user);
+        return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(path = "/users/edit", method = { RequestMethod.GET })
+    public ResponseEntity<?> profileedit(Authentication authentication) throws AuthenticationException {
         System.out.println("profile for " + authentication.getName());
         User user = userRepository.findFirstByUsername(authentication.getName());
         System.out.println("data: " + user);
@@ -94,6 +113,12 @@ public class UserController {
             return ResponseEntity.ok(order);
         }
         return ResponseEntity.ok(order);
+    }
+
+    @RequestMapping(path = "/orders/getuser", method = {RequestMethod.GET})
+    public ResponseEntity<?> ordersUser(Authentication authentication) {
+        User user = userRepository.findFirstByUsername(authentication.getName());
+        return ResponseEntity.ok(orderRepository.findAllByUserId(user.getId()));
     }
 
     @RequestMapping(path = "/orders", method = {RequestMethod.POST})
@@ -197,7 +222,20 @@ public class UserController {
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(partRepository.findAll());
     }
-
+    @RequestMapping(path = "/faqs", method = { RequestMethod.POST })
+    public ResponseEntity<?> save(Authentication authentication, @RequestBody Faq data) throws AuthenticationException {
+        JwtUser jwtuser = jwtUserRepository.findByUsername(authentication.getName());
+        if (jwtuser.getRole().equals("ROLE_ADMIN")) {
+            Faq fq = new Faq();
+            fq.setQuestion(data.getQuestion());
+            fq.setAnswer(data.getAnswer());
+            fq.setHidden(data.getHidden());
+            faqRepository.save(fq);
+            System.out.println("Added FAQ: " + data.getId());
+            return ResponseEntity.ok(fq);
+        }
+        return null;
+    }
 
     @RequestMapping(path = "/customs", method = {RequestMethod.POST})
     public ResponseEntity<?> save(@RequestBody Custom data, Authentication authentication) throws AuthenticationException {
@@ -242,5 +280,40 @@ public class UserController {
         customPartRepository.save(customPart);
         return ResponseEntity.ok(customPart);
     }
+    @RequestMapping(path = "/review", method = {RequestMethod.POST})
+    public ResponseEntity<?> saveReview(@RequestBody Experience data) {
+        Experience rev = new Experience();
+        rev.setOrderId(data.getOrderId());
+        rev.setStars(data.getStars());
+        experienceRepository.save(rev);
+        return ResponseEntity.ok(rev);
+    }
+
+    @RequestMapping(path = "/review/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> orderCheck(@PathVariable Long id) {
+        return ResponseEntity.ok(experienceRepository.getById(id));
+    }
+
+    @RequestMapping(path = "/review", method = {RequestMethod.GET})
+    public ResponseEntity<?> reviewss() {
+        return ResponseEntity.ok(experienceRepository.findAll());
+    }
+
+    @RequestMapping(path = "/coupons", method = {RequestMethod.GET})
+    public ResponseEntity<?> couponsUser(Authentication authentication) throws AuthenticationException {
+            User user = userRepository.findFirstByUsername(authentication.getName());
+            return ResponseEntity.ok(couponRepository.getAllByUser(user));
+    }
+
+    @RequestMapping(path = "/coupons/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> getCoupon(@PathVariable Long id) {
+        return ResponseEntity.ok(couponRepository.getById(id));
+    }
+
+    @RequestMapping(path = "/coupons/code/{code}", method = {RequestMethod.GET})
+    public ResponseEntity<?> getCoupon(@PathVariable String code) {
+        return ResponseEntity.ok(couponRepository.getFirstByCode(code));
+    }
+
 
 }
