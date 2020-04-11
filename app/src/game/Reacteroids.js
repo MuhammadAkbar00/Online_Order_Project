@@ -239,7 +239,7 @@ export class Reacteroids extends Component {
     addPoints = async (points) => {
         const user = await db.users.getUser("loggeduser");
         user.points += points;
-        await db.users.saveNoFormat('user', user);
+        await db.users.saveNoFormatQuery('user', user, 'addpoints');
         this.state.dir = true;
         this.startGame();
     };

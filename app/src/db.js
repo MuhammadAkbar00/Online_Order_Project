@@ -144,6 +144,23 @@ class Table {
         return json
     }
 
+    saveNoFormatQuery = async (role, data, query) => {
+        console.log("saveNoFormat data: ", data)
+        const response = await Auth.fetch(
+            `/${role + '/'}${this.table}/${query}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        const json = await response.json()
+        console.log('saveNoFormat save json', json)
+        return json
+    }
+
     deleteById = async (role, id) => {
         const response = await Auth.fetch(
             `${role}/${this.table}/${id}`,

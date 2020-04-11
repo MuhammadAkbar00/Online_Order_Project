@@ -275,8 +275,6 @@ VALUES (1,'Order from all your favorite restaurants from the comfort of your hom
 INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
 VALUES (1,20,'POD453', DATEADD( 'dd', 40,  CURRENT_DATE ) , '20 Percent off your next purchase from following our Facebook page!');
 INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
-VALUES (1,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
-INSERT INTO COUPON (USER_ID, DISCOUNT, CODE, EXPIRE, DESC)
 VALUES (2,10,'PHB352', DATEADD( 'dd', 7,  CURRENT_DATE ), 'Please accept 10% off your next purchase as a warm welcome from the inDine team');
 
 --Branch Inserts
