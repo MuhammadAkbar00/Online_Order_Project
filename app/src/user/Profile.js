@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import React, { useState, useEffect } from 'react'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import db from '../db.js'
-import Auth from "../auth";
-import Nav from "react-bootstrap/Nav";
-import {Link, Redirect} from "react-router-dom";
-import Orders from "./Orders";
+import Auth from "../auth"
+import Nav from "react-bootstrap/Nav"
+import {Link, Redirect} from "react-router-dom"
+import Container from "react-bootstrap/Container"
+import Orders from "./Orders"
 
 export default () => {
   let returnUrl = "profile"
@@ -100,54 +101,58 @@ export default () => {
           !couponRedeem ?
       user &&
       <div className="App">
-        <header style={{marginLeft:200}} className="App-header">
-          <h1>User</h1>
-          <dl>
-            <dt>Username</dt><dd>{user.username}</dd>
-            <dt>First name</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
-            </dd>
-            <dt>Last name</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
-            </dd>
-            <dt>Address</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
-            </dd>
-            <dt>Email</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />
-            </dd>
-            <dt>Mailing</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.mailing}`} onChange={handleMailing} value={mailing} />
-            </dd>
-            <dt>Phone</dt>
-            <dd>
-              <Form.Control type="text" placeholder={`${user.phone}`} onChange={handlePhone} value={phone} />
-            </dd>
-            <dt>Points</dt>
-            <dd>
-              {user.points}
-            </dd>
-            <dt>Language</dt><dd>{user.language}</dd>
-          </dl>
-          <Button onClick={handleSave} >Save</Button>
-          <h1>Available Coupons</h1>
-            {
-              coupons.map((item,i) =>
-                  <div key={i+1}>
-                    <p>Coupon {i+1}</p>
-                    <p>Coupon Code: {item.code}</p>
-                    <p>Coupon Description: {item.desc}</p>
-                    <p>For User: {item.user.username}</p>
-                    <Button onClick={() => redeemCoupon(item.id)}>Redeem</Button>
-                  </div>
-              )
-            }
-        </header>
+        <Container>
+          
+          <header style={{marginLeft:200}} className="App-header">
+            <h1>User</h1>
+            <dl>
+              <dt>Username</dt><dd>{user.username}</dd>
+              <dt>First name</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.firstName}`} onChange={handleFirstName} value={firstName} />
+              </dd>
+              <dt>Last name</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
+              </dd>
+              <dt>Address</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
+              </dd>
+              <dt>Email</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />
+              </dd>
+              <dt>Mailing</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.mailing}`} onChange={handleMailing} value={mailing} />
+              </dd>
+              <dt>Phone</dt>
+              <dd>
+                <Form.Control type="text" placeholder={`${user.phone}`} onChange={handlePhone} value={phone} />
+              </dd>
+              <dt>Points</dt>
+              <dd>
+                {user.points}
+              </dd>
+              <dt>Language</dt><dd>{user.language}</dd>
+            </dl>
+            <Button onClick={handleSave} >Save</Button>
+            <h1>Available Coupons</h1>
+              {
+                coupons.map((item,i) =>
+                    <div key={i+1}>
+                      <p>Coupon {i+1}</p>
+                      <p>Coupon Code: {item.code}</p>
+                      <p>Coupon Description: {item.desc}</p>
+                      <p>For User: {item.user.username}</p>
+                      <Button onClick={() => redeemCoupon(item.id)}>Redeem</Button>
+                    </div>
+                )
+              }
+          </header>
+        </Container>
+
       </div>
               :
               <Redirect to={{

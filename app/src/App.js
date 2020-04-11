@@ -50,14 +50,6 @@ export default () => {
     console.log('isLoggedIn set to', isLoggedIn)
     Auth.init(setLoggedIn)
 
-    const handleSearchCourse = (event) => {
-        setSearchCourse(event.target.value)
-    }
-
-    const handleSearchStudent = (event) => {
-        setSearchStudent(event.target.value)
-    }
-
     return (
         <>
             <Navbar bg="dark" expand="lg">
@@ -66,17 +58,17 @@ export default () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
-                        <Nav.Link as={Link} to="/faq">Faq</Nav.Link>
-                        <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
+                        <Nav.Link as={Link} to="/faq">FAQ</Nav.Link>
+                        {Auth.isMarketing() &&
+                            <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
+                        }
                         {
                             Auth.isUser() &&
                             <>
                                 <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 <Nav.Link as={Link} to="/orders">My Cart</Nav.Link>
-                                <Nav.Link as={Link} to="/cartlist">All Carts</Nav.Link>
+                                <Nav.Link as={Link} to="/cartlist">Order History</Nav.Link>
                                 <Nav.Link as={Link} to="/quiz">Quiz</Nav.Link>
-                                <Nav.Link as={Link} to="/review">Review</Nav.Link>
-                                <Nav.Link as={Link} to="/marketing">Marketing</Nav.Link>
                             </>
                         }
                         {

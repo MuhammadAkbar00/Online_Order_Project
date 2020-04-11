@@ -97,6 +97,7 @@ export default () => {
             order.paid = 'Y';
             order.paymentMethod = paymentMethod;
             order.dineIn = dineIn
+            
         if(coupon != null){
             order.total = order.total - (order.total * coupon.discount / 100);
         }

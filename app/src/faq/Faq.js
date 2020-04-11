@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import db from '../db.js'
 import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
-
+import Auth from '../auth'
 
 export default ({}) => {
   const history = useHistory();
@@ -27,14 +27,15 @@ export default ({}) => {
     faq &&
     <div className="App">
       <header className="App-header">
-        <Button onClick={handleCreateFaq}>Create FAQ</Button>
+        {Auth.isAdmin() &&
+          <Button onClick={handleCreateFaq}>Create FAQ</Button>
+        }
         <h1>Faq</h1>
         {faq.map(item =>
             item.hidden != "Y" ?
             <div style={{border: 'solid 1px', marginBottom: '20px' }} key={item.id}>
               <p>Question: {item.question}</p>
               <p>Answer: {item.answer}</p>
-              <p>Hidden: {item.hidden}</p>
             </div>
                 :
                 <>

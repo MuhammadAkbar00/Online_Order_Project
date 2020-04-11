@@ -19,19 +19,19 @@ export default (props) => {
         handleGetId()
     }, [])
     
-    const checkIfSaved = (id) => {
-        const check = db.review.getByQueryNoFormat('user', id)
-        console.log(check)
-        if(check.length > 0) {
-            return history.push(`/menu`)
-        }
-    }
+    // const checkIfSaved = async(id) => {
+    //     const check = await db.review.getByQueryNoFormat('user', id)
+    //     console.log(check)
+    //     if(check.length > 0) {
+    //         return history.push(`/menu`)
+    //     }
+    // }
 
     const handleGetId = () => {
         const id = history.location.pathname.split("/")[2]
         console.log(id)
         setId(id)
-        checkIfSaved(id)
+        // checkIfSaved(id)
     }
     const saveReview = async (saveId) => {
         let ids = parseInt(saveId)

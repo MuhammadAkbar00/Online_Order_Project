@@ -116,7 +116,7 @@ export default () => {
     if (parts) {
         return (
             Auth.isLoggedIn() ?
-            Auth.isAdmin() ?
+            !Auth.isAdmin() ?
             <Container>
     
                 <Row>
