@@ -22,6 +22,7 @@ export default () => {
     const [desc, setDesc] = useState("")
 
     //Edit coupons
+    const [idEdit, setIdEdit] = useState("")
     const [userIdEdit, setUserIdEdit] = useState("")
     const [discountEdit, setDiscountEdit] = useState("")
     const [codeEdit, setCodeEdit] = useState("")
@@ -29,13 +30,11 @@ export default () => {
     const [descEdit, setDescEdit] = useState("")
 
     useEffect(() => {
-        if(auth.isAdmin()){
-            handleGetByQuery()
-        }
+        handleGetByQuery()
     },[])
 
     const handleGetByQuery = async () => {
-        let coupons = await db.coupons.getByQueryNoFormat('admin','')
+        let coupons = await db.coupons.getByQueryNoFormat('marketing','')
         setCoupons(coupons)
     }
 
@@ -66,8 +65,19 @@ export default () => {
         setDesc(event.target.value)
     }
 
-    const handleCreate = () => {
-
+    const handleCreate = async () => {
+        const user = await db.users.getByQueryNoFormat('marketing',userId)
+        console.log(user, "User")
+        let coupCreate = {
+            user: user,
+            discount: discount,
+            code: code,
+            expire: expire,
+            desc: desc
+        }
+        await db.coupons.saveNoFormat('marketing', coupCreate)
+        setCouponCreate(false)
+        handleGetByQuery()
     }
 
     //Coupon Edit
@@ -75,9 +85,10 @@ export default () => {
     const handleCouponEdit = async (id) => {
         setCouponEdit(true)
         console.log(id, "This is the id we getting")
-        const editing = await db.coupons.getByQueryNoFormat('admin',id)
+        const editing = await db.coupons.getByQueryNoFormat('marketing',id)
         console.log(editing)
-        setUserIdEdit(editing.userId)
+        setIdEdit(editing.id)
+        setUserIdEdit(editing.user.id)
         setDiscountEdit(editing.discount)
         setCodeEdit(editing.code)
         setExpireEdit(editing.expire)
@@ -104,13 +115,25 @@ export default () => {
         setDescEdit(event.target.value)
     }
 
-    const handleEditSave = () =>{
-
+    const handleEditSave = async () =>{
+        const user = await db.users.getByQueryNoFormat('marketing',userIdEdit)
+        console.log(user, "This is user")
+        let coupEdit = {
+            id: idEdit,
+            user: user,
+            discount: discountEdit,
+            code: codeEdit,
+            expire: expireEdit,
+            desc: descEdit
+        }
+        await db.coupons.saveNoFormat('marketing',coupEdit)
+        setCouponEdit(false)
+        handleGetByQuery()
     }
 
     //Delete
     const handleCouponDelete = async(id) =>{
-        await db.coupons.deleteById('',id);
+        await db.coupons.deleteById('marketing',id);
         handleGetByQuery()
     }
 
@@ -151,21 +174,21 @@ export default () => {
                         <dd>
                             <Form.Control type="text" style={{width:'500px'}} placeholder={`${userIdEdit}`} onChange={handleUserIdEdit} value={userIdEdit} />
                         </dd>
-                        <dt>Description</dt>
+                        <dt>Discount</dt>
                         <dd>
-                            <Form.Control as="textarea" rows="3" style={{width:"50vw"}} placeholder={`${discountEdit}`} onChange={handleDiscountEdit} value={discountEdit}/>
+                            <Form.Control type="text" style={{width:'500px'}} placeholder={`${descEdit}`} onChange={handleDiscountEdit} value={discountEdit} />
                         </dd>
-                        <dt>Image</dt>
+                        <dt>Code</dt>
                         <dd>
                             <Form.Control type="text" style={{width:'500px'}} placeholder={`${codeEdit}`} onChange={handleCodeEdit} value={codeEdit} />
                         </dd>
-                        <dt>Edit</dt>
+                        <dt>Expire</dt>
                         <dd>
                             <Form.Control type="text" style={{width:'500px'}} placeholder={`${expireEdit}`} onChange={handleExpireEdit} value={expireEdit} />
                         </dd>
-                        <dt>Hehe</dt>
+                        <dt>Description</dt>
                         <dd>
-                            <Form.Control type="text" style={{width:'500px'}} placeholder={`${descEdit}`} onChange={handleDescEdit} value={descEdit} />
+                            <Form.Control as="textarea" rows="3" style={{width:"50vw"}} placeholder={`${discountEdit}`} onChange={handleDescEdit} value={descEdit}/>
                         </dd>
 
                     </dl>
@@ -179,6 +202,7 @@ export default () => {
                     <p>Coupon {i+1}</p>
                     <p>Coupon Code: {item.code}</p>
                     <p>Coupon Description: {item.desc}</p>
+                    <p>Coupon: {item.user.id}</p>
                     <Button onClick={() => handleCouponEdit(item.id)}>Edit</Button>
                     <Button onClick={() => handleCouponDelete(item.id)}>X</Button>
                 </div>

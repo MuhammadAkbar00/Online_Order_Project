@@ -40,13 +40,13 @@ export default () => {
     }, [])
 
     const handleGetByQuery = async () => {
-        const ads = await db.adverts.getPublic("")
+        const ads = await db.adverts.getByQueryNoFormat('marketing','')
         console.log(ads)
         setAd(ads)
     }
 
     const handleGetAllAdverts = async () => {
-        const allAdvertisers = await db.advertisers.getPublic("")
+        const allAdvertisers = await db.advertisers.getByQueryNoFormat('marketing','')
         console.log(allAdvertisers)
         setAdvertisers(allAdvertisers)
     }
@@ -79,7 +79,7 @@ export default () => {
     const handleAdEdit = async (id) => {
         setAdEdit(true)
         console.log(id, "this is the id we getting")
-        const edited = await db.adverts.getPublic(`${id}`)
+        const edited = await db.adverts.getByQueryNoFormat('marketing',`${id}`)
         console.log(edited)
         setEditId(edited.id)
         setEditAdvertiserId(edited.advertiserId)
@@ -90,7 +90,7 @@ export default () => {
     }
 
     const handleAdDelete = async (id) => {
-        await db.adverts.deleteById('public',id)
+        await db.adverts.deleteById('marketing',id)
         handleGetByQuery()
     }
 
@@ -135,7 +135,7 @@ export default () => {
             slot: editSlot,
             display: editDisplay
         }
-        await db.adverts.savePublic("public",addit)
+        await db.adverts.saveNoFormat('marketing',addit)
         handleGetByQuery()
         setAdEdit(false)
     }
@@ -149,7 +149,10 @@ export default () => {
             slot: slot,
             display: display
         }
-        await db.adverts.savePublic("public",adCreate)
+        await db.adverts.saveNoFormat('marketing',adCreate)
+        setAdCreate(false)
+        handleGetByQuery()
+
     }
 
     return (

@@ -81,6 +81,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> usergettt(@PathVariable Long id) {
+        return ResponseEntity.ok(userRepository.findById(id));
+    }
+
     @RequestMapping(path = "/orders", method = {RequestMethod.GET})
     public ResponseEntity<?> order(Authentication authentication) {
         User user = userRepository.findFirstByUsername(authentication.getName());
@@ -186,13 +191,6 @@ public class UserController {
         System.out.println("Fetching all users");
         List<User> user = userRepository.findAll();
         return ResponseEntity.ok(user);
-    }
-
-    @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
-    public ResponseEntity<?> deleteById(@PathVariable(value = "id") int id) throws AuthenticationException {
-        System.out.println("Received id for deletion: " + id);
-        System.out.println("Checking for constraints");
-        return ResponseEntity.ok("test");
     }
 
     @RequestMapping(path = "/parts", method = {RequestMethod.GET})

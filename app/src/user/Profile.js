@@ -24,8 +24,6 @@ export default () => {
   //Redeem Coupons
   const [couponRedeem   , setCouponRedeem] = useState("")
 
-
-
   useEffect(() => {
     handleUserProfile()
     handleUserCoupons()
