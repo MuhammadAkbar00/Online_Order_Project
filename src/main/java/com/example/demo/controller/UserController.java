@@ -90,6 +90,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @RequestMapping(path = "/users/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> usergettt(@PathVariable Long id) {
+        return ResponseEntity.ok(userRepository.findById(id));
+    }
+
     @RequestMapping(path = "/orders", method = {RequestMethod.GET})
     public ResponseEntity<?> order(Authentication authentication) {
         User user = userRepository.findFirstByUsername(authentication.getName());
@@ -130,8 +135,6 @@ public class UserController {
 
         User user = userRepository.findFirstByUsername(authentication.getName());
         Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
-
-        System.out.println("Order data recieved: "+data);
 
         order.setUserId(user.getId());
         order.setBranchId(data.getBranchId());
@@ -238,6 +241,7 @@ public class UserController {
         System.out.println("Received id for deletion: " + id);
         return ResponseEntity.ok("test");
     }
+
 
     @RequestMapping(path = "/parts", method = {RequestMethod.GET})
     public ResponseEntity<?> findAll() {

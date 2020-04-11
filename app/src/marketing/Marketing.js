@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import auth from "../auth";
 import AdMarketing from "./AdMarketing";
 import CouponMarketing from "./CouponMarketing";
+import AnalyticMarketing from "./AnalyticMarketing";
 
 export default () => {
 
@@ -27,6 +28,10 @@ export default () => {
     setShow("")
   }
 
+  const showAnalytic = () => {
+    setShow("Analytics")
+  }
+
 
   return (
       auth.isMarketing() ?
@@ -36,9 +41,8 @@ export default () => {
         <div style={{float:"left", height:"150vh"}}>
           <Nav.Link onClick={()=>{showAd()}}>Ads</Nav.Link>
           <Nav.Link onClick={()=>{showCoupon()}}>Coupon</Nav.Link>
-          <Nav.Link onClick={()=>{remove()}}>Occasion</Nav.Link>
+          <Nav.Link onClick={()=>{showAnalytic()}}>Analytics</Nav.Link>
         </div>
-
 
         <div>
           {show == "Ad" ?
@@ -47,6 +51,10 @@ export default () => {
           }
           {show == "Coupon" ?
               <CouponMarketing/> :
+              <></>
+          }
+          {show == "Analytics" ?
+              <AnalyticMarketing/> :
               <></>
           }
         </div>

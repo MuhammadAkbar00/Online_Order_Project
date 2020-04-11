@@ -2,14 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.jwt.*;
 
-import com.example.demo.model.Analytic;
-import com.example.demo.model.Coupon;
-import com.example.demo.model.Faq;
-import com.example.demo.model.User;
-import com.example.demo.repository.AnalyticRepository;
-import com.example.demo.repository.CouponRepository;
-import com.example.demo.repository.FaqRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -34,6 +28,10 @@ public class AdminController {
     private AnalyticRepository analyticRepository;
     @Autowired
     private FaqRepository faqRepository;
+    @Autowired
+    private AdvertiserRepository advertiserRepository;
+    @Autowired
+    private AdvertRepository advertRepository;
 
     @RequestMapping(path = "/loggeduser", method = {RequestMethod.GET})
     public ResponseEntity<?> profileLoggedUser(Authentication authentication) throws AuthenticationException {
@@ -242,6 +240,7 @@ public class AdminController {
         }
         return null;
     }
+
 
 }
 
