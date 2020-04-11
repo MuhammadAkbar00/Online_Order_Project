@@ -125,7 +125,7 @@ export default () => {
             };
             const response = await db.coupons.saveNoFormat('user', newCo);
             if (response != 1) {
-                user.points -= 200;
+                user.points -= 2000;
                 handleUserCoupons();
             }
         }
