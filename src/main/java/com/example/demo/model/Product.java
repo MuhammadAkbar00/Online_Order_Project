@@ -1,23 +1,25 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
+import org.springframework.lang.Nullable;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Product {
-    private long id;
-    private Custom custom;
-    private Normal normal;
+    private Long id;
+    private Long customId;
+    private Long normalId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,32 +36,32 @@ public class Product {
         return Objects.hash(id);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "CUSTOM_ID", referencedColumnName = "ID")
-    public Custom getCustom() {
-        return custom;
+    @Nullable
+    @Column(name = "CUSTOM_ID")
+    public Long getCustomId() {
+        return customId;
     }
 
-    public void setCustom(Custom custom) {
-        this.custom = custom;
+    public void setCustomId(Long custom) {
+        this.customId = custom;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "NORMAL_ID", referencedColumnName = "ID")
-    public Normal getNormal() {
-        return normal;
+    @Nullable
+    @Column(name = "NORMAL_ID")
+    public Long getNormalId() {
+        return normalId;
     }
 
-    public void setNormal(Normal normal) {
-        this.normal = normal;
+    public void setNormalId(Long normal) {
+        this.normalId = normal;
     }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", custom=" + custom +
-                ", normal=" + normal +
+                ", custom=" + customId +
+                ", normal=" + normalId +
                 '}';
     }
 }

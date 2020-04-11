@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import db from '../db.js';
 import Normal from "./Normal";
+import Custom from "./Custom";
 
 export default ({product_id}) => {
     const [product, setProducts] = useState([]);
@@ -20,7 +21,10 @@ export default ({product_id}) => {
         product &&
             <div>
                 {
-                    product.map(product =><Normal key={product.id} normalid={product.normal.id}/>)
+                    product.map(product =>
+                        product.customId === null ? <Normal key={product.id} normalid={product.normalId}/>
+                        : product.normalId === null ? <Custom key={product.id} customid={product.customId}/> :null
+                    )
                 }
             </div>
     );

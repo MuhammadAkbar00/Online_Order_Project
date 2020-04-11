@@ -8,29 +8,21 @@ import {Container, Col, Row} from "react-bootstrap"
 import db from '../db.js'
 import Auth from './../auth.js'
 
-//Import allows for visiting multiple pages as separate links instead of purely just
-// an inside render of another component.
 import Nav from 'react-bootstrap/Nav'
 
-//Import to use for forms and user data entry
 import Button from "react-bootstrap/Button"
 import Form from 'react-bootstrap/Form'
-
+import {
+    Redirect
+  } from "react-router-dom"
 
 export default () => {
 
-    //Declaring and defining useStates
-
-    //Customers useState to recieve customer data from the database and update the 
-    //website accordingly automatically
+    let returnUrl = "dashboard"
     const [customers, setCustomers] = useState([])
-    //Customer useState to get one customer information from the database and 
-    //render it to the website
+
     const [customer, setCustomer] = useState({})
 
-    //useStates created for every field of information a customer needs in
-    //the database to be able to send it back for CRUD operations or display
-    //it in a form
     const [userId   , setUserId   ] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName , setLastName ] = useState("")
@@ -41,16 +33,11 @@ export default () => {
     const [language , setLanguage ] = useState("")
     const [phone    , setPhone    ] = useState("")
     const [analytics, setAnalytics] = useState("")
-    //Coupons useState to recieve all coupon data from the database and update the 
-    //website accordingly automatically
+
     const [coupons, setCoupons] = useState([])
-    //Coupon useState to get one coupon record information from the database and 
-    //render it to the website
+
     const [coupon , setCoupon] = useState({})
 
-    //useStates created for every field of information a coupon needs in
-    //the database to be able to send it back for CRUD operations or display
-    //it in a form
     const [discount, setDiscount] = useState("")
     const [code, setCode] = useState("")
     const [expire, setExpire] = useState("")
@@ -61,24 +48,12 @@ export default () => {
     const [selectedOption, setSelectedOption] = useState("")
     const [popularProduct, setPopularProduct] = useState("")
 
-    //The data useState is used as the conditional statement
-    //that dynamically hides or shows which command or table 
-    //information the admin is editing at a given time
     const [data, setData] = useState("")
 
-    //useEffect to call a function to load all customer data
-    //before the user clicks to see it when the user first visits
-    //the page so that it seamlessly loads the user information 
-    //without any loading time as it is the most important
-
-    //the useEffect updates automatically as a "side effect" of
-    //the data it depends on changing, in this case, all customers data
     useEffect(()=>{
         getAllCustomers()
-    },[customers])
+    },[])
 
-    //useStates to dynamically load and set the customer information from form data
-    //as the user types into the corrosponding useStates for CRUD
     const handleUserId = (e) => {setUserId(e.target.value)}
     const handleFirstName = (e) => {e.target.isInvalid = true; setFirstName(e.target.value)}
     const handleLastName = (e) => {setLastName(e.target.value)}
@@ -89,30 +64,18 @@ export default () => {
     const handleLanguage = (e) => {setLanguage(e.target.value)}
     const handlePhone = (e) => {setPhone(e.target.value)}
 
-    //useStates to dynamically load and set the coupon information from form data
-    //as the user types into the corrosponding useStates for CRUD
     const handleDiscount = (e) => {setDiscount(e.target.value)}
     const handleCode = (e) => {setCode(e.target.value)}
     const handleExpire = (e) => {setExpire(e.target.value)}
     const handleDesc = (e) => {setDesc(e.target.value)}
     const handleUserCoupon = (e) => {setUserCoupon(getUserOptions);setSelectedOption(e.target.value)}
 
-    //The function used the useEffect on component load to 
-    //send a GET request to the database and then wait for a 
-    //response containing the customer array of information
-
-    //The database query function does not require database formatting
-    //on the recieved information
     const getAllCustomers = async () => {
         let users = await db.users.getByQueryNoFormat('admin','')
         console.log(users)
         setCustomers(users)
     }
 
-    //This function is used to give the user a 
-    //drop down list of users to apply coupons to
-    //The mapping function makes sure that you cannot
-    //see the admin as an option to apply the coupon
     const getUserOptions = () => {
         let usernames = []
         customers.map(item=>{
@@ -124,22 +87,11 @@ export default () => {
         return usernames
     }
 
-    //This function sends a DELETE method request
-    //to the database with a given ID so it could be deleted.
-    //After awaiting the confirmation of deletion from the 
-    //database, it reloads customer data to reflect the change
-    //on the website
     const deleteUser = async(id) => {
         await db.users.deleteById('',id);
         getAllCustomers();
     }
 
-    //This function updates the form data to display the information
-    //of the currently edited user so that the admin can change them
-    //The function first resets the forms in case they already have data.
-    //Then the filter function gets already available user data from 
-    //customers useState by the id passed to it
-    //gto get the current user data and set the new form data.
     const editUser = async(id) => {
 
         setUserId("")
@@ -173,10 +125,6 @@ export default () => {
         setCustomer(user)
     }
     
-    //This functions the same way as an edit but
-    //when the Id is changed, the database interprets this
-    //as a request to create a new user instead of editing an 
-    //existing one
     const createUser = async(id) => {
 
         // setuserId(""+(id+1))
@@ -218,13 +166,6 @@ export default () => {
         // await db.users.saveNoFormat(null,user)
     }
 
-
-    //This function handles making an object containing all the user
-    //information from the currently filled form fields.
-    //The object format allows the data to be sent in JSON format to 
-    //the backend for processing for edit or create.
-    //Each field also has a ternary if statement to set a default value
-    //in case the form field was left empty.
     const handleSave = async () => {
         let user = {}
         user.username = customer.username
@@ -239,15 +180,6 @@ export default () => {
         await db.users.saveNoFormat(null,user)
     }
 
-    //The function sends a GET request to the database and then waits for a 
-    //response containing analytics information without needing to do extra
-    //formatting and then sets the information it receives to relevant useStates
-    //to show it on the website.
-    
-    //The function uses the product Id it receives to figure out which product is
-    //most popular and sends another GET request to get the product information related
-    //to that ID. The function considers the possibilty that the product Id is null and 
-    //considers the different types of products available
     const getAnalytics = async() => {
         let analytics = await db.analytics.getByQueryRaw('admin','')
         let text = await analytics.text()
@@ -269,30 +201,17 @@ export default () => {
 
     }
 
-    //This function sends a GET request to get all coupon information
-    //from the database in the form of an array without extra formatting
     const getCoupons = async() => {
         let coupons = await db.coupons.getByQueryNoFormat('admin','')
         setCoupons(coupons)
         setData('coupons')
     }
 
-    //This function sends a DELETE method request
-    //to the database with a given ID so it could be deleted.
-    //After awaiting the confirmation of deletion from the 
-    //database, it reloads coupons useState data to reflect the change
-    //on the website
     const deleteCoupon = async(id) => {
         await db.coupons.deleteById('',id);
         getCoupons();
     }
 
-    //This function updates the form data to display the information
-    //of the currently edited coupon so that the admin can change them
-    //The function first resets the forms in case they already have data.
-    //Then the filter function gets already available coupon data from 
-    //customers useState by the id passed to it
-    //gto get the current coupon data and set the new form data.
     const editCoupon = async (id) => {
 
         let coupon = coupons.filter(item=>{
@@ -321,12 +240,6 @@ export default () => {
         setCouponId(coupon.id)
     }
 
-    //This function handles making an object containing all the coupon
-    //information from the currently filled form fields.
-    //The object format allows the data to be sent in JSON format to 
-    //the backend for processing for edit or create.
-    //Each field also has a ternary if statement to set a default value
-    //in case the form field was left empty.
     const handleSaveCoupon = async () => {
         let coupon = {}
         let user = {}
@@ -354,7 +267,7 @@ export default () => {
         //A function that returns true or false
         //to check if the current user is an Admin or not
         //in Order to know whether to display the page or not
-        Auth.isAdmin() &&
+        Auth.isAdmin() ?
         <Container>
             <Row>
                 <Col>
@@ -509,5 +422,6 @@ export default () => {
                 </Col>
             </Row>
         </Container>
+        :<Redirect to={`/login?returnUrl=${returnUrl}`} />
     )
 }

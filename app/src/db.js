@@ -59,11 +59,7 @@ class Table {
 
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
-        console.log("response", response)
-
         const json = await response.json()
-        console.log('getByQuery', role, json)
-
         // admin query results need reformating
         return role !== 'admin' ? json : await this.reformatAll(json)
     }
@@ -75,8 +71,6 @@ class Table {
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
         const json = await response.json()
-        console.log('getByQuery', role, json)
-
         return json
     }
 
@@ -86,22 +80,18 @@ class Table {
 
         // all queries except admin use custom controller based on role
         const response = await fetch(`/${role !== 'admin' ? role + '/' : ''}${this.table}/${query}`)
-        console.log('getByQuery', role, response)
-
         return response
     }
 
     getAll = async () => {
         const response = await Auth.fetch(`/${this.table}s`)
         const json = await response.json()
-        console.log('getAll', json)
         return await this.reformatAll(json)
     }
 
     getOne = async (id) => {
         const response = await Auth.fetch(`/${this.table}/${id}`)
         const json = await response.json()
-        console.log('getOne', json)
         return await this.reformatOne(this.table.substring(0, this.table.length - 1), json)
 
     }
@@ -181,13 +171,13 @@ export default {
     courses: new Table("courses"),
     menu: new Table("menu"),
 
-    //My Cart
     orders: new Table("orders"),
     order_items: new Table("order_item"),
     products: new Table("products"),
     normal: new Table("normal"),
-    // custom: new Table("custom")
     analytics: new Table("analytic"),
     coupons: new Table("coupons"),
-    parts: new Table("parts")
+    parts: new Table("parts"),
+    customs: new Table("customs"),
+    custom_parts: new Table("customparts")
 }

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -95,6 +97,7 @@ public class Custom {
     }
 
     @ManyToOne
+    @Nullable
     @JoinColumn(name = "OCCASION_ID", referencedColumnName = "ID")
     public Occasion getOccasion() {
         return occasion;

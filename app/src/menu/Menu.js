@@ -6,6 +6,7 @@ import PageRecord from '../marketing/PageRecord'
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
+
 import CustomProduct from "../user/CustomProduct.js"
 import {
     Switch,
@@ -20,6 +21,7 @@ export default () => {
     // const [user, setUser] = useState(null)
     const [menu, setMenu] = useState([])
     const [menuDetail, setMenuDetail] = useState(null)
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         // handleUserProfile()
@@ -37,18 +39,22 @@ export default () => {
     }
 
     const addToMyCart = async (product_id) => {
-        const user = await db.users.getUser("loggeduser");
         const userOrder = await db.orders.getUser(``);
+        let product = await db.products.getByQueryNoFormat('user',`${product_id}`)
+        let normal = await db.normal.getByQueryNoFormat('user',`${product[0].normalId}`)
+        userOrder.total += normal.price
+
         await db.order_items.saveNoFormat('user', {
             orderId: userOrder.id,
             productId: product_id
         })
 
-        document.getElementById('status '+product_id).style.display = ""
-        let timeout = setTimeout(() => {
-            document.getElementById('status '+product_id).style.display = "none"
-        }, 3000);
-        
+        await db.orders.saveNoFormat('user', userOrder)
+
+        setMessage(product_id+" Added to Cart!")
+        setTimeout(() => {
+            setMessage("")
+        }, 2500);
     }
 
     return (
@@ -82,7 +88,10 @@ export default () => {
                                                 <>
                                                     <Button onClick={() => addToMyCart(item.id)} className={"btn btn-primary"}>Buy</Button>
                                                     <br /> <br />
-                                                    <p style={{display: "none"}} id={`status ${item.id}`} >Added to cart!</p>
+                                                    <p>{(message.split(' ')[0] == Number.parseInt(item.id) ? message.split(' ')[1]+" " +
+                                                                                                            message.split(' ')[2]+" " +
+                                                                                                            message.split(' ')[3]+" " 
+                                                                                                            : "")}</p>
                                                     <br/>
                                                 </>
                                                 }

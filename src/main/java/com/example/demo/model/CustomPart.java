@@ -5,38 +5,38 @@ import javax.persistence.*;
 @Entity
 @Table(name = "CUSTOM_PART", schema = "PUBLIC", catalog = "PUBLIC")
 public class CustomPart {
-    private long id;
-    private long partId;
-    private long customId;
+    private Long id;
+    private Long partId;
+    private Long customId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "PART_ID")
-    public long getPartId() {
+    public Long getPartId() {
         return partId;
     }
 
-    public void setPartId(long partId) {
+    public void setPartId(Long partId) {
         this.partId = partId;
     }
 
     @Basic
     @Column(name = "CUSTOM_ID")
-    public long getCustomId() {
+    public Long getCustomId() {
         return customId;
     }
 
-    public void setCustomId(long customId) {
+    public void setCustomId(Long customId) {
         this.customId = customId;
     }
 

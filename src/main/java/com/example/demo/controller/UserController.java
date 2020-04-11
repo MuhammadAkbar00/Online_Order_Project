@@ -39,6 +39,8 @@ public class UserController {
     private PartRepository partRepository;
     @Autowired
     private CustomRepository customRepository;
+    @Autowired
+    private CustomPartRepository customPartRepository;
 
 //    @RequestMapping(path = "/students", method = { RequestMethod.GET })
 //    public ResponseEntity<?> profiles(Authentication authentication) throws AuthenticationException {
@@ -100,6 +102,8 @@ public class UserController {
         User user = userRepository.findFirstByUsername(authentication.getName());
         Order order = orderRepository.findFirstByUserIdAndPaidEquals(user.getId(),"N");
 
+        System.out.println("Order data recieved: "+data);
+
         order.setUserId(user.getId());
         order.setBranchId(data.getBranchId());
         order.setDate(data.getDate());
@@ -110,13 +114,18 @@ public class UserController {
         order.setDinein(data.getDinein());
         //check if user exists in order db
         orderRepository.save(order);
-        System.out.println("saved order: " + order.getUserId());
+        System.out.println("saved order: " + order);
         return ResponseEntity.ok(order);
     }
 
     @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> order_item(@PathVariable Long id) {
         return ResponseEntity.ok(orderitemRepository.findAllByOrderId(id));
+    }
+
+    @RequestMapping(path = "/order_item/getone/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> getOneOrder_item(@PathVariable Long id) {
+        return ResponseEntity.ok(orderitemRepository.findById(id));
     }
 
     @RequestMapping(path = "/order_item", method = {RequestMethod.POST})
@@ -130,33 +139,44 @@ public class UserController {
     }
 
     @RequestMapping(path = "/order_item/{id}", method = {RequestMethod.DELETE})
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<?> deleteOrderItem(@PathVariable Long id) {
         System.out.println("orderItem deletion for id: " + id);
+        OrderItem orderItem = orderitemRepository.findFirstById(id);
         orderitemRepository.deleteById(id);
         System.out.println("orderItem deleted for id: " + id);
+        System.out.println("Returning : "+orderItem);
+        return ResponseEntity.ok(orderItem);
+
     }
-
-
 
     @RequestMapping(path = "/products/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> product(@PathVariable Long id) {
         return ResponseEntity.ok(productRepository.findAllById(id));
     }
 
-//     fix this to suit custom orders
-//    @RequestMapping(path = "/products", method = {RequestMethod.POST})
-//    public ResponseEntity<?> save(@RequestBody Product data) {
-//        Product product = new Product();
-//        product.setNormal(data.getNormal());
-//        product.setCustom(data.getCustom());
-//        productRepository.save(product);
-//        System.out.println("data: " + product);
-//        return ResponseEntity.ok(product);
-//    }
+    @RequestMapping(path = "/products", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(@RequestBody Product data) {
+        Product product = new Product();
+        if (data.getNormalId() == null){
+            product.setCustomId(data.getCustomId());
+            productRepository.save(product);
+            System.out.println("data: " + product);
+            return ResponseEntity.ok(product);
+        }
+        product.setNormalId(data.getNormalId());
+        productRepository.save(product);
+        System.out.println("data: " + product);
+        return ResponseEntity.ok(product);
+    }
 
     @RequestMapping(path = "/normal/{id}", method = {RequestMethod.GET})
     public ResponseEntity<?> normal(@PathVariable Long id) {
         return ResponseEntity.ok(normalRepository.findById(id));
+    }
+
+    @RequestMapping(path = "/customs/{id}", method = {RequestMethod.GET})
+    public ResponseEntity<?> custom(@PathVariable Long id) {
+        return ResponseEntity.ok(customRepository.findById(id));
     }
 
     @RequestMapping(path = "/users", method = {RequestMethod.GET})
@@ -190,13 +210,37 @@ public class UserController {
             custom.setDate(sqlDate);
 
             custom.setOccasion(null);
-            custom.setTotal(0);
+            custom.setTotal(data.getTotal());
+            custom.setDesc(data.getDesc());
             custom.setName("");
             custom.setType("salad");
+
+            customRepository.save(custom);
             return ResponseEntity.ok(custom);
         }
         return ResponseEntity.ok(custom);
     }
 
+    @RequestMapping(path = "/customparts", method = {RequestMethod.GET})
+    public ResponseEntity<?> getAll(Authentication authentication) throws AuthenticationException {
+        System.out.println("fetching all custom parts");
+        return ResponseEntity.ok(customPartRepository.findAll());
+    }
+
+    @RequestMapping(path = "/customparts", method = {RequestMethod.POST})
+    public ResponseEntity<?> save(@RequestBody CustomPart data,Authentication authentication) throws AuthenticationException {
+        if (data.getId() == null){
+            CustomPart customPart = new CustomPart();
+            customPart.setCustomId(data.getCustomId());
+            customPart.setPartId(data.getPartId());
+            customPartRepository.save(customPart);
+            return ResponseEntity.ok(customPart);
+        }
+        CustomPart customPart = customPartRepository.getById(data.getId());
+        customPart.setCustomId(data.getCustomId());
+        customPart.setPartId(data.getPartId());
+        customPartRepository.save(customPart);
+        return ResponseEntity.ok(customPart);
+    }
 
 }

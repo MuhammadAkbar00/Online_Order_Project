@@ -28,7 +28,7 @@ export default ({ type }) => {
 
     if (isLoggedIn) {
         return (
-            <Redirect to={`/${returnUrl}`} />
+            <Redirect to={`/${(returnUrl==undefined ? "" : returnUrl)}`} />
         )
     } else {
         return (

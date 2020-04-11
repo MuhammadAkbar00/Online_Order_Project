@@ -20,10 +20,10 @@ export default () => {
     const [branchId, setBranchId] = useState(null)
     const [date, setDate] = useState(null)
     const [total, setTotal] = useState(null)
-    const [paymentMethod, setPaymentMethod] = useState(null)
+    const [paymentMethod, setPaymentMethod] = useState('C')
     const [paid, setPaid] = useState(null)
     const [lastAccess, setLastAccess] = useState(null)
-    const [dineIn, setDineIn] = useState(null)
+    const [dineIn, setDineIn] = useState("N")
     
     const [home, setHome] = useState(false)
 
@@ -49,38 +49,44 @@ export default () => {
     //     return today.getFullYear() + '-' + month + '-' + day;
     // }
 
+
+    const handlePaymentMethod = (e) => {
+        setPaymentMethod(e.target.value)
+    }
+
+    const handleDineIn = (e) => {
+        setDineIn(e.target.value)
+    }
+
     const handleGetOrder = async () => {
         
         const user = await db.users.getUser("loggeduser");
         setUser(user)
         const order = await db.orders.getUser(``);
+        console.log('order from  visiting my cart',order)
         console.log('order id sent', order.id)
         setOrder(order);
 
     }
 
     const userCheckout = async (order) => {
-        
-        console.log("order paid before set ", order.paid)
-        order.paid = 'Y';
-        console.log("order paid after set ", order.paid)
-        await db.orders.saveNoFormat('user',
-            order
-        );
-        await handleGetOrder()
-        setHome(true)
-    }
-
-    const handlePaymentMethod = (event) => {
-        setPaymentMethod(event.target.value)
-    }
-
-    const handleDineIn = (event) => {
-        setDineIn(event.target.value)
+        const order_items = await db.order_items.getUser(`${order.id}`)
+        if (order_items.length == 0) {
+            
+        }else{
+            order.paid = 'Y';
+            order.paymentMethod = paymentMethod;
+            order.dineIn = dineIn
+            await db.orders.saveNoFormat('user',
+                order
+            );
+            await handleGetOrder()
+            setHome(true)
+        }
     }
 
     return (
-        Auth.isUser() ?
+        Auth.isLoggedIn() ?
         !home ?
         order &&
         <div className="App">
@@ -92,23 +98,17 @@ export default () => {
                     <dt>Total</dt>
                     <dd>{order.total}</dd>
                     <dt>Payment Method</dt>
-                    <dd>{order.paymentMethod}</dd>
-                    {/*<Form.Control type={onselect} placeholder="paymentMethod" onChange={handlePaymentMethod} >*/}
-                    {/*    <option value={'C'}>C</option>*/}
-                    {/*    <option value={'K'}>K</option>*/}
-                    {/*</Form.Control>*/}
-                    <dt>Paid</dt>
-                    <dd>{order.paid}</dd>
-                    <dt>Last Access Date</dt>
-                    <dd>{order.lastAccess}</dd>
+                    <Form.Control as="select" placeholder="paymentMethod" onChange={handlePaymentMethod} >
+                       <option value={'C'}>Credit Card</option>
+                       <option value={'K'}>Cash</option>
+                    </Form.Control>
                     <dt>Dine in</dt>
-                    <dd>{order.dinein}</dd>
-                    {/*<Form.Control type={onselect} placeholder="paymentMethod" onChange={handleDineIn}>*/}
-                    {/*    <option value={'N'}>N</option>*/}
-                    {/*    <option value={'Y'}>Y</option>*/}
-                    {/*</Form.Control>*/}
+                    <Form.Control as="select" placeholder="dineIn" onChange={handleDineIn}>
+                       <option value={'N'}>No</option>
+                       <option value={'Y'}>Yes</option>
+                    </Form.Control>
                 </dl>
-                <Order_items order_id={order.id}/>
+                <Order_items orderUpdater = {setOrder} order_id={order.id}/>
 
                 {/*Add if statement to check if there is orders for this user if not dont show check out button*/}
                 <Button onClick={() => userCheckout(order)}>Check Out!</Button>
