@@ -3,10 +3,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import db from '../db.js'
 import Auth from "../auth"
-import Nav from "react-bootstrap/Nav"
-import {Link, Redirect} from "react-router-dom"
+import {Redirect} from "react-router-dom"
 import Container from "react-bootstrap/Container"
-import Orders from "./Orders"
 
 export default () => {
   let returnUrl = "profile"
@@ -20,16 +18,19 @@ export default () => {
   const [points   , setPoints   ] = useState("")
   const [language , setLanguage ] = useState("")
   const [phone    , setPhone    ] = useState("")
+  const [selectValue, setSelectValue] = useState("")
   //User Coupons
   const [coupons    , setCoupons] = useState([])
   //Redeem Coupons
   const [couponRedeem   , setCouponRedeem] = useState("")
 
+  const [branches, setBranches] = useState([])
 
 
   useEffect(() => {
     handleUserProfile()
     handleUserCoupons()
+    getBranches()
   }, [])
 
   const handleFirstName = (event) => {
@@ -58,23 +59,29 @@ export default () => {
   }
 
   const handleSave = async () => {
+
     let userg = {
       id: user.id,
       username: user.username,
       firstName: (firstName ? firstName : user.firstName),
       lastName: (lastName ? lastName : user.lastName),
-      address: (address ? address : user.address),
+      address: selectValue,
       email: (email ? email : user.email),
       mailing: (mailing ? mailing : user.mailing),
       points: user.points,
       language: user.language,
-      phone : (phone ? phone : user.phone)
+      phone : (phone ? phone : user.phone),
     }
 
     console.log("what was meant to be",userg)
 
     await db.users.saveNoFormat("user",userg)
     handleUserProfile()
+  }
+
+  const getBranches = async() => {
+    let branches = await db.branches.getUser('')
+    setBranches(branches)
   }
 
     const zeroPad = (num, places) => String(num).padStart(places, '0');
@@ -104,6 +111,7 @@ export default () => {
 
     const handleUserProfile = async () => {
         const user = await db.users.getByQuery('user', 'loggeduser')
+        setSelectValue(user.address)
         const date = getDateFormatted();
         console.log("user", user)
         if (user.points >= 2000) {
@@ -125,6 +133,10 @@ export default () => {
         setUser(user)
         console.log("after set", user)
     }
+
+  const handleSelect = (e) => {
+    setSelectValue(e.target.value)
+  }
 
   const handleUserCoupons = async () => {
     const coupons = await db.coupons.getByQuery('user', '')
@@ -158,9 +170,13 @@ export default () => {
                 <Form.Control type="text" placeholder={`${user.lastName}`} onChange={handleLastName} value={lastName} />
               </dd>
               <dt>Address</dt>
-              <dd>
-                <Form.Control type="text" placeholder={`${user.address}`} onChange={handleAddress} value={address} />
-              </dd>
+              <Form.Control as={"select"} value={selectValue} onChange={handleSelect}>
+                  {branches &&
+                    branches.map((item, i)=>
+                      <option key={i}>{item.province}</option>
+                    )
+                  }
+              </Form.Control>
               <dt>Email</dt>
               <dd>
                 <Form.Control type="text" placeholder={`${user.email}`} onChange={handleEmail} value={email} />

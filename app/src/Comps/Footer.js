@@ -14,8 +14,6 @@ export default () => {
                           <ul className={"nobreak"} style={{listStyleType: "none"}} >
                               <p className={"fineprint-hard"} >Links</p>
                               <span className={"fineprint"}>
-                                  <li>Have a question ?</li>
-                                  <li>Chef's Blog !</li>
                               </span>
                           </ul>
                       </span>

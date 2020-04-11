@@ -35,7 +35,8 @@ export default () => {
     const [analytics, setAnalytics] = useState("")
 
     const [coupons, setCoupons] = useState([])
-
+    const [adverts, setAdverts] = useState([])
+    const [advert, setAdvert] = useState({})
     const [coupon , setCoupon] = useState({})
 
     const [discount, setDiscount] = useState("")
@@ -47,6 +48,11 @@ export default () => {
     const [userOptions, setUserOptions] = useState([])
     const [selectedOption, setSelectedOption] = useState("")
     const [popularProduct, setPopularProduct] = useState("")
+
+    const [adDesc, setAdDesc] = useState("")
+    const [image, setImage] = useState("")
+    const [slot, setSlot] = useState("")
+    const [display, setDisplay] = useState("")
 
     const [data, setData] = useState("")
 
@@ -69,6 +75,11 @@ export default () => {
     const handleExpire = (e) => {setExpire(e.target.value)}
     const handleDesc = (e) => {setDesc(e.target.value)}
     const handleUserCoupon = (e) => {setUserCoupon(getUserOptions);setSelectedOption(e.target.value)}
+
+    const handleAdDesc = (e) => {setAdDesc(e.target.value)}
+    const handleImage = (e) => {setImage(e.target.value)}
+    const handleSlot = (e) => {setSlot(e.target.value)}
+    const handleDisplay = (e) => {setDisplay(e.target.value)}
 
     const getAllCustomers = async () => {
         let users = await db.users.getByQueryNoFormat('admin','')
@@ -125,47 +136,6 @@ export default () => {
         setCustomer(user)
     }
     
-    const createUser = async(id) => {
-
-        // setuserId(""+(id+1))
-        // setFirstName("")
-        // setLastName("")
-        // setAddress("")
-        // setEmail("")
-        // setMailing("")
-        // setPoints("")
-        // setLanguage("")
-        // setPhone("")
-
-        // let user = customers.filter(item=>{
-        //     if (item.id == id ) 
-        //         return item
-        // })
-        // user = user[0]
-
-        // setFirstName(user.firstName ? user.firstName : "")
-        // setLastName(user.lastName ? user.lastName : "")
-        // setAddress(user.address ? user.address : "")
-        // setEmail(user.email ? user.email : "")
-        // setMailing(user.mailing ? user.mailing : "")
-        // setPoints(user.points ? user.points : 0)
-        // setLanguage(user.language ? user.language : "")
-        // setPhone(user.phone ? user.phone : "")
-
-        // let user = {}
-        // user.userId = customer.userId
-        // user.username = customer.username
-        // user.firstName = (firstName ? firstName : null)
-        // user.lastName = (lastName ? lastName : null)
-        // user.address = (address ? address : null)
-        // user.email = (email ? email : null)
-        // user.mailing = (mailing ? mailing : 'N')
-        // user.points = (points ? points : 0)
-        // user.language = (language ? language : "EN") 
-        // user.phone = (phone ? phone : null)
-        // await db.users.saveNoFormat(null,user)
-    }
-
     const handleSave = async () => {
         let user = {}
         user.username = customer.username
@@ -180,36 +150,26 @@ export default () => {
         await db.users.saveNoFormat(null,user)
     }
 
-    const getAnalytics = async() => {
-        let analytics = await db.analytics.getByQueryRaw('admin','')
-        let text = await analytics.text()
-        setData("analytics")
-        setAnalytics(text)
-        console.log(text)
-        let productId = Number.parseInt(text.split(' ')[1])
-        let product
-        if (!productId) {
-            setPopularProduct("None")
-        }else{
-            product = await db.products.getOne(productId)
-            if (product.custom == null)
-                setPopularProduct(product.normal)
-            else
-                setPopularProduct(product.custom)
-        }
-        
-
-    }
-
     const getCoupons = async() => {
         let coupons = await db.coupons.getByQueryNoFormat('admin','')
         setCoupons(coupons)
         setData('coupons')
     }
 
+    const getAdverts = async() => {
+        let adverts = await db.adverts.getByQueryNoFormat('admin','')
+        setAdverts(adverts)
+        setData("adverts")
+    }
+
     const deleteCoupon = async(id) => {
         await db.coupons.deleteById('',id);
         getCoupons();
+    }
+
+    const deleteAdvert = async(id) => {
+        await db.adverts.deleteById('',id);
+        getAdverts();
     }
 
     const editCoupon = async (id) => {
@@ -240,6 +200,30 @@ export default () => {
         setCouponId(coupon.id)
     }
 
+    const editAdvert = async (id) => {
+
+        let advert = adverts.filter(item=>{
+            if (item.id === id ) 
+                return item
+        })
+        advert = advert[0]
+
+        setAdvert(coupon)
+
+        setAdDesc("")
+        setImage("")
+        setSlot("")
+        setDisplay("")
+
+        setData("edit advert")
+
+        setDiscount(advert.discount)
+        setCode(advert.code)
+        setExpire(advert.expire)
+        setDesc(advert.desc)
+        setCouponId(advert.id)
+    }
+
     const handleSaveCoupon = async () => {
         let coupon = {}
         let user = {}
@@ -263,20 +247,27 @@ export default () => {
         await db.coupons.saveNoFormat(null,coupon)
     }
 
+    const handleSaveAdvert = async () => {
+        let advert = {}
+
+        advert.desc = adDesc
+        advert.image = image
+        advert.slot = slot
+        advert.display = display
+
+        await db.adverts.saveNoFormat('admin',advert)
+    }
+
+
     return(
-        //A function that returns true or false
-        //to check if the current user is an Admin or not
-        //in Order to know whether to display the page or not
+
         Auth.isAdmin() ?
         <Container>
             <Row>
                 <Col>
-                    {/* The first column has the admin command options to display which section
-                        they which to edit. */}
                     <Nav.Link onClick={()=>{setData("customers")}}>Manage users</Nav.Link>
-                    <Nav.Link onClick={()=>{getAnalytics()}}>View analytics</Nav.Link>
-                    <Nav.Link onClick={()=>{getCoupons()}}>Manage coupons & ocassions</Nav.Link>
-                    <Nav.Link>Manage adverts</Nav.Link>
+                    <Nav.Link onClick={()=>{getCoupons()}}>Manage coupons</Nav.Link>
+                    <Nav.Link onClick={()=>{getAdverts()}}>Manage adverts</Nav.Link>
                 </Col>
                 <Col>
                     { //Sections of the website are displayed according to the value of the data
@@ -296,7 +287,6 @@ export default () => {
                                                         or an edit to happen. */}
                                                     <td> 
                                                         <Button onClick={()=>{editUser(item.id)}} size={"sm"} variant={"outline-light"}>Edit</Button>
-                                                        <Button onClick={()=>{createUser(item.id)}} size={"sm"} variant={"outline-light"}>Edit</Button>
                                                         <Button onClick={()=>{deleteUser(item.id)}} size={"sm"} variant={"outline-warning"}>X</Button>
                                                     </td>
                                                 </tr>
@@ -327,7 +317,7 @@ export default () => {
                                                     <th>Phone</th>
                                                 </tr>
                                                 <tr>
-                                                <td><Form.Control   onChange={handleUserId} value={userId}/></td>
+                                                    <td><Form.Control onChange={handleUserId} value={userId}/></td>
                                                     <td><Form.Control onChange={handleFirstName} value={firstName}/></td>
                                                     <td><Form.Control onChange={handleLastName} value={lastName}/></td>
                                                     <td><Form.Control onChange={handleAddress} value={address}/></td>
@@ -345,24 +335,24 @@ export default () => {
                                     }
                                 </tbody>
                             </table>
-                            //Display the section of the website that shows the analytics data
-                        : data === "analytics" ?
-                            analytics ?
-                            // the most visited page section does some text formatting to display information
-                            // correctly. The analytics information received from the database is given in
-                            // the form of spaced text.
-                                <div>     
-                                    <p>Most visited page: {analytics.split(' ')[0].substring(0,1).toUpperCase()+analytics.substring(1).split(' ')[0]+" page"}</p>
-                                    <p>Most visited product: {popularProduct.name ? popularProduct.name : popularProduct}</p>
-                                </div>
+                            
+                        : data === "adverts" ?
+                            adverts ?
+                                adverts.map((item,i)=>
+                                    <tr key={i}>
+                                        <td>{item.desc}</td>
+                                        <td>
+                                            <Button onClick={()=>{editAdvert(item.id)}} size={"sm"} variant={"outline-light"}>Edit</Button>
+                                            <Button onClick={()=>{deleteAdvert(item.id)}} size={"sm"} variant={"outline-warning"}>X</Button>
+                                        </td>
+                                    </tr>
+                                )
                             :null
-                            //If the data useState option is coupons, then the website renders the section
-                            //responsible for handling each coupon operations.
+
                         : data === "coupons" ?
                         <table>
                             <tbody>
-                                { //This mapping function loops over all coupon data and displays button options
-                                  //next to each of them for CRUD options.
+                                { 
                                 (coupons.map((item,i)=>
                                     <tr key={i} style={{width: '100%'}}>
                                         <td>for {item.user.username} : {item.code}</td>
@@ -376,8 +366,7 @@ export default () => {
                                 }
                             </tbody>
                         </table>
-                            //This data option useState if statement displays the form fields
-                            //to edit the coupon the admin picked.
+
                         : data === "edit coupon" ?
                             <table>
                                 <tbody>
@@ -396,9 +385,7 @@ export default () => {
                                                     <td><Form.Control onChange={handleCode} value={code}/></td>
                                                     <td><Form.Control onChange={handleExpire} value={expire}/></td>
                                                     <td><Form.Control onChange={handleDesc} value={desc}/></td>
-                                                    {/* The userOptions useState mapping function renders the 
-                                                    the userName options the admin can pick in a dropdown list
-                                                    to apply coupons (discounts) to */}
+    
                                                     <td>    <select style={{width:"100px"}} className={"form-control"} onChange={handleUserCoupon} value={selectedOption} as="select">
                                                                 {
                                                                     userOptions.map((item,i)=>{
@@ -417,6 +404,22 @@ export default () => {
                                     }
                                 </tbody>
                             </table>
+                        :data === "edit advert" ?
+                                    <>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Slot</th>
+                                        <th>Display</th>
+                                    </tr>
+                                    <tr>
+                                        <td><Form.Control onChange={handleAdDesc} value={adDesc}/></td>
+                                        <td><Form.Control onChange={handleImage} value={image}/></td>
+                                        <td><Form.Control onChange={handleSlot} value={slot}/></td>
+                                        <td><Form.Control onChange={handleDisplay} value={display}/></td>
+                                        <td><Button onClick={handleSaveAdvert}>Submit</Button></td>
+                                    </tr>
+                                    </>
                         :null
                     }
                 </Col>

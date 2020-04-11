@@ -58,12 +58,12 @@ export default () => {
     let picked = [];
     menu.map((item) => {
       if(item.name.toLowerCase().includes(searchName.toLowerCase())){
-        console.log(searchType != "" || searchType != "All")
-        if(searchType == "" || searchType == "All") {
+        console.log(searchType !== "" || searchType !== "All")
+        if(searchType === "" || searchType === "All") {
           picked.push(item)
         }
         else {
-          if(item.type == searchType){
+          if(item.type === searchType){
             picked.push(item)
           }
         }

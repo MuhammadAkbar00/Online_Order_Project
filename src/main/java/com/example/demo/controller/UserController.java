@@ -48,6 +48,8 @@ public class UserController {
     private CustomPartRepository customPartRepository;
     @Autowired
     private ExperienceRepository experienceRepository;
+    @Autowired
+    private BranchRepository branchRepository;
 
         @RequestMapping(path = "/users", method = { RequestMethod.POST })
         public ResponseEntity<?> save(Authentication authentication, @RequestBody User data) throws AuthenticationException {
@@ -334,6 +336,11 @@ public class UserController {
         return ResponseEntity.ok(couponRepository.getFirstByCode(code));
     }
 
+    @RequestMapping(path = "/branches", method = {RequestMethod.GET})
+    public ResponseEntity<?> getBranches(){
+        List<Branch> branches = branchRepository.findAll();
+        return ResponseEntity.ok(branches);
+    }
 
     @RequestMapping(path = "/users/addpoints", method = {RequestMethod.POST})
     public ResponseEntity<?> addPoints(@RequestBody User data) {
@@ -346,6 +353,5 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-
-
 }
+

@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import Auth from '../auth'
 
-export default ({}) => {
+export default () => {
   const history = useHistory();
 
   const [faq, setFaq] = useState([])
@@ -32,7 +32,7 @@ export default ({}) => {
         }
         <h1>Faq</h1>
         {faq.map(item =>
-            item.hidden != "Y" ?
+            item.hidden !== "Y" ?
             <div style={{border: 'solid 1px', marginBottom: '20px' }} key={item.id}>
               <p>Question: {item.question}</p>
               <p>Answer: {item.answer}</p>
