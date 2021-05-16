@@ -1,4 +1,4 @@
-# inDine3231
+# Online order system
 
 To add this project to your intellij do this:
 * Open IntelliJ and create a new project from version control
